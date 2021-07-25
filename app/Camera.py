@@ -21,12 +21,12 @@ from core.settings import DATABASE_IMG,NN4_SMALL2,APP,DATABASE_DIR,FILES
 
 modele_OpenFace = faceRecoModel(input_shape=(3,96,96))
 modele_OpenFace.load_weights(NN4_SMALL2)
-
+face_dictionnaire = np.load(DATABASE_IMG, allow_pickle= True ).item()
 
 
 
 class VideoCamera(object):
-    face_dictionnaire = np.load(DATABASE_IMG, allow_pickle= True ).item()
+    
     def __init__(self):
         self.video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         #self.vs = VideoStream(src=0).start()

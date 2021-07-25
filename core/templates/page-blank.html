@@ -7,12 +7,12 @@
 <style>
 
     .loader {
-    border: 5px solid #f3f3f3; /* Light grey */
-    border-top: 5px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 2s linear infinite;
+        border: 5px solid #f3f3f3; /* Light grey */
+        border-top: 5px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 2s linear infinite;
     }
 
     
@@ -106,7 +106,51 @@
 
   }
 
+  @keyframes auto-progress {
+    0% {
+      width: 0%;
+    }
 
+    100% {
+      width: 100%;
+    }
+  }
+.progress-bar {
+    background: transparent;
+    height: 4px;
+    width: 100%;
+    margin: 5px auto;
+    border-radius: 5px;
+
+    box-shadow: 0 1px 5px #dbe9f6 inset, 0 0 1px #29d;
+  }
+
+  .stripes {
+    background-size: 30px 30px;
+  }
+
+  .stripes.animated {
+    animation: animate-stripes 0.2s linear infinite;
+  }
+
+  .stripes.animated.slower {
+    animation-duration: 0.2s;
+  }
+
+  .stripes.reverse {
+    animation-direction: reverse;
+  }
+
+  .progress-bar-inner {
+    display: block;
+    height: 45px;
+    width: 0%;
+    background-color: #3ebfea;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+    position: relative;
+    animation: auto-progress 1.5s infinite linear;
+  }
 
 </style>
 {% endblock stylesheets %}
@@ -204,7 +248,7 @@
                 </div>
             </div>
         </div>
-        <!-- [ Main Content ] end -->
+        <!  -- [ Main Content ] end -->
         <!-- [ breadcrumb ] end -->
 
 
@@ -246,108 +290,116 @@
 
                                         </div>
                                         <div class="row justify-content-center" >
-                                            
-                                            
-                                                <div class="form-group " id="warning" style="display:none">
-                                                  <small class="form-text" style="color:#9b91d4;font-size: 13px">This person will be added temporarily to your database, and will be deleted after the end of this operation.</small>
-                                                </div>
-                                                <div class="form-group col-md-8"  id="new_person1">
-                                                    <input type="file" id="imagetext" style="cursor: pointer;" accept="image/*" class="custom-file-input col-md-6" name="imagetext" >
-                                                    <label class="custom-file-label" for="customFile" id='heree'></label>
-                                                     <small class="form-text" id="after-check">The image should only contain one person.</small>
-                                                    
-                                                </div>
-                                                
-                                                <div class="form-group col-md-2" id="new_person">
-                                                    <input type="text" id="bb" class="form-control" name="nametext" placeholder="Enter the person name" disabled>
-                                                <small class="form-text justify-content-center"  ></small>
-                                                </div>
-                                                <div class="breadcrumb-item col-md-1 " id="verif" style="display:none;">
-                                                    <i class="feather icon-check-circle" style="color:#1de9b6;font-size:40px;" ></i>
-                                                </div>
-                                                <div class="col-md-1" id="notverif" style="display:none;">
-                                                    <i class="feather icon-x-circle" style="color:red;font-size:40px;" ></i>
-                                                    
-                                                </div>
-                                                <div class="loader" id="loaderr" style="display:none;"></div>
 
-                                                <div class="row justify-content-center" >
-                                            
-                                            
-                                                <div class="form-group " id="db" style="display: none">
-                                                  <small class="form-text" style="font-size:13px">If you want to permanently add this person to the database, please click <a href="ui-tables.html">here</a></small>
 
-                                                </div>
-                                            </div>
-                                               
+                                            <div class="form-group " id="warning" style="display:none">
+                                              <small class="form-text" style="color:#9b91d4;font-size: 13px">This person will be added temporarily to your database, and will be deleted after the end of this operation.</small>
+                                          </div>
+                                          <div class="form-group col-md-8" style="cursor: pointer;" id="new_person1">
+                                            <input type="file" id="imagetext"  accept="image/*" class="custom-file-input col-md-6" name="imagetext" >
+                                            <label class="custom-file-label" for="customFile" id='heree'></label>
+                                            <small class="form-text" id="after-check">The image should only contain one person.</small>
+
                                         </div>
-                                        <div class="card-block table-border-style" id="sh" style="display:none;">
-                                            <div class="table-responsive">
-                                                <table class="table table-hover">
-                                                    <tbody id="icon-wrapper" class='ahmed'>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+
+                                        <div class="form-group col-md-2" id="new_person">
+                                            <input type="text" id="bb" class="form-control" name="nametext" placeholder="Enter the person name" disabled>
+                                            <small class="form-text justify-content-center"  ></small>
                                         </div>
+                                        <div class="breadcrumb-item col-md-1 " id="verif" style="display:none;">
+                                            <i class="feather icon-check-circle" style="color:#1de9b6;font-size:40px;" ></i>
+                                        </div>
+                                        <div class="col-md-1" id="notverif" style="display:none;">
+                                            <i class="feather icon-x-circle" style="color:red;font-size:40px;" ></i>
+
+                                        </div>
+                                        <div class="loader" id="loaderr" style="display:none;"></div>
+
+                                        <div class="row justify-content-center" >
+
+
+                                            <div class="form-group " id="db" style="display: none">
+                                              <small class="form-text" style="font-size:13px">If you want to permanently add this person to the database, please click <a href="ui-tables.html">here</a></small>
+
+                                          </div>
+                                      </div>
+
+                                  </div>
+                                  <div class="card-block table-border-style" id="sh" style="display:none;">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <tbody id="icon-wrapper" class='ahmed'>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div id="hide">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" id="settings_btn">Settings..</button>
-                                            </div>
-                                            <div class="collapse" id="collapseExample">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <h4 class="mt-5">Results</h4>
-                                                            <hr>
-                                                            <div class="custom-control custom-radio custom-control-inline">
-                                                                <input type="radio"  value="one" id="customRadioInline2" name="numImage" class="custom-control-input" checked>
-                                                                <label class="custom-control-label" for="customRadioInline2">    Display only the first image</label>
-                                                            </div>
-                                                            <div class="custom-control custom-radio custom-control-inline">
-                                                                <input type="radio" value="all" id="customRadioInline1" name="numImage" class="custom-control-input" >
-                                                                <label class="custom-control-label" for="customRadioInline1" >    Display all images founded</label>
-                                                            </div>
-                                                            
-                                                            <h4 class="mt-5">Time in video</h4>
-                                                            <hr>
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input name="time" type="checkbox" class="custom-control-input" id="customCheck1">&nbsp;&nbsp;
-                                                                <label class="custom-control-label" for="customCheck1">    Check this custom checkbox</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <h4 class="mt-5">Precision</h4>
-                                                            <hr>
-                                                            <label for="customRange3">Choose precision (<span style="color:green;">50% </span> is the most optimized value ,it's a matter of Precision/Time ratio)</label>
-                                                            <input type="range" class="custom-range" min="10" max="100" step="10" id="myRange" value="50" name=range >
-                                                            
-                                                            <label id="slide" for="customRange3" style="color:green;">Value : <span id="demo"></span> %  <span style="color:#cc0000;" id="alert"></span></label>
+                                </div>
+                            </div>
+                            <div id="hide">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" id="settings_btn">Settings..</button>
+                                    </div>
+                                    <div class="collapse" id="collapseExample">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h4 class="mt-5">Results</h4>
+                                                    <hr>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio"  style="cursor: pointer" value="one" id="customRadioInline2" name="numImage" class="custom-control-input" checked>
+                                                        <label class="custom-control-label" for="customRadioInline2 " style="cursor: pointer">    Display only the first image</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" value="all" id="customRadioInline1" name="numImage" class="custom-control-input" >
+                                                        <label class="custom-control-label" for="customRadioInline1" >    Display all images founded</label>
+                                                    </div>
 
-                                            
-                                                        </div>
+                                                    <h4 class="mt-5">Time in video</h4>
+                                                    <hr>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="time" type="checkbox" class="custom-control-input" id="customCheck1">&nbsp;&nbsp;
+                                                        <label class="custom-control-label" for="customCheck1">    Check this custom checkbox</label>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-6">
+                                                    <h4 class="mt-5">Precision</h4>
+                                                    <hr>
+                                                    <label for="customRange3">Choose precision (<span style="color:green;">50% </span> is the most optimized value ,it's a matter of Precision/Time ratio)</label>
+                                                    <input type="range" class="custom-range" min="10" max="100" step="10" id="myRange" value="50" name=range >
+
+                                                    <label id="slide" for="customRange3" style="color:green;">Value : <span id="demo"></span> %  <span style="color:#cc0000;" id="alert"></span></label>
+
+
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="float-right">
-                                            <button type="submit" id="click"  class="btn btn-primary float-right" style="width:100%;margin-left:1%;" disabled>Search</button>
-                                        </div>
                                     </div>
-                                    <button id='loading' type="button" class="btn btn-square btn-info" style="width:100%;margin-left:1%;display:none;margin-top:30px;">it will take a while, please wait <span class="someclass blink">( Loading... )</span></button>
-                                </form>
+                                </div>
+                                <div class="float-right">
+                                    <button type="submit" id="click"  class="btn btn-primary float-right" style="width:100%;margin-left:1%;" disabled>Search</button>
+                                </div>
                             </div>
-                        </div>
+                            <hr>
+                            <button id='loading' type="button" class="btn btn-square btn-info" style="width:100%;margin-left:1%;display:none;margin-top:30px;">it will take a while, please wait <span class="someclass blink">( Loading... )</span></button>
+                        </form>
                     </div>
                 </div>
             </div>
-
-
-
-            <!-- [ breadcrumb ] end -->
+            <div>
+            <div class="progress-bar-container" id="loader_add_new" style="width: 100%;display: none;">
+              <div class="progress-bar stripes">
+                <span class="progress-bar-inner"></span>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
+
+
+
+    <!-- [ breadcrumb ] end -->
+</div>
+</div>
 </div>
 
 <div id="success_div"></div>
@@ -406,6 +458,7 @@
 
     
     $( "#click" ).click(function() {
+        document.getElementById("loader_add_new").style.display = "block";
         document.getElementById("hide").style.display = "none";
         document.getElementById("hide1").style.display = "none";
         document.getElementById("hide2").style.display = "none";
@@ -430,7 +483,7 @@
             document.getElementById("customRadioInline1").disabled = false;
             document.getElementById("customCheck1").disabled = false;
         }
-       if(label != ""){
+        if(label != ""){
             document.getElementById("click").style.display = "block";
         }
         else{
@@ -441,13 +494,16 @@
         document.getElementById("result").style.display = "none";
         
     });
+
     if(document.getElementById("other").value  != ""){
-            document.getElementById("click").style.display = "block";
-        }
+        document.getElementById("click").style.display = "block";
+    }
     else{
         document.getElementById("click").style.display = "none";
     }
-     $( "#imagetext" ).change(function() {
+
+
+    $( "#imagetext" ).change(function() {
         var input = $(this),
         numFiles = input.get(0).files ? input.get(0).files.length : 1,
         label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
@@ -458,9 +514,11 @@
     var person_list = "{{ liste_person }}".split(',');
     for (var i = 0, l = person_list.length; i < l; i++) {
         $('#icon-wrapper').append(
-         '<tr style="cursor:pointer" class="col-md-12 i-block" data-clipboard-text="feather ' + person_list[i] + '" data-filter="' + person_list[i] + '"  data-toggle="tooltip" title="' + person_list[i] + '"><th scope="row ' + person_list[i] + '">' + person_list[i] + '</th><td>Mark</td><td>Otto</td><td>@md</td></tr>'+
-         '</div>');
+           '<tr style="cursor:pointer" class="col-md-12 i-block" data-clipboard-text="feather ' + person_list[i] + '" data-filter="' + person_list[i] + '"  data-toggle="tooltip" title="' + person_list[i] + '"><th scope="row ' + person_list[i] + '">' + person_list[i] + '</th><td>Mark</td><td>Otto</td><td>@md</td></tr>'+
+           '</div>');
     }
+
+
     $(window).on('load', function() {
         $("#icon-search").on("keyup", function() {
             document.getElementById("sh").style.display = "block";
@@ -488,6 +546,8 @@
             });
         });
     });
+
+
     $('.blink').each(function() {
         var elem = $(this);
         setInterval(function() {
@@ -498,14 +558,17 @@
             }    
         }, 500);
     })
+
     $(".blink").animate({opacity:0},200,"linear",function(){
-       $(this).animate({opacity:1},200);
-   });
+        $(this).animate({opacity:1},200);
+    });
     
     if( $("#exampleFormControlSelect1").find(":selected").val() == document.getElementById("op").value){
         document.getElementById("click").disabled = false;
     }
+
     $("#op1").css('color','black');
+
     $('#exampleFormControlSelect1').change(function(){
 
         if( $("#exampleFormControlSelect1").find(":selected").val() == document.getElementById("op").value){
@@ -548,33 +611,33 @@
         document.getElementById("loaderr").style.display = "block";
         var elem = document.getElementById("after-check");
         $.ajax({
-            
+
             url: '{% url 'check_image' %}',
             data: {
               'inputValue': label
-            },
-            dataType: 'json',
-            success: function (data) {
-                document.getElementById("loaderr").style.display = "none";
-                if (data["response"]=='Verified'){
-                    document.getElementById("click").disabled = false;
-                    document.getElementById("verif").style.display = "block";
-                    document.getElementById("notverif").style.display = "none";
-                    elem.innerHTML = "Well verified";
-                    elem.style.color = "#1de9b6";
-                }  
-                else{
-                    document.getElementById("heree").innerHTML = "";
-                    document.getElementById("bb").value = "";
-                    document.getElementById("notverif").style.display = "block";
-                    document.getElementById("verif").style.display = "none";
+          },
+          dataType: 'json',
+          success: function (data) {
+            document.getElementById("loaderr").style.display = "none";
+            if (data["response"]=='Verified'){
+                document.getElementById("click").disabled = false;
+                document.getElementById("verif").style.display = "block";
+                document.getElementById("notverif").style.display = "none";
+                elem.innerHTML = "Well verified";
+                elem.style.color = "#1de9b6";
+            }  
+            else{
+                document.getElementById("heree").innerHTML = "";
+                document.getElementById("bb").value = "";
+                document.getElementById("notverif").style.display = "block";
+                document.getElementById("verif").style.display = "none";
 
-                    elem.innerHTML = "Please check again,this image contains "+data["response"]+" person";
-                    elem.style.color = "Red";
+                elem.innerHTML = "Please check again,this image contains "+data["response"]+" person";
+                elem.style.color = "Red";
 
-                }
             }
-        });
+        }
+    });
     });
 
 </script>
