@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 """ 
-Copyright (c) 2019 - present AppSeed.us  
+Copyright (c) 2019 - present AppSeed.us   
 """
 
 from django.contrib.auth.decorators import login_required
@@ -109,109 +109,122 @@ def webcam_feed(request):
     
 
 def media(request): 
-    media = request.POST.get('pathname')
-    Person = request.POST.get('PersonName') 
-    rang = request.POST.get('range')
-    num_image = request.POST.get('numImage')
-    Time = request.POST.get('time')
+    try:
+        media = request.POST.get('pathname')
+        Person = request.POST.get('PersonName') 
+        rang = request.POST.get('range')
+        num_image = request.POST.get('numImage')
+        Time = request.POST.get('time')
 
 
-    print("num_image",num_image)
-    person = ""
-    ll = FILES+media
-    image = cv2.imread(ll)
-    if request.POST.get('imagetext') :
-        new_person_image = request.POST.get('imagetext') 
-        new_person_name  = new_person_image[0:-4]
-    else :
-        new_person_image = ""
-        new_person_name = ""
-    
-    liste =[]
-    cap = cv2.VideoCapture(FILES+media)
-    time_start = time.time()
-    target = dict_range[int(rang)]
-    print("target",target)
-    counter = 0  
-    list_img=[]
-    list_name=[]
-    dict_name={}
-    dict_time={}
-    msg=None 
-    size = 0
-    if new_person_image :
-        person = new_person_name.replace("_"," ")
-        print(person)
-        output = generate_database_person(FILES+new_person_name+'.jpg',new_person_name+'.jpg',modele_OpenFace, augmentations=3)
-    elif Person:
-        person = Person
-        output = face_dictionnaire
-    else:
-        output = face_dictionnaire
-        
-    
-    ext = media.split('.')[1]
-    list_ext = ["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"]
-    if(ext in list_ext):
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        face_out_image = face_recognition_image(gray, modele_OpenFace,face_dictionnaire , plot=True, faces_out=True)
-        im = Image.fromarray(face_out_image[0])
-        data = BytesIO()        
-        im.save(data, "JPEG")        
-        data64 = base64.b64encode(data.getvalue()) 
-        
-        if person or new_person_image:
-            if person in face_out_image[1].keys(): 
+        print("num_image",num_image)
+        person = ""
+        ll = FILES+media
+        image = cv2.imread(ll)
+        if request.POST.get('imagetext') :
+            new_person_image = request.POST.get('imagetext') 
+            new_person_name  = new_person_image[0:-4]
+        else :
+            new_person_image = ""
+            new_person_name = ""
+
+        liste =[]
+        cap = cv2.VideoCapture(FILES+media)
+        time_start = time.time()
+        target = dict_range[int(rang)]
+        print("target",target)
+        counter = 0  
+        list_img=[]
+        list_name=[]
+        dict_name={}
+        dict_time={}
+        msg=None 
+        size = 0
+        if new_person_image :
+            person = new_person_name.replace("_"," ")
+            print(person)
+            output = generate_database_person(FILES+new_person_name+'.jpg',new_person_name+'.jpg',modele_OpenFace, augmentations=3)
+        elif Person:
+            person = Person
+            output = face_dictionnaire
+        else:
+            output = face_dictionnaire
+
+
+        ext = media.split('.')[1]
+        list_ext = ["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"]
+        if(ext in list_ext):
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            face_out_image = face_recognition_image(gray, modele_OpenFace,face_dictionnaire , plot=True, faces_out=True)
+            im = Image.fromarray(face_out_image[0])
+            data = BytesIO()        
+            im.save(data, "JPEG")        
+            data64 = base64.b64encode(data.getvalue()) 
+
+            if person or new_person_image:
+                if person in face_out_image[1].keys(): 
+                    var_decode = u'data:img/jpg;base64,'+data64.decode('utf-8')
+                    dict_name[var_decode] = [*face_out_image[1].keys()]
+                    liste = face_out_image[1].keys()
+                    msg=None
+                else :
+                    msg=" does not appear in this video" 
+            elif len(face_out_image[1].keys())>0 : 
                 var_decode = u'data:img/jpg;base64,'+data64.decode('utf-8')
                 dict_name[var_decode] = [*face_out_image[1].keys()]
                 liste = face_out_image[1].keys()
-                msg=None
-            else :
-                msg=" does not appear in this video" 
-        elif len(face_out_image[1].keys())>0 : 
-            var_decode = u'data:img/jpg;base64,'+data64.decode('utf-8')
-            dict_name[var_decode] = [*face_out_image[1].keys()]
-            liste = face_out_image[1].keys()
-            msg=None        
+                msg=None        
+            else:
+                msg="This video does not contain any identified person." 
+
+
         else:
-            msg="This video does not contain any identified person." 
-        
-        
-    else:
-    
-        while(cap.isOpened()):  
-            if counter == target:      
-                flag,frame = cap.read()      
-                if flag == False:    
-                    break 
-                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                #frame_flip = cv2.flip(gray, -1)
-                milliseconds = cap.get(cv2.CAP_PROP_POS_MSEC)
-                seconds = milliseconds//1000
-                milliseconds = milliseconds%1000
-                minutes = 0
-                hours = 0
-                if seconds >= 60:
-                    minutes = seconds//60
-                    seconds = seconds % 60
 
-                if minutes >= 60:
-                    hours = minutes//60
-                    minutes = minutes % 60
+            while(cap.isOpened()):  
+                if counter == target:      
+                    flag,frame = cap.read()      
+                    if flag == False:    
+                        break 
+                    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    #frame_flip = cv2.flip(gray, -1)
+                    milliseconds = cap.get(cv2.CAP_PROP_POS_MSEC)
+                    seconds = milliseconds//1000
+                    milliseconds = milliseconds%1000
+                    minutes = 0
+                    hours = 0
+                    if seconds >= 60:
+                        minutes = seconds//60
+                        seconds = seconds % 60
 
-                
-                face_out = face_recognition_image(gray, modele_OpenFace, output, plot=True, faces_out=True)
-                
-                im = Image.fromarray(face_out[0])
-                data = BytesIO()        
-                im.save(data, "JPEG")        
-                data64 = base64.b64encode(data.getvalue()) 
-                liste+=face_out[1].keys()
-                counter = 0 
-                
-                if person or new_person_image:
-                    if person in face_out[1].keys():
-                        #print("---------------------------",int(hours),":",int(minutes),":",int(seconds))
+                    if minutes >= 60:
+                        hours = minutes//60
+                        minutes = minutes % 60
+
+
+                    face_out = face_recognition_image(gray, modele_OpenFace, output, plot=True, faces_out=True)
+
+                    im = Image.fromarray(face_out[0])
+                    data = BytesIO()        
+                    im.save(data, "JPEG")        
+                    data64 = base64.b64encode(data.getvalue()) 
+                    liste+=face_out[1].keys()
+                    counter = 0 
+
+                    if person or new_person_image:
+                        if person in face_out[1].keys():
+                            #print("---------------------------",int(hours),":",int(minutes),":",int(seconds))
+                            list_img = u'data:img/jpg;base64,'+data64.decode('utf-8')
+                            list_name = [*face_out[1].keys()]
+                            dict_name[list_img] = list_name
+                            if Time == "on" :
+                                dict_time[list_img] = str(int(hours))+":"+str(int(minutes))+":"+str(int(seconds))
+                            else:
+                                pass
+                            msg=None
+                        else :
+                            msg=" does not appear in this video" 
+
+                    elif len(face_out[1].keys())>0 : 
                         list_img = u'data:img/jpg;base64,'+data64.decode('utf-8')
                         list_name = [*face_out[1].keys()]
                         dict_name[list_img] = list_name
@@ -219,42 +232,33 @@ def media(request):
                             dict_time[list_img] = str(int(hours))+":"+str(int(minutes))+":"+str(int(seconds))
                         else:
                             pass
-                        msg=None
-                    else :
-                        msg=" does not appear in this video" 
-
-                elif len(face_out[1].keys())>0 : 
-                    list_img = u'data:img/jpg;base64,'+data64.decode('utf-8')
-                    list_name = [*face_out[1].keys()]
-                    dict_name[list_img] = list_name
-                    if Time == "on" :
-                        dict_time[list_img] = str(int(hours))+":"+str(int(minutes))+":"+str(int(seconds))
+                        msg=None        
                     else:
-                        pass
-                    msg=None        
-                else:
-                    msg="This video does not contain any identified person." 
-            else:      
-                    ret = cap.grab()      
-                    counter += 1 
-            if (num_image=='one') and (person in liste):
-                break
-                
-    print(person in liste)
-    print(num_image)
-                
-    cap.release()
-    cv2.destroyAllWindows() 
-    myset = set(liste)
-    if "Unknown" in myset:
-        myset.remove("Unknown") 
-    else:
-        pass 
-    time_end = time.time() 
-    
-    print('Total run time: %.2f s' %((time_end-time_start))) 
-    size = len(myset)
-    return render(request, 'page-blank.html',{"dict_name":dict_name,"dict_time":dict_time,"msg":msg,"Person":person,"len":size,"liste_person":','.join(liste_person)})
+                        msg="This video does not contain any identified person." 
+                else:      
+                        ret = cap.grab()      
+                        counter += 1 
+                if (num_image=='one') and (person in liste):
+                    break
+
+        print(person in liste)
+        print(num_image)
+
+        cap.release()
+        cv2.destroyAllWindows() 
+        myset = set(liste)
+        if "Unknown" in myset:
+            myset.remove("Unknown") 
+        else:
+            pass 
+        time_end = time.time() 
+
+        print('Total run time: %.2f s' %((time_end-time_start))) 
+        size = len(myset)
+        return render(request, 'page-blank.html',{"dict_name":dict_name,"dict_time":dict_time,"msg":msg,"Person":person,"len":size,"liste_person":','.join(liste_person)})
+    except :
+        return render(request, 'page-blank.html',{"liste_person":','.join(liste_person)})
+
 
 
 def video_names(request):
@@ -317,16 +321,16 @@ def add_single_image(request):
 def add_to_database(request):
     try:
         path = request.GET.get('path').replace(' ','_')
-        img_path = request.GET.get('img_path')
-        new_path = DATABASE_DIR+path+"\\"+img_path
+        img_list = request.GET.get('img_list').split(",")
+        j =1
+        for i in img_list:
+            new_path = DATABASE_DIR+path+"\\"+i
 
-        if not os.path.exists(DATABASE_DIR+path):
-            os.makedirs(DATABASE_DIR+path)
-            shutil.copyfile(FILES+img_path, new_path)
-            os.rename(new_path,DATABASE_DIR+path+"\\"+path+"_001"+"."+img_path.split('.')[1])
-
-
-        image_transform = importer_image(DATABASE_DIR+path+"\\"+path+"_001"+"."+img_path.split('.')[1])
+            if not os.path.exists(DATABASE_DIR+path):
+                os.makedirs(DATABASE_DIR+path)
+            shutil.copyfile(FILES+i, new_path)
+            os.rename(new_path,DATABASE_DIR+path+"\\"+path+"_00"+str(j)+"."+i.split('.')[1])
+            j+=1
 
         new_dict = generate_database_for_dict(DATABASE_DIR+path+"\\", modele_OpenFace, augmentations=3) 
         face_dictionnaire.update({key:value for key, value in new_dict.items()})
