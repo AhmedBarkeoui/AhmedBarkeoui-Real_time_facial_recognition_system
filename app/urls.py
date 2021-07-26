@@ -15,7 +15,7 @@ urlpatterns = [
     
     path('webcam_feed', views.webcam_feed, name='webcam_feed'),
     
-    path('media', views.media, name='media'),
+    path('Advanced_video_processing', views.Advanced_video_processing, name='Advanced_video_processing'),
     
     path('check_image', views.check_image, name='check_image'),
     

@@ -73,9 +73,9 @@ def pages(request):
     try:
         load_template      = request.path.split('/')[-1]
         context['segment'] = load_template
-        if load_template=='page-blank.html':
+        if load_template=='Advanced-video-processing.html':
             context['liste_person'] = ','.join(liste_person)
-        elif load_template == 'ui-tables.html':
+        elif load_template == 'Database-Management.html':
             context['users'] = ','.join(liste_person) 
             context['DATABASE_DIR'] = DATABASE_DIR
         else:
@@ -108,7 +108,7 @@ def webcam_feed(request):
                     content_type='multipart/x-mixed-replace; boundary=frame')
     
 
-def media(request): 
+def Advanced_video_processing(request): 
     try:
         media = request.POST.get('pathname')
         Person = request.POST.get('PersonName') 
@@ -169,14 +169,14 @@ def media(request):
                     liste = face_out_image[1].keys()
                     msg=None
                 else :
-                    msg=" does not appear in this video" 
+                    msg=" does not appear in this image" 
             elif len(face_out_image[1].keys())>0 : 
                 var_decode = u'data:img/'+ext+';base64,'+data64.decode('utf-8')
                 dict_name[var_decode] = [*face_out_image[1].keys()]
                 liste = face_out_image[1].keys()
                 msg=None        
             else:
-                msg="This video does not contain any identified person." 
+                msg="This image does not contain any identified person." 
 
 
         else:
@@ -256,9 +256,9 @@ def media(request):
         extension = "image" if ext in ["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"] else "video"
         print('Total run time: %.2f s' %((time_end-time_start))) 
         size = len(myset)
-        return render(request, 'page-blank.html',{"dict_name":dict_name,"dict_time":dict_time,"msg":msg,"extension":extension,"Person":person,"len":size,"liste_person":','.join(liste_person)})
+        return render(request, 'Advanced-video-processing.html',{"dict_name":dict_name,"dict_time":dict_time,"msg":msg,"extension":extension,"Person":person,"len":size,"liste_person":','.join(liste_person)})
     except :
-        return render(request, 'page-blank.html',{"liste_person":','.join(liste_person)})
+        return render(request, 'Advanced-video-processing.html',{"liste_person":','.join(liste_person)})
 
 
 
