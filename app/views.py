@@ -253,7 +253,7 @@ def media(request):
         else:
             pass 
         time_end = time.time() 
-        extension = "image" 
+        extension = "image" if ext in ["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"] else "video"
         print('Total run time: %.2f s' %((time_end-time_start))) 
         size = len(myset)
         return render(request, 'page-blank.html',{"dict_name":dict_name,"dict_time":dict_time,"msg":msg,"extension":extension,"Person":person,"len":size,"liste_person":','.join(liste_person)})
