@@ -118,7 +118,7 @@ STATIC_ROOT = os.path.join(CORE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 LIBRARIES_FILES = os.path.join(CORE_DIR, 'Libraries')
 APP = os.path.join(CORE_DIR, 'app/')
-DATABASE_DIR = os.path.join(CORE_DIR, 'Database/')
+DATABASE_DIR = os.path.join(CORE_DIR, 'core/static/Database/')
 FILES = os.path.join(CORE_DIR, 'files/')
 
 NN4_SMALL2 = os.path.join(LIBRARIES_FILES, 'nn4.small2.v1.h5')
@@ -130,7 +130,7 @@ DATABASE_IMG = os.path.join(LIBRARIES_FILES, 'Django.npy')
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(CORE_DIR, 'Database'),
+    os.path.join(CORE_DIR, 'core/static'),
 )
 #############################################################
 #############################################################

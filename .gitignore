@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 
 core/__pycache__/
+app/__pycache__/
