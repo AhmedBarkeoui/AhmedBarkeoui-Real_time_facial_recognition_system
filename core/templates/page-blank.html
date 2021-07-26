@@ -296,8 +296,8 @@
                                               <small class="form-text" style="color:#9b91d4;font-size: 13px">This person will be added temporarily to your database, and will be deleted after the end of this operation.</small>
                                           </div>
                                           <div class="form-group col-md-8" style="cursor: pointer;" id="new_person1">
-                                            <input type="file" id="imagetext"  accept="image/*" class="custom-file-input col-md-6" name="imagetext" >
-                                            <label class="custom-file-label" for="customFile" id='heree'></label>
+                                            <input type="file" id="imagetext" style="cursor: pointer;" accept="image/*" class="custom-file-input col-md-6" name="imagetext" >
+                                            <label style="cursor: pointer;" class="custom-file-label" for="customFile" id='heree'></label>
                                             <small class="form-text" id="after-check">The image should only contain one person.</small>
 
                                         </div>
@@ -472,6 +472,13 @@
         var input = $(this),
         numFiles = input.get(0).files ? input.get(0).files.length : 1,
         label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        if (["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"].includes(label.split('.')[1])) {
+            
+            $("#exampleFormControlSelect1").val(1).change();
+            document.getElementById("exampleFormControlSelect1").disabled = true;
+        }else{
+            document.getElementById("exampleFormControlSelect1").disabled = false;
+        }
         document.getElementById("here").innerHTML = label;
         if (list_ext.includes(label.split('.')[1])) {
             document.getElementById("customRadioInline2").disabled = "block";
@@ -485,8 +492,12 @@
         }
         if(label != ""){
             document.getElementById("click").style.display = "block";
+            document.getElementById("exampleFormControlSelect1").style.display = "block";
+            document.getElementById("icon-search").style.display = "block";
         }
         else{
+            document.getElementById("exampleFormControlSelect1").style.display = "none";
+            document.getElementById("icon-search").style.display = "none";
             document.getElementById("click").style.display = "none";
         }
         document.getElementById("person").style.display = "block";

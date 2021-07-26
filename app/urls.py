@@ -19,6 +19,8 @@ urlpatterns = [
     
     path('check_image', views.check_image, name='check_image'),
     
+    path('check_imagee', views.check_imagee, name='check_imagee'),
+    
     path('video_names', views.video_names, name='video_names'),
     
     path('delete_from_db', views.delete_from_db, name='delete_from_db'),

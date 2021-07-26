@@ -123,7 +123,7 @@ def media(request):
         image = cv2.imread(ll)
         if request.POST.get('imagetext') :
             new_person_image = request.POST.get('imagetext') 
-            new_person_name  = new_person_image[0:-4]
+            new_person_name  = new_person_image.split('.')[0]
         else :
             new_person_image = ""
             new_person_name = ""
@@ -143,7 +143,8 @@ def media(request):
         if new_person_image :
             person = new_person_name.replace("_"," ")
             print(person)
-            output = generate_database_person(FILES+new_person_name+'.jpg',new_person_name+'.jpg',modele_OpenFace, augmentations=3)
+
+            output = generate_database_person(FILES+new_person_image,new_person_image,modele_OpenFace, augmentations=3)
         elif Person:
             person = Person
             output = face_dictionnaire
@@ -163,14 +164,14 @@ def media(request):
 
             if person or new_person_image:
                 if person in face_out_image[1].keys(): 
-                    var_decode = u'data:img/jpg;base64,'+data64.decode('utf-8')
+                    var_decode = u'data:img/'+ext+';base64,'+data64.decode('utf-8')
                     dict_name[var_decode] = [*face_out_image[1].keys()]
                     liste = face_out_image[1].keys()
                     msg=None
                 else :
                     msg=" does not appear in this video" 
             elif len(face_out_image[1].keys())>0 : 
-                var_decode = u'data:img/jpg;base64,'+data64.decode('utf-8')
+                var_decode = u'data:img/'+ext+';base64,'+data64.decode('utf-8')
                 dict_name[var_decode] = [*face_out_image[1].keys()]
                 liste = face_out_image[1].keys()
                 msg=None        
@@ -213,7 +214,7 @@ def media(request):
                     if person or new_person_image:
                         if person in face_out[1].keys():
                             #print("---------------------------",int(hours),":",int(minutes),":",int(seconds))
-                            list_img = u'data:img/jpg;base64,'+data64.decode('utf-8')
+                            list_img = u'data:img/'+ext+';base64,'+data64.decode('utf-8')
                             list_name = [*face_out[1].keys()]
                             dict_name[list_img] = list_name
                             if Time == "on" :
@@ -225,7 +226,7 @@ def media(request):
                             msg=" does not appear in this video" 
 
                     elif len(face_out[1].keys())>0 : 
-                        list_img = u'data:img/jpg;base64,'+data64.decode('utf-8')
+                        list_img = u'data:img/'+ext+';base64,'+data64.decode('utf-8')
                         list_name = [*face_out[1].keys()]
                         dict_name[list_img] = list_name
                         if Time == "on" :
@@ -252,10 +253,10 @@ def media(request):
         else:
             pass 
         time_end = time.time() 
-
+        extension = "image" 
         print('Total run time: %.2f s' %((time_end-time_start))) 
         size = len(myset)
-        return render(request, 'page-blank.html',{"dict_name":dict_name,"dict_time":dict_time,"msg":msg,"Person":person,"len":size,"liste_person":','.join(liste_person)})
+        return render(request, 'page-blank.html',{"dict_name":dict_name,"dict_time":dict_time,"msg":msg,"extension":extension,"Person":person,"len":size,"liste_person":','.join(liste_person)})
     except :
         return render(request, 'page-blank.html',{"liste_person":','.join(liste_person)})
 
@@ -280,7 +281,7 @@ def delete_from_db(request):
                 liste_person.remove(name.replace('_',' ')) 
                 shutil.rmtree(DATABASE_DIR+name.replace(' ','_')[0:-1])
         else:
-            os.remove(DATABASE_DIR+name[0:-4]+"\\"+name+".jpg")
+            os.remove(DATABASE_DIR+name[0:-4]+"\\"+name+"."+request.GET.get('ext'))
         data = {'name':name}
         stat = 200
     except:
@@ -344,6 +345,8 @@ def add_to_database(request):
         data = {'error':'error'}
     return JsonResponse(data, status=stat)
 
+
+
 def check_image(request):
     try:
         image_path = (FILES+request.GET.get('inputValue'))
@@ -360,6 +363,44 @@ def check_image(request):
         else:
             data = {'response':num,"inlist":""}
         stat = 200
+    except:
+        stat = 400
+        data = {'error':'error'}
+    return JsonResponse(data, status=stat)
+
+def check_imagee(request):
+    try:
+        stat = 200
+        image_path = FILES+request.GET.get('inputValue')
+        img = cv2.imread(image_path)
+        import_img = importer_image(image_path)
+        num = get_num_from_image(img)
+        if num != 1:
+            data = {'response':num,"inlist":"","duplicated":""}
+        elif request.GET.get('img_list'):
+            for i in request.GET.get('img_list').split(","):
+                if np.array_equal(np.array(Image.open(image_path)),np.array(Image.open(FILES+i))):
+                    data =  {'response':'',"inlist":"","duplicated":"duplicated"}
+                    break
+                else: 
+                    check = request.GET.get('img_list').split(",")[0]
+                    face_outt1 = generate_database_person(FILES+check,check,modele_OpenFace, augmentations=3)
+                    face_outt2 = face_recognition_image(import_img, modele_OpenFace, face_outt1, plot=True, faces_out=True)
+                    if 'Unknown' not in list(face_outt2[1].keys()):
+                        data = {'response':'Verified',"inlist":"","duplicated":""}
+                        break
+                    else:
+                        face_out = face_recognition_image(import_img, modele_OpenFace, face_dictionnaire, plot=True, faces_out=True)
+                        if 'Unknown' in list(face_out[1].keys()):
+                            data = {'response':'',"inlist":"","duplicated":"notVerified"}
+                        else:
+                            data = {'response':'Verified','inlist':str(list(face_out[1].keys())[0]),"duplicated":""}
+        else:
+            face_out = face_recognition_image(import_img, modele_OpenFace, face_dictionnaire, plot=True, faces_out=True)
+            if 'Unknown' in list(face_out[1].keys()):
+                data = {'response':'Verified',"inlist":"","duplicated":""}
+            else:
+                data = {'response':'Verified','inlist':str(list(face_out[1].keys())[0]),"duplicated":""}
     except:
         stat = 400
         data = {'error':'error'}
