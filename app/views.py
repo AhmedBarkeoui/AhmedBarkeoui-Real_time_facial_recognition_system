@@ -50,9 +50,9 @@ for (name, encodes) in face_dictionnaire.items():
     label = label.replace('-','')
     #print(label)
     liste_person.append(label)
-liste_person = set(liste_person)
+liste_person = set(liste_person) 
 
-
+ 
 dict_range = {10:50 ,20:40 ,30:20 ,40:15 ,50:10,60:9,70:8 ,80:5 ,90:1 ,100:0}
 
 @login_required(login_url="/login/")
