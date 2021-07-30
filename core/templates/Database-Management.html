@@ -1,203 +1,203 @@
 {% extends "layouts/base.html" %}
 {% load staticfiles %}
 
-{% block title %} UI Tables {% endblock %} 
+{% block title %} Database-Management {% endblock %} 
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
 
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 <style>
-  #imagetext{
+#imagetext{
 
-    display: inline;
-  }
-  .progress-value {
-    animation: load 3s normal forwards;
-    box-shadow: 0 10px 40px -10px #fff;
-    border-radius: 100px;
-    background: #fff;
-    height: 30px;
-    width: 0;
-  }
+  display: inline;
+}
+.progress-value {
+  animation: load 3s normal forwards;
+  box-shadow: 0 10px 40px -10px #fff;
+  border-radius: 100px;
+  background: #fff;
+  height: 30px;
+  width: 0;
+}
 
-  @keyframes load {
-    0% { width: 0; }
-    100% { width: 100%; }
-  }
-  .vertical-center {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-  }
-  .announcement-card-body {
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-  }
-  .disabled:hover {
-    pointer-events: none;
-    opacity: 0.5;
-  }
-  .blue:hover {
-    color:#52e0d9;
-    cursor: pointer;
-  }
-
-
-  #more{
-    font-size:40px;
-    color: #04a9f5;
-    text-align: center;
-    cursor: pointer;
-  }
-
-  #container {
-    margin: 20px;
-    width: 400px;
-    height: 8px;
-  }
-
-  .loader {
-    border: 5px solid #f3f3f3; /* Light grey */
-    border-top: 5px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 2s linear infinite;
-  }
+@keyframes load {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+.vertical-center {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.announcement-card-body {
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+.disabled:hover {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.blue:hover {
+  color:#52e0d9;
+  cursor: pointer;
+}
 
 
-  @-webkit-keyframes spin {
+#more{
+  font-size:40px;
+  color: #04a9f5;
+  text-align: center;
+  cursor: pointer;
+}
 
-    0% { -webkit-transform: rotate(0deg); }
+#container {
+  margin: 20px;
+  width: 400px;
+  height: 8px;
+}
 
-    100% { -webkit-transform: rotate(360deg); }
+.loader {
+  border: 5px solid #f3f3f3; /* Light grey */
+  border-top: 5px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
 
-  }
+
+@-webkit-keyframes spin {
+
+  0% { -webkit-transform: rotate(0deg); }
+
+  100% { -webkit-transform: rotate(360deg); }
+
+}
 
 
-  keyframes animate-stripes {
-    0% {
-      background-position: 0 0;
-    }
-
-    100% {
-      background-position: 60px 0;
-    }
+keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
   }
 
-  @keyframes auto-progress {
-    0% {
-      width: 0%;
-    }
-
-    100% {
-      width: 100%;
-    }
+  100% {
+    background-position: 60px 0;
   }
+}
 
-  .progress-bar {
-    background: transparent;
-    height: 3px;
-    width: 100%;
-    margin: 5px auto;
-    border-radius: 5px;
-
-    box-shadow: 0 1px 5px #3a81f0 inset, 0 0 1px #29d;
-  }
-
-  .stripes {
-    background-size: 30px 30px;
-  }
-
-  .stripes.animated {
-    animation: animate-stripes 0.2s linear infinite;
-  }
-
-  .stripes.animated.slower {
-    animation-duration: 0.2s;
-  }
-
-  .stripes.reverse {
-    animation-direction: reverse;
-  }
-
-  .progress-bar-inner {
-    display: block;
-    height: 45px;
+@keyframes auto-progress {
+  0% {
     width: 0%;
-    background-color: #3a81f0;
-    border-radius: 3px;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
-    position: relative;
-    animation: auto-progress 1s infinite linear;
   }
 
-  keyframes animate-stripes {
-    0% {
-      background-position: 0 0;
-    }
-
-    100% {
-      background-position: 60px 0;
-    }
-  }
-
-  @keyframes auto-progress {
-    0% {
-      width: 0%;
-    }
-
-    100% {
-      width: 100%;
-    }
-  }
-
-  .progress-bar {
-    background: transparent;
-    height: 4px;
+  100% {
     width: 100%;
-    margin: 5px auto;
-    border-radius: 5px;
+  }
+}
 
-    box-shadow: 0 1px 5px #dbe9f6 inset, 0 0 1px #29d;
+.progress-bar {
+  background: transparent;
+  height: 3px;
+  width: 100%;
+  margin: 5px auto;
+  border-radius: 5px;
+
+  box-shadow: 0 1px 5px #3a81f0 inset, 0 0 1px #29d;
+}
+
+.stripes {
+  background-size: 30px 30px;
+}
+
+.stripes.animated {
+  animation: animate-stripes 0.2s linear infinite;
+}
+
+.stripes.animated.slower {
+  animation-duration: 0.2s;
+}
+
+.stripes.reverse {
+  animation-direction: reverse;
+}
+
+.progress-bar-inner {
+  display: block;
+  height: 45px;
+  width: 0%;
+  background-color: #3a81f0;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+  position: relative;
+  animation: auto-progress 1s infinite linear;
+}
+
+keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
   }
 
-  .stripes {
-    background-size: 30px 30px;
+  100% {
+    background-position: 60px 0;
   }
+}
 
-  .stripes.animated {
-    animation: animate-stripes 0.2s linear infinite;
-  }
-
-  .stripes.animated.slower {
-    animation-duration: 0.2s;
-  }
-
-  .stripes.reverse {
-    animation-direction: reverse;
-  }
-
-  .progress-bar-inner {
-    display: block;
-    height: 45px;
+@keyframes auto-progress {
+  0% {
     width: 0%;
-    background-color: #3a81f0;
-    border-radius: 4px;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
-    position: relative;
-    animation: auto-progress 1.5s infinite linear;
   }
+
+  100% {
+    width: 100%;
+  }
+}
+
+.progress-bar {
+  background: transparent;
+  height: 4px;
+  width: 100%;
+  margin: 5px auto;
+  border-radius: 5px;
+
+  box-shadow: 0 1px 5px #dbe9f6 inset, 0 0 1px #29d;
+}
+
+.stripes {
+  background-size: 30px 30px;
+}
+
+.stripes.animated {
+  animation: animate-stripes 0.2s linear infinite;
+}
+
+.stripes.animated.slower {
+  animation-duration: 0.2s;
+}
+
+.stripes.reverse {
+  animation-direction: reverse;
+}
+
+.progress-bar-inner {
+  display: block;
+  height: 45px;
+  width: 0%;
+  background-color: #3a81f0;
+  border-radius: 4px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+  position: relative;
+  animation: auto-progress 1.5s infinite linear;
+}
 </style>
 
 {% endblock stylesheets %}
 
 {% block content %}
 
-<div class="pcoded-content">
+<div class="pcoded-content" id="top">
   <div class="pcoded-inner-content">
     <!-- [ breadcrumb ] start -->
     <div class="page-header">
@@ -234,7 +234,8 @@
                       <div class="form-group col-md-9"  id="new_person1">
                         <input type="file" id="imagetext" style="cursor: pointer;" accept="image/*" class="imagetext custom-file-input" name="imagetext" multiple>
                         <label class="custom-file-label" for="customFile" id='heree'></label>
-                        <small class="form-text" id="after_check">The image should only contain one person.</small> 
+                        <small class="form-text" id="after_check" style="display: inline;">The image should only contain one person.</small> 
+                        <small class="form-text float-right" id="sure" style="display: inline;"></small>
                         <small class="blink someclass blink" style="display: none;color: #00a150" id="blinkk">Image verification, please wait ..</small> 
                       </div>
                       <div class="col-md-1" id="div_check" >
@@ -261,7 +262,7 @@
                     <i id="more" class="feather icon-plus-circle " style="pointer-events: none;opacity: 0.5" title="Add another image"></i>
                   </div>
                 </div>
-
+                <hr>
                 <div id="hide">
                   <div class="row ">
                     <div class="col-md-8 "></div>
@@ -340,10 +341,68 @@
           </div>
 
           <button type="button" class="btn btn-warning" id="succ_error" style="width: 100%;display: none">Sorry, something went wrong, please try again  !</button>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="clear" data-dismiss="modal">Cancel</button>
+            <button type="button" id="add_single_pic" class="btn btn-primary" disabled> Save</button>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="clear" data-dismiss="modal">Cancel</button>
-          <button type="button" id="add_single_pic" class="btn btn-primary" disabled> Save</button>
+      </div>
+    </div>
+    <div class="modal fade" id="exampleModal_new_verif" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+      <div class="modal-dialog modal-lg" role="document" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel_verif">Image verification</h5>
+            <button type="button" id="xx_verif" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" >&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row justify-content-center">
+              <div class="text-center w-100" ><small id="seems"></small>
+              <hr>
+              </div>
+             
+              <div class="form-group col-md-9" >
+
+                <input type="file" id="imagetext_new_verif" style="cursor: pointer;" accept="image/*" class="imagetext custom-file-input" >
+                <label class="custom-file-label" for="customFilee" id="here_new_verif"></label>
+                <small class="" id="after_check_new_verif">The image should only contain one person.</small>
+                <small class="blink someclass blink" style="display: none;color: #00a150" id="blink_new_verif">Image verification, please wait ..</small> 
+              </div>
+                      <div class="col-md-1" id="div_check_verif" >
+                        <div  id="verif_verif" style="display:none;">
+                          <i class="feather icon-check-circle" style="color:#1de9b6;font-size:40px;" >
+                          </i>
+                        </div>
+                        <div  id="notverif_verif" style="display:none;">
+                          <i class="feather icon-x-circle" style="color:red;font-size:40px;" >
+                          </i>
+                        </div>
+                      </div>
+              <div class=" col-md-1" id="loader_new_verif" style="display:none;">
+                <div class="loader" ></div>
+              </div>
+            </div>
+          </div>
+          <div class="progress-bar-container" id="loader_add_new_verif" style="width: 100%;display: none">
+            <div class="progress-bar stripes">
+              <span class="progress-bar-inner"></span>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-warning" id="succ_error_verif" style="width: 100%;display: none;height:15PX">Sorry, something went wrong, please try again  !</button>
+          
+          <div class=" col-sm-12 text-center align-middle btn-success text-white w-100 h-25" id="after_verif" style="display:none;">
+          </div>
+
+         
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="clear_verif" data-dismiss="modal">Cancel</button>
+            <button type="button" id="add_single_pic_verif" class="btn btn-primary" disabled> Save</button>
+          </div>
         </div>
       </div>
     </div>
@@ -422,8 +481,8 @@
               </div>
             </div>
             <div class="card-block table-border-style">
-              <div class="table-responsive">
-                <table id="table_id"  class="table table-striped table-bordered dt-responsive nowrap" >
+              <div class="table-responsive col-md-12">
+                <table id="table_id"  class="table table-striped table-bordered dt-responsive nowrap " >
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -434,12 +493,16 @@
                       <th>Age</th>
                       <th>Extn.</th>
                       <th>E-mail</th>
-                      <th></th>
-                      <th></th>
+                      <th>E-mail</th>
+                      <th>Delete</th>
+                      <th>Edit</th>
                     </tr>
                   </thead>
 
                 </table> 
+                <hr>
+                <button type="button" class="btn btn-success" id="succ_del_user" style="width: 100%;display: none">
+                </button>
               </div>
             </div>
           </div>
@@ -465,7 +528,7 @@
 
 
 
-            <button type="button" class="btn btn-success" id="succ" style="width: 100%;display: none" data-toggle="modal" data-target="#exampleModall">
+            <button type="button" class="btn btn-success" id="succ" style="width: 100%;display: none" >
             </button>
           </div> 
         </div> 
@@ -485,7 +548,16 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 <script src="https://www.cssscript.com/demo/material-design-inspired-progress-bar-with-css3-and-pure-js-mprogress-js/mprogress.min.js"></script>
 <script type="text/javascript">
-  var  table = $("#table_id").DataTable ();
+  var Date_Added = JSON.parse("{{Date_Added|escapejs}}");
+  target = "eee";
+  var  table = $("#table_id").DataTable ({
+   "pageLength" : 10,
+   "lengthMenu": [[5, 10, 20, 100,-1], [5, 10, 20, 100,'All']],
+   "columnDefs": [
+   {"className": "dt-center", "targets": [1,2,9,10]}
+   ]
+ });
+
   var users = "{{ users }}".split(',');
   var isverif ="";
   var verif_name = "";
@@ -497,21 +569,22 @@
 
   $(document).ready( function () {
 
-    var rows = "{{ users }}".split(',');
+    var rows = users;
     for (var i = 0; i < rows.length ; i++) {
       table.row.add( [
         rows[i],
+        Date_Added[rows[i]].split(' ')[0],
+        Date_Added[rows[i]].split(' ')[1],
         'Customer Support',
         'New York',
         '27',
-        '2011/01/25',
         '$112,000',
         '4226',
         'd.snider@datatables.net',
         '<i class="feather icon-trash-2 blue" id="'+rows[i]+'" data-toggle="modal" data-target="#exampleModal" style="color:#04a9f5"></i>',
         '<i class="feather icon-edit edit" id="'+rows[i].trimEnd()+'" style="color:#04a9f5;cursor:pointer"></i>',
 
-        ] ).draw( false );
+        ] ).draw( true );
     }
 
   });
@@ -549,6 +622,7 @@
           document.getElementById("blinkk").style.display = "none";
           document.getElementById("loaderr").style.display = "none";
           document.getElementById("imagetext").disabled = false;
+          check_for_name = data["inlist"];
           if (data["duplicated"]=='duplicated') {
             elem.innerHTML = "You have already chosen this image";
             elem.style.color = "Red";
@@ -557,8 +631,7 @@
             document.getElementById("verif").style.display = "none";
             $('#more').css('pointer-events', 'none');
             $('#more').css('opacity', '0.5');
-            $('#remove_img').css('pointer-events', 'auto');
-            $('#remove_img').css('opacity', '1');
+            document.getElementById("sure").style.display = "none";
             document.getElementById("remove_img").style.display = "block";
             document.getElementById("remove_img").disabled = false;
           }
@@ -570,26 +643,28 @@
             document.getElementById("verif").style.display = "none";
             $('#more').css('pointer-events', 'none');
             $('#more').css('opacity', '0.5');
-            $('#remove_img').css('pointer-events', 'auto');
-            $('#remove_img').css('opacity', '1');
+            document.getElementById("sure").style.display = "none";
             document.getElementById("remove_img").style.display = "block";
             document.getElementById("remove_img").disabled = false;
           }
           else if (data["response"]=='Verified'){
+            document.getElementById("sure").style.display = "block";
             if(data["inlist"]!=''){
-              elem.innerHTML = "It seems that this photo belongs to '"+data["inlist"]+"'";
+              name_in_list = data["inlist"];
+              click_here = '<span id="click_here" style="cursor: pointer;color:#14c0f9" >Check again</span> <i class="feather icon-repeat" style="color:#14c0f9;" ></i>'
+              elem.innerHTML = "It seems that this photo belongs to '"+data["inlist"]+"' ! ";
+              document.getElementById("sure").innerHTML = "Are you sure that it's not '"+data["inlist"]+"', "+click_here;
               elem.style.color = "Red";
               isverif = "notok";
               document.getElementById("notverif").style.display = "block";
               document.getElementById("verif").style.display = "none";
               $('#more').css('pointer-events', 'none');
               $('#more').css('opacity', '0.5');
-              $('#remove_img').css('pointer-events', 'auto');
-              $('#remove_img').css('opacity', '1');
+
               document.getElementById("remove_img").style.display = "block";
               document.getElementById("remove_img").disabled = false;
             } else {
-
+              document.getElementById("sure").style.display = "none";
               elem.innerHTML = "Well verified !";
               elem.style.color = "#00a150";
               isverif = "ok";
@@ -600,13 +675,14 @@
               document.getElementById("remove_img").style.display = "block";
               $('#remove_img').css('pointer-events', 'none');
               $('#remove_img').css('opacity', '0.5');
-              $( "#notverif" ).remove; 
+              
               if(verif_name=="ok"){
                 document.getElementById("click").disabled = false;
               }
             }
           }  
           else {
+            document.getElementById("sure").style.display = "none";
             elem.innerHTML = "Please check again,this image contains "+data["response"]+" person";
             elem.style.color = "Red";
             isverif = "notok";
@@ -620,7 +696,288 @@
             $('#more').css('opacity', '0.5');
 
           }
+          $( "#click_here" ).click(function() {
+            document.getElementById("click").disabled = true;
+            document.getElementById("heree").innerHTML = label;
+            document.getElementById("loaderr").style.display = "block";
+            var elem = document.getElementById("after_check");
 
+            document.getElementById("imagetext").disabled = true;
+            document.getElementById("after_check").innerHTML = "";
+            document.getElementById("blinkk").style.display = "block";   
+            document.getElementById("verif").style.display = "none";
+            document.getElementById("notverif").style.display = "none";    
+            document.getElementById("div_check").style.display = "none";
+            document.getElementById("slidedown").style.pointerEvents = 'none';
+            document.getElementById("slidedown").style.opacity = 0.5;
+            $('#remove_img').css('pointer-events', 'none');
+            $('#remove_img').css('opacity', '0.5');
+            $('#sure').css('pointer-events', 'none');
+            $('#sure').css('opacity', '0.5');
+            $.ajax({
+              url: '{% url 'recheck_image' %}',
+              data: {
+                'check_image': label,
+                'inlist_person' : check_for_name,
+              },
+              dataType: 'json',
+              success: function (data) {
+                if(data["response"]=='exist'){
+                  setTimeout(function() {
+                    document.getElementById("slidedown").style.pointerEvents = 'auto';
+                    document.getElementById("slidedown").style.opacity = 1;
+                    document.getElementById("div_check").style.display = "block";
+                    document.getElementById("blinkk").style.display = "none";
+                    document.getElementById("loaderr").style.display = "none";
+                    document.getElementById("imagetext").disabled = false;
+                    $('#sure').css('pointer-events', 'auto');
+                    $('#sure').css('opacity', '1');
+                    document.getElementById("sure").style.display = "none";
+                    elem.innerHTML = "Sorry, it's 100 % sure that it belongs to "+data["inlist_person"]+", please change the picture";
+                    elem.style.color = "red";
+                    isverif = "notok";
+                    $('#more').css('pointer-events', 'none');
+                    $('#more').css('opacity', '0.5');
+                    document.getElementById("verif").style.display = "none";
+                    document.getElementById("notverif").style.display = "block";
+                    document.getElementById("remove_img").style.display = "block";
+                    $('#remove_img').css('pointer-events', 'none');
+                    $('#remove_img').css('opacity', '0.5');
+                  }, 8000); 
+                }
+                else{
+                  setTimeout(function() {
+                  document.getElementById("slidedown").style.pointerEvents = 'auto';
+                  document.getElementById("slidedown").style.opacity = 1;
+                  document.getElementById("div_check").style.display = "block";
+                  document.getElementById("blinkk").style.display = "none";
+                  document.getElementById("loaderr").style.display = "none";
+                  document.getElementById("imagetext").disabled = false;
+                  document.getElementById("notverif").style.display = "block";
+                  click_here = '<span id="click_here" style="cursor: pointer;color:#14c0f9" >Check again</span> <i class="feather icon-repeat" style="color:#14c0f9;" ></i>'
+                  elem.innerHTML = "It seems that this photo belongs to '"+name_in_list+"' ! ";
+                  elem.style.color = "red";
+                  $('#sure').css('pointer-events', 'auto');
+                  $('#sure').css('opacity', '1');
+                  $('#exampleModal_new_verif').modal("show");
+                  document.getElementById("seems").style.display = "block"
+                  document.getElementById("seems").innerHTML = 'It seems that this new person and "'+name_in_list+'" looks very similar to each other, please enter another image to verificate ! ';
+                  }, 4000); 
+                  }
+                  $('#imagetext_new_verif').change(function() { 
+                    var input_val_verif = $(this);
+                    label_new_verif = document.getElementById("imagetext_new_verif").files[0].name;
+                    document.getElementById("add_single_pic_verif").disabled = true;
+                    document.getElementById("clear_verif").disabled = true;
+                    document.getElementById("here_new_verif").innerHTML = label_new_verif;
+                    document.getElementById("loader_new_verif").style.display = "block";
+                    var elem_new_verif = document.getElementById("after_check_new_verif");
+                    $('#exampleModal_new_verif').modal({backdrop: 'static', keyboard: false});
+                    document.getElementById("after_check_new_verif").innerHTML = "";
+                    document.getElementById("blink_new_verif").style.display = "block";
+                    document.getElementById("xx_verif").style.display = "none";
+                    document.getElementById("verif_verif").style.display = "none";
+                    document.getElementById("notverif_verif").style.display = "none";
+                    document.getElementById("div_check_verif").style.display = "none";
+
+                    if (input_val_verif.val() != '') {
+                      $.ajax({  
+                        url: '{% url 'check_single_image_verif' %}',
+                        data: {
+                          'image1': label,
+                          'image2': label_new_verif,
+                          'inlist_person' : check_for_name,
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                          document.getElementById("xx_verif").style.display = "block";
+                          document.getElementById("clear_verif").disabled = false;
+                          document.getElementById("blink_new_verif").style.display = "none";
+                          document.getElementById("loader_new_verif").style.display = "none";
+                          document.getElementById("div_check_verif").style.display = "block";
+
+                          if (data["exist"]=='same') {
+                            document.getElementById("seems").style.display = "block";
+                            document.getElementById("after_verif").style.display = "none";
+                            document.getElementById("add_single_pic_verif").disabled = true;
+                            elem_new_verif.innerHTML = "Please enter a differnet image ,you have already chosen this one.";
+                            elem_new_verif.style.color = "Red";
+                            isverif = "notok";
+                            document.getElementById("verif_verif").style.display = "none";
+                            document.getElementById("notverif_verif").style.display = "block";
+                          }
+
+                          else if(data["response"]=='Unknown') {
+                            document.getElementById("seems").style.display = "block";
+                            document.getElementById("after_verif").style.display = "none";
+                            document.getElementById("add_single_pic_verif").disabled = true;
+                            elem_new_verif.innerHTML = "This image does not belong neither to this new person, nor to "+check_for_name+", Please check again.";
+                            elem_new_verif.style.color = "Red";
+                            document.getElementById("verif_verif").style.display = "none";
+                            document.getElementById("notverif_verif").style.display = "block";
+
+                          }  
+                          else if(data["response"]=='surenotnew'){
+                            document.getElementById("seems").style.display = "block";
+                            document.getElementById("after_verif").style.display = "none";
+                            document.getElementById("add_single_pic_verif").disabled = true;
+                            elem_new_verif.innerHTML = "Sorry, it's 100% sure that also this image belongs to "+check_for_name+", please try another picture";
+                            elem_new_verif.style.color = "Red";
+                            document.getElementById("verif_verif").style.display = "none";
+                            document.getElementById("notverif_verif").style.display = "block";
+                          }
+                          else if (data["response"]=='Verified'){
+                            document.getElementById("seems").style.display = "none";
+                            document.getElementById("add_single_pic_verif").disabled = false;
+                            elem_new_verif.innerHTML = "Well verified !";
+                            elem_new_verif.style.color = "#00a150";
+                            document.getElementById("verif_verif").style.display = "block";
+                            document.getElementById("notverif_verif").style.display = "none";
+                            document.getElementById("after_verif").style.display = "block";
+                            setTimeout(function() {
+                            $('#after_verif').append('<small class="form-text" id="after_verif_text">It seems that this new person and '+check_for_name+' looks very similar to each other, please try later to add more images to each one, to ensure always an excellent accuracy, Tankhs !</small>');
+                          }, 1000);
+                            setTimeout(function() {
+                              $('#after_verif').slideUp('slow');
+                            }, 6000); 
+                          }
+                          else {
+                            document.getElementById("seems").style.display = "block";
+                            document.getElementById("after_verif").style.display = "none";
+                            document.getElementById("add_single_pic_verif").disabled = true;
+                            elem_new_verif.innerHTML = "Please check again,this image contains "+data["num"]+" person";
+                            elem_new_verif.style.color = "Red";
+                            document.getElementById("verif_verif").style.display = "none";
+                            document.getElementById("notverif_verif").style.display = "block";
+                          }},
+                          error: function (data) {
+                            document.getElementById("loader_add_new_verif").style.display = "none";
+                            document.getElementById("blink_new_verif").style.display = "none";
+                            document.getElementById("loader_new_verif").style.display = "none";
+                            document.getElementById("after_check_new_verif").innerHTML = "The image should only contain one person.";
+                            document.getElementById("after_check_new_verif").style.color = "grey";
+                            document.getElementById("imagetext_new_verif").value = "";
+                            document.getElementById("here_new_verif").innerHTML = "";
+                            document.getElementById("clear_verif").disabled = false;
+                            document.getElementById("xx_verif").disabled = false;
+                            document.getElementById("imagetext_new_verif").disabled = false;
+                            document.getElementById("succ_error_verif").style.display = "block";
+
+                            setTimeout(function() {
+                              $('#succ_error_verif').slideUp('slow');
+                            }, 2000); },
+                          });
+                    } 
+                    $( "#add_single_pic_verif" ).click(function() {
+                      const lab = $('#verif_name').val().replace(/\\/g, '/').replace(/.*\//, '').trim().replace(/\s+/g, ' ');
+                      const str = lab.charAt(0).toUpperCase() + lab.slice(1);
+                      var img_list_verif = [];
+                      $( "input[name='imagetext']").each(function() {
+                        if ($(this).val()) {
+                          img_list_verif.push($(this)[0].files[0].name);
+                        }else{
+                          document.getElementById("checked_imagetext").style.display = "none";
+                        }
+                      });
+                      document.getElementById("clear_verif").disabled = true;
+                      document.getElementById("add_single_pic_verif").disabled = true;
+                      document.getElementById("imagetext_new_verif").disabled = true;
+                      document.getElementById("loader_add_new_verif").style.display = "block";
+                      document.getElementById("xx_verif").style.display = "none";
+                      person = name.replace(' ','_');
+                      image = document.getElementById("imagetext_new_verif").files[0].name;
+
+                      $.ajax({
+                        url: '{% url 'add_to_database' %}',
+                        data:{
+                          'path': str,
+                          'img_list': img_list_verif.join(),
+                        },
+                        success: function (data) {
+                          $('#exampleModal_new_verif').modal('hide');  
+                          document.getElementById("loader_add_new_verif").style.display = "none";
+                          document.getElementById("xx_verif").style.display = "block";
+                          document.getElementById("imagetext_new_verif").disabled = false;
+                          document.getElementById("add_single_pic_verif").disabled = false;
+                          document.getElementById("after_check_new_verif").innerHTML = "The image should only contain one person.";
+                          document.getElementById("after_check_new_verif").style.color = "grey"; 
+                          document.getElementById("here_new_verif").innerHTML = "";  
+                          $('#imagetext_new_verif').val(""); 
+                          document.getElementById("imagetext_new_verif").value = "";
+                          $('#slidedown').css('pointer-events', 'auto');
+                          $('#loader_add').css('pointer-events', 'auto');
+                          document.getElementById("verif_name").disabled = false;
+                          document.getElementById("imagetext").disabled = false;
+                          document.getElementById("loader_add").style.display = "none";
+                          document.getElementById("verif").style.display = "none";
+                          document.getElementById("verif_name").value = "";
+                          document.getElementById("heree").innerHTML = "";
+                          document.getElementById("remove_img").style.display = "none";
+                          $("[id*='checked_imagetextt']").remove();
+                          $('#heree').css('pointer-events', 'auto');
+                          $('#heree').css('opacity', '1');
+                          document.getElementById("after_check").innerHTML = "The image should only contain one person.";
+                          document.getElementById("after_check").style.color = "grey";
+                          document.getElementById("imagetext").value = "";
+                          elem.innerHTML = "";
+                          document.getElementById("loader_add").click();
+                          var d = new Date,dateADD = [(d.getMonth()+1).padLeft(),d.getDate().padLeft(),d.getFullYear()].join('/');
+                          timeADD = [d.getHours().padLeft(),d.getMinutes().padLeft(),d.getSeconds().padLeft()].join(':');
+                          name = str.replaceAll('_',' ')+" ";
+                          Date_Added[name] = data['date'].split(' ')[0]+" "+data['date'].split(' ')[1];
+                          table.row.add([
+                            name,
+                            data['date'].split(' ')[0],
+                            data['date'].split(' ')[1],
+                            'Customer Support',
+                            'New York',
+                            '27',
+                            '$112,000',
+                            '4226',
+                            'd.snider@datatables.net',
+                            '<i class="feather icon-trash-2 blue" id="'+name+'" data-toggle="modal" data-target="#exampleModal" style="color:#04a9f5"></i>',
+                            ' <i class="feather icon-edit edit" id="'+str.replaceAll('_',' ').trimEnd()+'" style="color:#04a9f5;cursor:pointer"></i>',
+                            ]).draw( true );
+                          users.push(name);
+                          $( "#show" ).slideUp();
+                        },
+                        error: function (data) {
+                          document.getElementById("loader_add_new_verif").style.display = "none";
+                          document.getElementById("blink_new_verif").style.display = "none";
+                          document.getElementById("loader_new_verif").style.display = "none";
+                          document.getElementById("after_check_new_verif").innerHTML = "The image should only contain one person.";
+                          document.getElementById("after_check_new_verif").style.color = "grey";
+                          document.getElementById("imagetext_new_verif").value = "";
+                          document.getElementById("here_new_verif").innerHTML = "";
+                          document.getElementById("clear_verif").disabled = false;
+                          document.getElementById("xx_verif").disabled = false;
+                          document.getElementById("imagetext_new_verif").disabled = false;
+                          document.getElementById("succ_error_verif").style.display = "block";
+                          $('#erroralert').modal('show');
+                          document.getElementById("table_id").style.opacity = 1 ;
+                          document.getElementById("table_id").style.pointerEvents = 'auto';
+                          document.getElementById("verif_name").disabled = false;
+                          document.getElementById("imagetext").disabled = false;
+                          document.getElementById("loader_add").style.display = "none";
+                          document.getElementById("verif_name").value = "";
+                          document.getElementById("heree").innerHTML = "";
+                          document.getElementById("after_check").innerHTML = "The image should only contain one person.";
+                          document.getElementById("after_check").style.color = "grey";
+                          document.getElementById("imagetext").value = "";
+                          elem.innerHTML = "";
+                          setTimeout(function(){
+                            $('#succ_error_verif').slideUp('slow');
+                          }, 2000); 
+                        },
+                      });
+                    });
+                  });
+              },
+              error: function (data) {
+
+              }
+            });
+          });
         },
         error: function (data) {
           $('#erroralert').modal('show');
@@ -632,10 +989,11 @@
           document.getElementById("heree").innerHTML = "";
           document.getElementById("notverif").style.display = "none";
           document.getElementById("verif").style.display = "none";
-        } 
+        },
       });
-}
-});
+    }
+  });
+
 
 
 $( "#more" ).click(function() {
@@ -651,6 +1009,7 @@ $( "#more" ).click(function() {
   $( "#imagetext" ).attr("id","imagetextt");
   $( "#hhh" ).attr("id","hhhh");
   $( "#heree" ).attr("id","hereee");
+  $( "#sure" ).attr("id","sure")
   $( "#after_check" ).attr("id","after_checkk");
   $( "#loaderr" ).attr("id","loaderrr");
   $( "#blinkk" ).attr("id","blinkkk");
@@ -665,7 +1024,7 @@ $( "#more" ).click(function() {
     <div class="form-group col-md-9"  id="new_person1">\
     <input type="file" id="imagetext" style="cursor: pointer;" accept="image/*" class="imagetext custom-file-input" name="imagetext" >\
     <label class="custom-file-label" for="customFile" id="heree"></label>\
-    <small class="form-text" id="after_check">The image should only contain one person.</small> \
+    <small class="form-text" id="after_check" style="display: inline;">The image should only contain one person.</small>\ <small class="form-text" id="sure" style="display: inline;"></small>\
     <small class="blink someclass blink" style="display: none;color: #00a150" id="blinkk">Image verification, please wait ..</small> \
     </div>\
     <div class="col-md-1" id="div_check" >\
@@ -751,8 +1110,10 @@ $( "#more" ).click(function() {
             document.getElementById("remove_img").disabled = false;
           }
           else if (data["response"]=='Verified'){
+            click_here = '<span id="click_here" style="cursor: pointer;color:#14c0f9" >Click Here</span>'
             if(data["inlist"]!=''){
-              elem.innerHTML = "It seems that this photo belongs to '"+data["inlist"]+"'";
+              elem.innerHTML = "It seems that this photo belongs to '"+data["inlist"]+"' ! , ";
+              document.getElementById("sure").innerHTML = "If you are sure that it's not '"+data["inlist"]+"', "+click_here;
               elem.style.color = "Red";
               isverif = "notok";
               document.getElementById("notverif").style.display = "block";
@@ -775,7 +1136,7 @@ $( "#more" ).click(function() {
               document.getElementById("remove_img").style.display = "block";
               $('#remove_img').css('pointer-events', 'none');
               $('#remove_img').css('opacity', '0.5');
-              $( "#notverif" ).remove; 
+              $( "#notverif" ).remove(); 
               if(verif_name=="ok"){
                 document.getElementById("click").disabled = false;
               }
@@ -795,6 +1156,23 @@ $( "#more" ).click(function() {
             $('#more').css('opacity', '0.5');
 
           }
+          $( "#click_here" ).click(function() {
+            document.getElementById("sure").style.display = "none";
+            elem.innerHTML = "Well verified !";
+            elem.style.color = "#00a150";
+            isverif = "ok";
+            $('#more').css('pointer-events', 'auto');
+            $('#more').css('opacity', '1');
+            document.getElementById("verif").style.display = "block";
+            document.getElementById("notverif").style.display = "none";
+            document.getElementById("remove_img").style.display = "block";
+            $('#remove_img').css('pointer-events', 'none');
+            $('#remove_img').css('opacity', '0.5');
+            $( "#notverif" ).remove; 
+            if(verif_name=="ok"){
+              document.getElementById("click").disabled = false;
+            }
+          });
 
         },
         error: function (data) {
@@ -809,8 +1187,7 @@ $( "#more" ).click(function() {
           document.getElementById("heree").innerHTML = "";
         } 
       });
-}
-
+    }
 });
 
 $('#blinkk').each(function() {
@@ -958,29 +1335,32 @@ $( "#click" ).click(function() {
       document.getElementById("imagetext").value = "";
       elem.innerHTML = "";
       document.getElementById("loader_add").click();
+
       var d = new Date,
       dateADD = [(d.getMonth()+1).padLeft(),
-                 d.getDate().padLeft(),
-                 d.getFullYear()].join('/');
+      d.getDate().padLeft(),
+      d.getFullYear()].join('/');
 
       timeADD = [d.getHours().padLeft(),
-              d.getMinutes().padLeft(),
-              d.getSeconds().padLeft()].join(':');
-
+      d.getMinutes().padLeft(),
+      d.getSeconds().padLeft()].join(':');
+      name = str.replaceAll('_',' ')+" ";
+      Date_Added[name] = data['date'].split(' ')[0]+" "+data['date'].split(' ')[1];
       table.row.add( [
-        str.replaceAll('_',' '),
-        dateADD,
-        timeADD,
+        name,
+        data['date'].split(' ')[0],
+        data['date'].split(' ')[1],
         'Customer Support',
         'New York',
         '27',
+        '$112,000',
         '4226',
         'd.snider@datatables.net',
-        '<i class="feather icon-trash-2 blue" id="'+str.replaceAll('_',' ')+" "+'" data-toggle="modal" data-target="#exampleModal" style="color:#04a9f5"></i>',
+        '<i class="feather icon-trash-2 blue" id="'+name+'" data-toggle="modal" data-target="#exampleModal" style="color:#04a9f5"></i>',
         ' <i class="feather icon-edit edit" id="'+str.replaceAll('_',' ').trimEnd()+'" style="color:#04a9f5;cursor:pointer"></i>',
 
         ] ).draw( true );
-      users.push(str.replaceAll('_',' ')+" ");
+      users.push(name);
       $( "#show" ).slideUp();
     },
     error: function (data) {
@@ -1084,166 +1464,167 @@ $("#table_id").on('click','.edit', function(){
       });
 
       $('#imagetext_new').change(function() { 
-        var input_new = $(this);
-        label_new = document.getElementById("imagetext_new").files[0].name;
+              var input_new = $(this);
+              label_new = document.getElementById("imagetext_new").files[0].name;
 
-        document.getElementById("add_single_pic").disabled = true;
+              document.getElementById("add_single_pic").disabled = true;
+              document.getElementById("clear").disabled = true;
+
+              document.getElementById("here_new").innerHTML = label_new;
+              document.getElementById("loader_new").style.display = "block";
+              var elem_new = document.getElementById("after_check_new");
+
+              $('#exampleModal_new').modal({backdrop: 'static', keyboard: false});
+              document.getElementById("after_check_new").innerHTML = "";
+              document.getElementById("blink_new").style.display = "block";
+              document.getElementById("xx").style.display = "none";
+              if (input_new.val() != '') {
+                $.ajax({  
+
+                  url: '{% url 'check_single_image' %}',
+                  data: {
+                    'inputValue': label_new,
+                    'name_ss': name.replace(' ','_'),
+                  },
+                  dataType: 'json',
+                  success: function (data) {
+                    document.getElementById("xx").style.display = "block";
+                    document.getElementById("clear").disabled = false;
+                    document.getElementById("blink_new").style.display = "none";
+                    document.getElementById("loader_new").style.display = "none";
+
+                    if (data["exist"]=='exist'){
+                      document.getElementById("add_single_pic").disabled = true;
+                      elem_new.innerHTML = "Please check again, "+name+" already has this image in the database";
+                      elem_new.style.color = "Red";
+                    }
+                    else if (data["response"]=='Verified'){
+                      document.getElementById("add_single_pic").disabled = false;
+                      elem_new.innerHTML = "Well verified !";
+                      elem_new.style.color = "#00a150";
+
+
+                    }
+                    else if(data["response"]=='Unknown') {
+                      document.getElementById("add_single_pic").disabled = true;
+                      elem_new.innerHTML = "Please check again,this image does not belong to "+name;
+                      elem_new.style.color = "Red";
+
+                    }  
+                    else if(data["inlist"]!=''){
+                      document.getElementById("add_single_pic").disabled = true;
+                      elem_new.innerHTML = "It seems that this photo belongs to '"+data["inlist"]+"'";
+                      elem_new.style.color = "Red";
+
+                    } else if(data["response"]=='Unknown') {
+                      document.getElementById("add_single_pic").disabled = true;
+                      elem_new.innerHTML = "Please check again,this image does not belong to "+name;
+                      elem_new.style.color = "Red";
+                    }
+                    else {
+                      document.getElementById("add_single_pic").disabled = true;
+                      elem_new.innerHTML = "Please check again,this image contains "+data["num"]+" person";
+                      elem_new.style.color = "Red";
+                    }
+
+                  },
+                  error: function (data) {
+                    document.getElementById("loader_add_new").style.display = "none";
+                    document.getElementById("blink_new").style.display = "none";
+                    document.getElementById("loader_new").style.display = "none";
+                    document.getElementById("after_check_new").innerHTML = "The image should only contain one person.";
+                    document.getElementById("after_check_new").style.color = "grey";
+                    document.getElementById("imagetext_new").value = "";
+                    document.getElementById("here_new").innerHTML = "";
+                    document.getElementById("clear").disabled = false;
+                    document.getElementById("xx").disabled = false;
+                    document.getElementById("imagetext_new").disabled = false;
+                    document.getElementById("succ_error").style.display = "block";
+
+                    setTimeout(function() {
+                      $('#succ_error').slideUp('slow');
+                    }, 2000); 
+                  } 
+                });
+              }   
+        });
+      $( "#add_single_pic" ).click(function() {
         document.getElementById("clear").disabled = true;
-
-        document.getElementById("here_new").innerHTML = label_new;
-        document.getElementById("loader_new").style.display = "block";
-        var elem_new = document.getElementById("after_check_new");
-
-        $('#exampleModal_new').modal({backdrop: 'static', keyboard: false});
-        document.getElementById("after_check_new").innerHTML = "";
-        document.getElementById("blink_new").style.display = "block";
+        document.getElementById("add_single_pic").disabled = true;
+        document.getElementById("imagetext_new").disabled = true;
+        document.getElementById("loader_add_new").style.display = "block";
         document.getElementById("xx").style.display = "none";
-        if (input_new.val() != '') {
-          $.ajax({  
+        person = name.replace(' ','_');
+        image = document.getElementById("imagetext_new").files[0].name;
+        $.ajax({
+          url: '{% url 'add_single_image' %}',
+          data:{
+            'person': person,
+            'image' : image,     
+          },
+          dataType: 'json',
+          success: function (data) {
+            document.getElementById("loader_add_new").style.display = "none";
+            document.getElementById("xx").style.display = "block";
+            document.getElementById("imagetext_new").disabled = false;
+            document.getElementById("add_single_pic").disabled = false;
+            document.getElementById("after_check_new").innerHTML = "The image should only contain one person.";
+            document.getElementById("after_check_new").style.color = "grey"; 
+            document.getElementById("here_new").innerHTML = "";  
+            $('#imagetext_new').val(""); 
+            $('#exampleModal_new').modal('hide');  
+            var iii = "{% static DATABASE_DIR %}";
+            $('<span id="replace" class="col-xl-4"><div class="card"><div class="card-header" "><h5>Picture '+(parseInt(data["number"]))+'</h5><i style="font-size:20px;color: #04a9f5;cursor: pointer;" class="float-right feather kk icon-trash-2 del_pic" data-toggle="modal" data-target="#exampleModalll" id="'+data["id"]+'"></i></div><div class="card-block"><div id="sdf"><img        src='+iii+person+'/'+person+'_00'+data["number"]+'.'+data["ext"]+' style="height:300px;width:300px" id="mlm"></div></div></div></span>').insertBefore(document.getElementById("plus"));
+            document.getElementById("succ").innerHTML = 'The image has been added successfully! ';
 
-            url: '{% url 'check_single_image' %}',
-            data: {
-              'inputValue': label_new,
-              'name_ss': name.replace(' ','_'),
-            },
-            dataType: 'json',
-            success: function (data) {
-              document.getElementById("xx").style.display = "block";
-              document.getElementById("clear").disabled = false;
-              document.getElementById("blink_new").style.display = "none";
-              document.getElementById("loader_new").style.display = "none";
-
-              if (data["exist"]=='exist'){
-                document.getElementById("add_single_pic").disabled = true;
-                elem_new.innerHTML = "Please check again, "+name+" already has this image in the database";
-                elem_new.style.color = "Red";
+            document.getElementById("succ").style.display = "block";
+            setTimeout(function() {
+              $('#succ').slideUp('slow');
+            }, 3000); 
+            $.ajax({
+              url: '{% url 'check_length' %}',
+              data:{
+                'check_length': person
+              },
+              dataType: 'json',
+              success: function (data) {
+                if (parseInt(data['length'])==1) {
+                  $('.kk').css('pointer-events', 'none');
+                  $('.kk').css('opacity', '0.5');
+                }else{
+                  $('.kk').css('pointer-events', 'auto');
+                  $('.kk').css('opacity', '1');
+                }
               }
-              else if (data["response"]=='Verified'){
-                document.getElementById("add_single_pic").disabled = false;
-                elem_new.innerHTML = "Well verified !";
-                elem_new.style.color = "#00a150";
+            });
+            document.getElementById("imagetext_new").value = "";
+          },
+          error: function (data) {
 
+            document.getElementById("loader_add_new").style.display = "none";
+            document.getElementById("blink_new").style.display = "none";
+            document.getElementById("loader_new").style.display = "none";
+            document.getElementById("after_check_new").innerHTML = "The image should only contain one person.";
+            document.getElementById("after_check_new").style.color = "grey";
+            document.getElementById("imagetext_new").value = "";
+            document.getElementById("here_new").innerHTML = "";
+            document.getElementById("clear").disabled = false;
+            document.getElementById("xx").disabled = false;
+            document.getElementById("imagetext_new").disabled = false;
+            document.getElementById("succ_error").style.display = "block";
 
-              }
-              else if(data["response"]=='Unknown') {
-                document.getElementById("add_single_pic").disabled = true;
-                elem_new.innerHTML = "Please check again,this image does not belong to "+name;
-                elem_new.style.color = "Red";
+            setTimeout(function() {
+              $('#succ_error').slideUp('slow');
+            }, 2000); 
 
-              }  
-              else if(data["inlist"]!=''){
-                document.getElementById("add_single_pic").disabled = true;
-                elem_new.innerHTML = "It seems that this photo belongs to '"+data["inlist"]+"'";
-                elem_new.style.color = "Red";
-
-              } else if(data["response"]=='Unknown') {
-                document.getElementById("add_single_pic").disabled = true;
-                elem_new.innerHTML = "Please check again,this image does not belong to "+name;
-                elem_new.style.color = "Red";
-              }
-              else {
-                document.getElementById("add_single_pic").disabled = true;
-                elem_new.innerHTML = "Please check again,this image contains "+data["num"]+" person";
-                elem_new.style.color = "Red";
-              }
-            },
-            error: function (data) {
-              document.getElementById("loader_add_new").style.display = "none";
-              document.getElementById("blink_new").style.display = "none";
-              document.getElementById("loader_new").style.display = "none";
-              document.getElementById("after_check_new").innerHTML = "The image should only contain one person.";
-              document.getElementById("after_check_new").style.color = "grey";
-              document.getElementById("imagetext_new").value = "";
-              document.getElementById("here_new").innerHTML = "";
-              document.getElementById("clear").disabled = false;
-              document.getElementById("xx").disabled = false;
-              document.getElementById("imagetext_new").disabled = false;
-              document.getElementById("succ_error").style.display = "block";
-
-              setTimeout(function() {
-                $('#succ_error').slideUp('slow');
-              }, 2000); 
-            } 
-          });
-        }   
+          } 
+        });
       });
-$( "#add_single_pic" ).click(function() {
-  document.getElementById("clear").disabled = true;
-  document.getElementById("add_single_pic").disabled = true;
-  document.getElementById("imagetext_new").disabled = true;
-  document.getElementById("loader_add_new").style.display = "block";
-  document.getElementById("xx").style.display = "none";
-  person = name.replace(' ','_');
-  image = document.getElementById("imagetext_new").files[0].name;
-  $.ajax({
-    url: '{% url 'add_single_image' %}',
-    data:{
-      'person': person,
-      'image' : image,     
-    },
-    dataType: 'json',
-    success: function (data) {
-      document.getElementById("loader_add_new").style.display = "none";
-      document.getElementById("xx").style.display = "block";
-      document.getElementById("imagetext_new").disabled = false;
-      document.getElementById("add_single_pic").disabled = false;
-      document.getElementById("after_check_new").innerHTML = "The image should only contain one person.";
-      document.getElementById("after_check_new").style.color = "grey"; 
-      document.getElementById("here_new").innerHTML = "";  
-      $('#imagetext_new').val(""); 
-      $('#exampleModal_new').modal('hide');  
-      var iii = "{% static DATABASE_DIR %}";
-      $('<span id="replace" class="col-xl-4"><div class="card"><div class="card-header" "><h5>Picture '+(parseInt(data["number"]))+'</h5><i style="font-size:20px;color: #04a9f5;cursor: pointer;" class="float-right feather kk icon-trash-2 del_pic" data-toggle="modal" data-target="#exampleModalll" id="'+data["id"]+'"></i></div><div class="card-block"><div id="sdf"><img        src='+iii+person+'/'+person+'_00'+data["number"]+'.'+data["ext"]+' style="height:300px;width:300px" id="mlm"></div></div></div></span>').insertBefore(document.getElementById("plus"));
-      document.getElementById("succ").innerHTML = 'The image has been added successfully! ';
-
-      document.getElementById("succ").style.display = "block";
-      setTimeout(function() {
-        $('#succ').slideUp('slow');
-      }, 3000); 
-      $.ajax({
-        url: '{% url 'check_length' %}',
-        data:{
-          'check_length': person
-        },
-        dataType: 'json',
-        success: function (data) {
-          if (parseInt(data['length'])==1) {
-            $('.kk').css('pointer-events', 'none');
-            $('.kk').css('opacity', '0.5');
-          }else{
-            $('.kk').css('pointer-events', 'auto');
-            $('.kk').css('opacity', '1');
-          }
-        }
-      });
-      document.getElementById("imagetext_new").value = "";
     },
     error: function (data) {
-
-      document.getElementById("loader_add_new").style.display = "none";
-      document.getElementById("blink_new").style.display = "none";
-      document.getElementById("loader_new").style.display = "none";
-      document.getElementById("after_check_new").innerHTML = "The image should only contain one person.";
-      document.getElementById("after_check_new").style.color = "grey";
-      document.getElementById("imagetext_new").value = "";
-      document.getElementById("here_new").innerHTML = "";
-      document.getElementById("clear").disabled = false;
-      document.getElementById("xx").disabled = false;
-      document.getElementById("imagetext_new").disabled = false;
-      document.getElementById("succ_error").style.display = "block";
-
-      setTimeout(function() {
-        $('#succ_error').slideUp('slow');
-      }, 2000); 
-
+    document.getElementById("edit_result").style.display = "none";
     } 
   });
-});
-},
-error: function (data) {
-  document.getElementById("edit_result").style.display = "none";
-}
-});
 }); 
 
 
@@ -1258,7 +1639,14 @@ $("#table_id").on('click','.blue', function(){
         'type':'all_image'
       },
       dataType: 'json',
-      success: function (data) {},
+      success: function (data) {
+        document.getElementById("succ_del_user").innerHTML = 'The user "'+data["name"].replaceAll('_',' ')+'" has been deleted successfully!';
+        $("#succ_del_user").slideDown();
+        setTimeout(function() {
+
+          $("#succ_del_user").slideUp();
+        }, 3000); 
+      },
       error: function (data) {
         $('#erroralert').modal('show');
       }
@@ -1266,7 +1654,9 @@ $("#table_id").on('click','.blue', function(){
     $('#exampleModal').modal('hide');
     table.row( thiss.parents('tr') ).remove().draw();
     const i = users.indexOf(jj);
-    users.splice(i, 1)
+    users.splice(i, 1);
+    $("#verif_name").keyup();
+    $("#imagetext").change();
   });  
 });  
 
@@ -1290,6 +1680,27 @@ $('#blink_adding').each(function() {
     }    
   }, 500);
 });
+$('#blink_new').each(function() {
+  var elem = $(this);
+  setInterval(function() {
+    if (elem.css('visibility') == 'hidden') {
+      elem.css('visibility', 'visible');
+    } else {
+      elem.css('visibility', 'hidden');
+    }    
+  }, 500);
+});
+
+$('#blink_new_verif').each(function() {
+  var elem = $(this);
+  setInterval(function() {
+    if (elem.css('visibility') == 'hidden') {
+      elem.css('visibility', 'visible');
+    } else {
+      elem.css('visibility', 'hidden');
+    }    
+  }, 500);
+});
 
 $( "#confirm" ).click(function() {
   $('#exampleModall').modal('hide');
@@ -1300,6 +1711,7 @@ $( "#slidedown" ).click(function() {
     $( "#show" ).slideUp();
   }else{
     $( "#show" ).slideDown();
+    $('html, body').animate({scrollTop: $('[id=top]').offset().top }, 'slow');
   }
 }); 
 
@@ -1322,6 +1734,18 @@ $( "#clear" ).click(function() {
   document.getElementById("after_check_new").style.color = "grey";
   document.getElementById("imagetext_new").value = "";
   document.getElementById("blink_new").style.display = "none";
+});
+
+$( "#clear_verif" ).click(function() {
+  document.getElementById("add_single_pic_verif").disabled = true;
+  document.getElementById("loader_new_verif").style.display = "none";
+  document.getElementById("here_new_verif").innerHTML = "";
+  document.getElementById("after_check_new_verif").innerHTML = "The image should only contain one person.";
+  document.getElementById("after_check_new_verif").style.color = "grey";
+  document.getElementById("imagetext_new_verif").value = "";
+  document.getElementById("blink_new_verif").style.display = "none";
+  document.getElementById("verif_verif").style.display = "none";
+  document.getElementById("notverif_verif").style.display = "none";
 });
 
 $( "#xx" ).click(function() {

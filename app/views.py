@@ -2,7 +2,7 @@
 """ 
 Copyright (c) 2019 - present AppSeed.us   
 """
-
+ 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
@@ -33,12 +33,19 @@ from django.http import JsonResponse
 import shutil
 import os
 from django.template.defaulttags import register
-from core.settings import DATABASE_IMG,NN4_SMALL2,APP,DATABASE_DIR,FILES
+from core.settings import DATABASE_IMG,NN4_SMALL2,APP,DATABASE_DIR,FILES,DATABASE_DATE_ADDED
+from datetime import datetime
+from django.core.serializers.json import DjangoJSONEncoder
+
 
 
 modele_OpenFace = faceRecoModel(input_shape=(3,96,96))
 modele_OpenFace.load_weights(NN4_SMALL2)
 face_dictionnaire = np.load(DATABASE_IMG, allow_pickle= True ).item()
+
+Date_Added =  np.load(DATABASE_DATE_ADDED, allow_pickle= True ).item()
+
+
 
 pred = set()
 liste_person = []
@@ -48,7 +55,6 @@ for (name, encodes) in face_dictionnaire.items():
     label = ''.join([i for i in name if not i.isdigit()])
     label = label.replace('_',' ')
     label = label.replace('-','')
-    #print(label)
     liste_person.append(label)
 liste_person = set(liste_person) 
 
@@ -59,7 +65,7 @@ dict_range = {10:50 ,20:40 ,30:20 ,40:15 ,50:10,60:9,70:8 ,80:5 ,90:1 ,100:0}
 def index(request):
  
     context = {}
-    context['segment'] = 'index'
+    context['segment'] = 'index' 
 
     html_template = loader.get_template( 'index.html' )
     return HttpResponse(html_template.render(context, request))
@@ -76,8 +82,10 @@ def pages(request):
         if load_template=='Advanced-video-processing.html':
             context['liste_person'] = ','.join(liste_person)
         elif load_template == 'Database-Management.html':
+            dataJSON = json.dumps(Date_Added, indent=4, sort_keys=True, default=str) 
             context['users'] = ','.join(liste_person) 
             context['DATABASE_DIR'] = DATABASE_DIR
+            context['Date_Added'] = dataJSON
         else:
             pass
         html_template = loader.get_template( load_template )
@@ -115,9 +123,6 @@ def Advanced_video_processing(request):
         rang = request.POST.get('range')
         num_image = request.POST.get('numImage')
         Time = request.POST.get('time')
-
-
-        print("num_image",num_image)
         person = ""
         ll = FILES+media
         image = cv2.imread(ll)
@@ -132,7 +137,6 @@ def Advanced_video_processing(request):
         cap = cv2.VideoCapture(FILES+media)
         time_start = time.time()
         target = dict_range[int(rang)]
-        print("target",target)
         counter = 0  
         list_img=[]
         list_name=[]
@@ -142,7 +146,6 @@ def Advanced_video_processing(request):
         size = 0
         if new_person_image :
             person = new_person_name.replace("_"," ")
-            print(person)
 
             output = generate_database_person(FILES+new_person_image,new_person_image,modele_OpenFace, augmentations=3)
         elif Person:
@@ -213,7 +216,6 @@ def Advanced_video_processing(request):
 
                     if person or new_person_image:
                         if person in face_out[1].keys():
-                            #print("---------------------------",int(hours),":",int(minutes),":",int(seconds))
                             list_img = u'data:img/'+ext+';base64,'+data64.decode('utf-8')
                             list_name = [*face_out[1].keys()]
                             dict_name[list_img] = list_name
@@ -242,8 +244,6 @@ def Advanced_video_processing(request):
                 if (num_image=='one') and (person in liste):
                     break
 
-        print(person in liste)
-        print(num_image)
 
         cap.release()
         cv2.destroyAllWindows() 
@@ -254,35 +254,36 @@ def Advanced_video_processing(request):
             pass 
         time_end = time.time() 
         extension = "image" if ext in ["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"] else "video"
-        print('Total run time: %.2f s' %((time_end-time_start))) 
         size = len(myset)
         return render(request, 'Advanced-video-processing.html',{"dict_name":dict_name,"dict_time":dict_time,"msg":msg,"extension":extension,"Person":person,"len":size,"liste_person":','.join(liste_person)})
-    except :
+    except : 
         return render(request, 'Advanced-video-processing.html',{"liste_person":','.join(liste_person)})
 
-
-
-def video_names(request):
-    mylist = ','.join([str(i) for i in pred])     
+def video_names(request): 
+    mylist = ','.join([str(i) for i in pred])       
     return HttpResponse(mylist)    
-    
-def delete_from_db(request): 
+     
+def delete_from_db(request):  
     try: 
-        type_del = request.GET.get('type')
+        type_del = request.GET.get('type')       
         name = request.GET.get('person_name')
-        print('--------------------'+name.replace(' ','_')+"------------")  
 
         for key in list(face_dictionnaire.keys()):   
             if name in key:
                 del face_dictionnaire[key]
                 np.save(DATABASE_IMG, face_dictionnaire) 
+ 
+        del Date_Added[name.replace('_',' ')]
+        
         if type_del== 'all_image':
+            np.save(DATABASE_DATE_ADDED, Date_Added)
             if name.replace('_',' ') in liste_person:
                 liste_person.remove(name.replace('_',' ')) 
+                
                 shutil.rmtree(DATABASE_DIR+name.replace(' ','_')[0:-1])
         else:
             os.remove(DATABASE_DIR+name[0:-4]+"\\"+name+"."+request.GET.get('ext'))
-        data = {'name':name}
+        data = {'name':name.replace('_',' ')[0:-1]}
         stat = 200
     except:
         stat = 400
@@ -314,12 +315,12 @@ def add_single_image(request):
         data = {'number':number,'ext':image.split('.')[1],'id':image_name}
         stat = 200
     except:
-        stat = 400
+        stat = 400  
         data = {'error':'error'}
     return JsonResponse(data, status=stat)
       
 
-def add_to_database(request):
+def add_to_database(request):   
     try:
         path = request.GET.get('path').replace(' ','_')
         img_list = request.GET.get('img_list').split(",")
@@ -328,17 +329,20 @@ def add_to_database(request):
             new_path = DATABASE_DIR+path+"\\"+i
 
             if not os.path.exists(DATABASE_DIR+path):
-                os.makedirs(DATABASE_DIR+path)
+                os.makedirs(DATABASE_DIR+path) 
             shutil.copyfile(FILES+i, new_path)
             os.rename(new_path,DATABASE_DIR+path+"\\"+path+"_00"+str(j)+"."+i.split('.')[1])
             j+=1
-
+        
         new_dict = generate_database_for_dict(DATABASE_DIR+path+"\\", modele_OpenFace, augmentations=3) 
         face_dictionnaire.update({key:value for key, value in new_dict.items()})
         np.save(DATABASE_IMG, face_dictionnaire)
         path = path.replace('_',' ')
         liste_person.add(path+" ")
-        data = {'path':path}
+        date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        Date_Added.update({path+' ': date})
+        np.save(DATABASE_DATE_ADDED, Date_Added)
+        data = {'path':path,'date':date}
         stat = 200
     except:
         stat = 400
@@ -406,7 +410,68 @@ def check_imagee(request):
         data = {'error':'error'}
     return JsonResponse(data, status=stat)
 
-  
+def check_single_image_verif(request):
+    stat = 200
+    image1 = (FILES+request.GET.get('image1'))
+    image2 = (FILES+request.GET.get('image2'))
+    inlist_person = request.GET.get('inlist_person').replace(' ','_')[0:-1]
+    
+    import_img1 = importer_image(image1)
+    import_img2 = importer_image(image2)
+    img = cv2.imread(image2)
+    num = get_num_from_image(img)
+    im_a = Image.open(image2)
+    im_A = np.array(im_a)
+    im_b = Image.open(image1)
+    im_B = np.array(im_b) 
+    if num == 1:
+        if np.array_equal(im_A,im_B):
+            data = {'response':'',"exist":"same","num":""}
+            #houni y9ollou nafss taswira nik omek hadhi  -_-
+        else:
+            dict_1 = generate_database_person(image1,"New_person_001-0",modele_OpenFace, augmentations=3)
+            for key,value in face_dictionnaire.items():   
+                if inlist_person in key:
+                    dict_1[key] = value
+
+            face_out = face_recognition_image(import_img2, modele_OpenFace, dict_1, plot=True, faces_out=True)
+            if 'Unknown' in list(face_out[1].keys())[0]:
+                data = {'response':'Unknown',"exist":"","num":""} 
+                # houni y9oulou taswira jdida la tchabah l titi la l ahmed -_-
+            else:
+                if inlist_person.replace('_',' ')+" " in list(face_out[1].keys())[0]:
+                    data = {'response':'surenotnew',"exist":"","num":""}
+                    # houni y9oulou barra nik omek yezzi bla 9o7b mta3ek,mta3 ahmed zeda hadhi w ysaker l modal -_-  
+                else:
+                    # wajdi c bon , donc taw y9ollou verified w ki y7ot save yetsajel b les 2 image w jawou bahi
+                    data = {'response':'Verified',"exist":"","num":""}
+    else:
+        data = {'response':"","exist":"","num":num}
+    return JsonResponse(data, status=stat)
+
+def recheck_image(request):
+    try:
+        stat = 200
+        check_image = (FILES+request.GET.get('check_image'))
+        inlist_person = request.GET.get('inlist_person').replace(' ','_')[0:-1]
+        im = Image.open(check_image)
+        im_A = np.array(im)
+        print(inlist_person)
+        for i in os.listdir(DATABASE_DIR+inlist_person):
+            if np.array_equal(im_A,np.array(Image.open(DATABASE_DIR+inlist_person+"\\"+i))):
+                verif = "exist" 
+                break 
+            else:
+                verif = "not exist"
+
+        if verif == "exist":
+            data = {'response':'exist','inlist_person':inlist_person.replace('_',' ')} 
+        else:
+            data = {'response':'notExist','inlist_person':inlist_person.replace('_',' ')} 
+    except:
+        stat = 400
+        data = {'error':'error'}
+    return JsonResponse(data, status=stat)
 
 def check_single_image(request):
     try:

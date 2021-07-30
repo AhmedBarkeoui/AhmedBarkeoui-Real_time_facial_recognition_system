@@ -124,12 +124,8 @@ def generate_database(dirpath, modele_OpenFace, augmentations=4, output_name='da
 
 
 def generate_database_person(root,name, modele_OpenFace, augmentations=3):
-    print(name)
-    print(root)
     encoded_database = {}
     target_name = name.split('.')[0].replace(" ","")
-    print("file_path",root)
-    print("file_path/",target_name+"/")
     image = importer_image(root)
     operations = augmentations+1
     for i in range(operations):
@@ -170,3 +166,4 @@ def generate_database_for_dict(dirpath, modele_OpenFace, augmentations=11):
                 encoded_database[this_name] = face_encoding
                 
     return encoded_database
+

@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Page Blank {% endblock %} 
+{% block title %} Advanced-video-processing {% endblock %} 
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
@@ -152,7 +152,17 @@
     animation: auto-progress 1.5s infinite linear;
   }
 
+
+  .zoom:hover {
+    transform: scale(1.8); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    z-index: 2;
+    position: relative; /* or absolute */
+    top: 50%;
+    left: 12%;
+    border: 2px solid #1de9b6;
+  }
 </style>
+
 {% endblock stylesheets %}
 
 {% block content %}
@@ -225,9 +235,12 @@
                         {% endfor %}
 
                       </div>
-                      <div class="card-block">
+                      <div class="card-block ">
                         <div id="morris-area-curved-chart" style="height:400px">
-                          <img  src="{{key}}" style="height:400px;width:320px">
+                          <div class="img-zoom-container">
+                            <img  src="{{key}}" id="myimage" class="zoom" style="height:400px;width:320px;cursor: zoom-in;">
+                            
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -257,8 +270,6 @@
     </div>
     <!  -- [ Main Content ] end -->
     <!-- [ breadcrumb ] end -->
-
-
     <div class="row" id="main-body">
       <div class="col-sm-12">
         <div class="card">    
@@ -353,19 +364,19 @@
                               <h4 class="mt-5">Results</h4>
                               <hr>
                               <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio"  style="cursor: pointer" value="one" id="customRadioInline2" name="numImage" class="custom-control-input" checked>
-                                <label class="custom-control-label" for="customRadioInline2 " style="cursor: pointer">    Display only the first image</label>
+                                <input type="radio"  value="one" id="customRadioInline2" name="numImage" class="custom-control-input" checked>
+                                <label class="custom-control-label" for="customRadioInline2" id="customRadioInline22"  style="cursor: pointer;">    Display only the first image</label>
                               </div>
                               <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" value="all" id="customRadioInline1" name="numImage" class="custom-control-input" >
-                                <label class="custom-control-label" for="customRadioInline1" >    Display all images founded</label>
+                                <input type="radio"  value="all" id="customRadioInline1" name="numImage" class="custom-control-input" >
+                                <label class="custom-control-label" for="customRadioInline1" id="customRadioInline11" style="cursor: pointer">    Display all images founded</label>
                               </div>
 
                               <h4 class="mt-5">Time in video</h4>
                               <hr>
                               <div class="custom-control custom-checkbox">
                                 <input name="time" type="checkbox" class="custom-control-input" id="customCheck1">&nbsp;&nbsp;
-                                <label class="custom-control-label" for="customCheck1">    Display the exact time in video</label>
+                                <label class="custom-control-label" for="customCheck1" id="customCheck11" style="cursor: pointer">    Display the exact time in video</label>
                               </div>
                             </div>
                             <div class="col-md-6">
@@ -387,7 +398,10 @@
                     </div>
                   </div>
                   <hr>
-                  <button id='loading' type="button" class="btn btn-square btn-info" style="width:100%;margin-left:1%;display:none;margin-top:30px;cursor: default">it will take a while, please wait <span class="someclass blink">( Loading... )</span></button>
+                  <span class="row justify-content-center" >
+                  <button id='loading' type="button" class="btn btn-square btn-info" style="width:100%;margin-left:1%;display:none;margin-top:30px;cursor: default">it will take a while, please wait <span class="someclass blink">( Loading... )</span>
+                  </button>
+                </span>
                 </form>
               </div>
             </div>
@@ -418,6 +432,7 @@
 
 {% block javascripts %}
 <script type="text/javascript">
+
   const list_ext = ["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"]
   var slider = document.getElementById("myRange");
   var output = document.getElementById("demo");
@@ -472,31 +487,53 @@
     document.getElementById("loader").style.display = "none";
     document.getElementById("loading").style.display = "block";
     document.getElementById("loader").style.display = "block";
-    document.getElementById("NoPerson").style.display = "none";
-
+    if ($( "#NoPerson" ).length) {
+      document.getElementById("NoPerson").style.display = "none";
+    }
+    
   });
+
   $( "#other" ).change(function() {
     var input = $(this),
     numFiles = input.get(0).files ? input.get(0).files.length : 1,
     label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    if (["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"].includes(label.split('.')[1])) {
-
+    if (list_ext.includes(label.split('.')[1])) {
       $("#exampleFormControlSelect1").val(1).change();
       document.getElementById("exampleFormControlSelect1").disabled = true;
+      document.getElementById("exampleFormControlSelect1").style.cursor= "not-allowed";
+      document.getElementById("exampleFormControlSelect1").title= "not-allowed";
+
+      document.getElementById("customRadioInline2").disabled = true;
+      document.getElementById("customRadioInline22").style.cursor= "not-allowed";
+      document.getElementById("customRadioInline22").title= "not-allowed";
+
+      document.getElementById("customRadioInline1").disabled = true;
+      document.getElementById("customRadioInline11").style.cursor= "not-allowed";
+      document.getElementById("customRadioInline11").title= "not-allowed";
+
+      document.getElementById("customCheck1").disabled = true;
+      document.getElementById("customCheck11").style.cursor= "not-allowed";
+      document.getElementById("customCheck11").title= "not-allowed";
+
     }else{
       document.getElementById("exampleFormControlSelect1").disabled = false;
+      document.getElementById("exampleFormControlSelect1").style.cursor= "pointer";
+      document.getElementById("exampleFormControlSelect1").title= "";
+
+      document.getElementById("customRadioInline2").disabled = false;
+      document.getElementById("customRadioInline22").style.cursor= "pointer";
+      document.getElementById("customRadioInline22").title= "";
+
+      document.getElementById("customRadioInline1").disabled = false;
+      document.getElementById("customRadioInline11").style.cursor= "pointer";
+      document.getElementById("customRadioInline11").title= "";
+
+      document.getElementById("customCheck1").disabled = false;
+      document.getElementById("customCheck11").style.cursor= "pointer";
+      document.getElementById("customCheck11").title= "";
     }
     document.getElementById("here").innerHTML = label;
-    if (list_ext.includes(label.split('.')[1])) {
-      document.getElementById("customRadioInline2").disabled = "block";
-      document.getElementById("customRadioInline1").disabled = "block";
-      document.getElementById("customCheck1").disabled = "block";
-    }
-    else{
-      document.getElementById("customRadioInline2").disabled = false;
-      document.getElementById("customRadioInline1").disabled = false;
-      document.getElementById("customCheck1").disabled = false;
-    }
+
     if(label != ""){
       document.getElementById("click").style.display = "block";
       document.getElementById("exampleFormControlSelect1").style.display = "block";
@@ -514,7 +551,9 @@
     }
     document.getElementById("person").style.display = "block";
     document.getElementById("person1").style.display = "block";
-    document.getElementById("result").style.display = "none";
+    if ($( "#result" ).length) {
+      document.getElementById("result").style.display = "none";
+    }
 
   });
 
@@ -607,7 +646,7 @@
     else{
       $("#op").css('color','black');
       $("#op1").css('color','#04a9f5');
-      document.getElementById("click").disabled = "block";
+      document.getElementById("click").disabled = true;
       document.getElementById("warning").style.display = "block";
       document.getElementById("db").style.display = "block";
     }
@@ -662,6 +701,7 @@
       }
     });
   });
+
   $( "#settings_btn" ).click(function() {
     $('html, body').animate({scrollTop: $('[id=click]').offset().top }, 'slow');
   });

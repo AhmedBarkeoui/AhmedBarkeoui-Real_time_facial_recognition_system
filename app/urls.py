@@ -35,7 +35,10 @@ urlpatterns = [
     
     path('check_single_image', views.check_single_image, name='check_single_image'),
     
-
+    path('recheck_image', views.recheck_image, name='recheck_image'),
+    
+    path('check_single_image_verif', views.check_single_image_verif, name='check_single_image_verif'),
+    
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
    
