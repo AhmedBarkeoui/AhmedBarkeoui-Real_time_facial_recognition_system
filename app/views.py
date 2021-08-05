@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 """ 
 Copyright (c) 2019 - present AppSeed.us   
-"""
+""" 
  
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
@@ -273,7 +273,8 @@ def delete_from_db(request):
                 del face_dictionnaire[key]
                 np.save(DATABASE_IMG, face_dictionnaire) 
  
-        del Date_Added[name.replace('_',' ')]
+        if name.replace('_',' ') in Date_Added.keys():
+            del Date_Added[name.replace('_',' ')]
         
         if type_del== 'all_image':
             np.save(DATABASE_DATE_ADDED, Date_Added)
@@ -325,7 +326,7 @@ def add_to_database(request):
         path = request.GET.get('path').replace(' ','_')
         img_list = request.GET.get('img_list').split(",")
         j =1
-        for i in img_list:
+        for i in set(img_list):
             new_path = DATABASE_DIR+path+"\\"+i
 
             if not os.path.exists(DATABASE_DIR+path):
@@ -373,41 +374,48 @@ def check_image(request):
     return JsonResponse(data, status=stat)
 
 def check_imagee(request):
-    try:
+    if True:
         stat = 200
         image_path = FILES+request.GET.get('inputValue')
         img = cv2.imread(image_path)
         import_img = importer_image(image_path)
-        num = get_num_from_image(img)
+        num = get_num_from_image(img) 
         if num != 1:
             data = {'response':num,"inlist":"","duplicated":""}
         elif request.GET.get('img_list'):
+            database = face_dictionnaire.copy() 
             for i in request.GET.get('img_list').split(","):
                 if np.array_equal(np.array(Image.open(image_path)),np.array(Image.open(FILES+i))):
-                    data =  {'response':'',"inlist":"","duplicated":"duplicated"}
+                    exist = "ok"
                     break
                 else: 
-                    check = request.GET.get('img_list').split(",")[0]
-                    face_outt1 = generate_database_person(FILES+check,check,modele_OpenFace, augmentations=3)
-                    face_outt2 = face_recognition_image(import_img, modele_OpenFace, face_outt1, plot=True, faces_out=True)
-                    if 'Unknown' not in list(face_outt2[1].keys()):
+                    exist = "not"
+            i = 0
+            if exist=="ok":
+                data =  {'response':'',"inlist":"","duplicated":"duplicated"}
+            else:
+                check = request.GET.get('img_list').split(",")[0]
+                face_outt1 = generate_database_person(FILES+check,"New_person_001",modele_OpenFace, augmentations=3)
+                for key,value in face_outt1.items():   
+                    database[key] = value
+
+                face_outt2 = face_recognition_image(import_img, modele_OpenFace, database, plot=True, faces_out=True)
+                if 'Unknown' in list(face_outt2[1].keys()):
+                    data = {'response':'',"inlist":"","duplicated":"notVerified"}
+                else:
+                    print(list(face_outt2[1].keys())[0])
+                    if "New person " == list(face_outt2[1].keys())[0]:
                         data = {'response':'Verified',"inlist":"","duplicated":""}
-                        break
                     else:
-                        face_out = face_recognition_image(import_img, modele_OpenFace, face_dictionnaire, plot=True, faces_out=True)
-                        if 'Unknown' in list(face_out[1].keys()):
-                            data = {'response':'',"inlist":"","duplicated":"notVerified"}
-                        else:
-                            data = {'response':'Verified','inlist':str(list(face_out[1].keys())[0]),"duplicated":""}
+                        data = {'response':'Verified','inlist':str(list(face_outt2[1].keys())[0]),"duplicated":""}     
+            database = {}
         else:
             face_out = face_recognition_image(import_img, modele_OpenFace, face_dictionnaire, plot=True, faces_out=True)
             if 'Unknown' in list(face_out[1].keys()):
                 data = {'response':'Verified',"inlist":"","duplicated":""}
             else:
                 data = {'response':'Verified','inlist':str(list(face_out[1].keys())[0]),"duplicated":""}
-    except:
-        stat = 400
-        data = {'error':'error'}
+
     return JsonResponse(data, status=stat)
 
 def check_single_image_verif(request):
@@ -429,7 +437,7 @@ def check_single_image_verif(request):
             data = {'response':'',"exist":"same","num":""}
             #houni y9ollou nafss taswira nik omek hadhi  -_-
         else:
-            dict_1 = generate_database_person(image1,"New_person_001-0",modele_OpenFace, augmentations=3)
+            dict_1 = generate_database_person(image1,"New_person_001",modele_OpenFace, augmentations=3)
             for key,value in face_dictionnaire.items():   
                 if inlist_person in key:
                     dict_1[key] = value
@@ -456,7 +464,6 @@ def recheck_image(request):
         inlist_person = request.GET.get('inlist_person').replace(' ','_')[0:-1]
         im = Image.open(check_image)
         im_A = np.array(im)
-        print(inlist_person)
         for i in os.listdir(DATABASE_DIR+inlist_person):
             if np.array_equal(im_A,np.array(Image.open(DATABASE_DIR+inlist_person+"\\"+i))):
                 verif = "exist" 
