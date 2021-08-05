@@ -83,7 +83,7 @@ def apply_transform(image, num_transform=2):
         output_image = avail_transforms[operation](output_image)
     return output_image
 
-def generate_database(dirpath, modele_OpenFace, augmentations=4, output_name='database.npy'):
+def generate_database(dirpath, modele_OpenFace, augmentations=9, output_name='database.npy'):
     '''
     Generate the database to store all the encoding for the face recognition model
     
@@ -123,7 +123,7 @@ def generate_database(dirpath, modele_OpenFace, augmentations=4, output_name='da
     
 
 
-def generate_database_person(root,name, modele_OpenFace, augmentations=3):
+def generate_database_person(root,name, modele_OpenFace, augmentations=9):
     encoded_database = {}
     target_name = name.split('.')[0].replace(" ","")
     image = importer_image(root)
@@ -143,7 +143,7 @@ def generate_database_person(root,name, modele_OpenFace, augmentations=3):
                 
     return encoded_database
 
-def generate_database_for_dict(dirpath, modele_OpenFace, augmentations=11):
+def generate_database_for_dict(dirpath, modele_OpenFace, augmentations=9):
    
     encoded_database = {}
     for root, dirs, files in os.walk(dirpath):

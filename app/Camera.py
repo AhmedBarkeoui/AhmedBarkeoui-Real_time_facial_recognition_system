@@ -15,6 +15,7 @@ from app.face_recognition import *
 from app.database import *
 from app.alignement import AlignDlib
 from app.inception_blocks import *
+import collections
 import urllib
 from core.settings import DATABASE_IMG,NN4_SMALL2,APP,DATABASE_DIR,FILES
 
@@ -22,6 +23,8 @@ from core.settings import DATABASE_IMG,NN4_SMALL2,APP,DATABASE_DIR,FILES
 modele_OpenFace = faceRecoModel(input_shape=(3,96,96))
 modele_OpenFace.load_weights(NN4_SMALL2)
 face_dictionnaire = np.load(DATABASE_IMG, allow_pickle= True ).item()
+face_dictionnaire = collections.OrderedDict(sorted(face_dictionnaire.items()))
+
 
 
 

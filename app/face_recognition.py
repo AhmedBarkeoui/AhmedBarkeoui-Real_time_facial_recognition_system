@@ -313,7 +313,46 @@ def person_name(image, modele_OpenFace, database, threshold=None, bb=None):
             Label of the person in the image
     '''
     if threshold==None:
-        threshold = 0.7
+        threshold = 0.8
+    embedding = image_encoding(image, modele_OpenFace, bb=bb)
+    min_dist = 100.
+    identity = None
+    for (name, encodes) in database.items():
+        dist = np.linalg.norm(encodes-embedding)
+        if dist < min_dist:
+            identity = name
+            min_dist = dist
+    
+    if min_dist > threshold:
+        label = 'Unknown'
+    else:
+        label = identity
+        label = ''.join([i for i in identity if not i.isdigit()])
+        label = label.replace('_',' ')
+        label = label.replace('-','')
+    
+    return label, min_dist
+
+def person_name_stream(image, modele_OpenFace, database, threshold=None, bb=None):
+    '''
+    Return name of the person in the image
+    
+    Arguments:
+    ---------
+        image:
+            Image numpy array of type uint8
+        modele_OpenFace:
+            face recognition model
+        database:
+            Database that stores all the label
+        
+    Returns:
+    --------
+        label:
+            Label of the person in the image
+    '''
+    if threshold==None:
+        threshold = 0.6
     embedding = image_encoding(image, modele_OpenFace, bb=bb)
     min_dist = 100.
     identity = None
@@ -367,6 +406,8 @@ def face_recognition(image, modele_OpenFace, database, threshold=None, plot=True
         bb = face_pos[i]
         x,y,w,h = bb.left(), bb.top(), bb.width(), bb.height()
         label, min_dist = person_name(image, modele_OpenFace, database, threshold=threshold, bb=bb)
+        print('label',label)
+        print('min_dist',min_dist)
         output_faces[label] = faces[i]
         '''
         plt.text(x, y, label, size=10, color='white',
@@ -401,6 +442,8 @@ def face_recognition_image(image, modele_OpenFace, database, threshold=None, plo
         bb = face_pos[i]
         x,y,w,h = bb.left(), bb.top(), bb.width(), bb.height()
         label, min_dist = person_name(image, modele_OpenFace, database, threshold=threshold, bb=bb)
+        print('label',label)
+        print('min_dist',min_dist)
         output_faces[label] = faces[i]
         '''
         plt.text(x, y, label, size=10, color='white',
@@ -432,7 +475,7 @@ def face_recognition_stream(image, modele_OpenFace, database, threshold=None, pl
     for i in range(len(face_pos)):
         bb = face_pos[i]
         x,y,w,h = bb.left(), bb.top(), bb.width(), bb.height()
-        label, min_dist = person_name(image, modele_OpenFace, database, threshold=threshold, bb=bb)
+        label, min_dist = person_name_stream(image, modele_OpenFace, database, threshold=threshold, bb=bb)
         output_faces[label] = faces[i]
         liste_faces.add(label)
         '''

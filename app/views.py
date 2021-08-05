@@ -17,6 +17,7 @@ import json
 import time
 import cv2
 import numpy as np
+import collections
 from PIL import Image
 from app.face_recognition import *
 from app.database import *
@@ -42,6 +43,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 modele_OpenFace = faceRecoModel(input_shape=(3,96,96))
 modele_OpenFace.load_weights(NN4_SMALL2)
 face_dictionnaire = np.load(DATABASE_IMG, allow_pickle= True ).item()
+face_dictionnaire = collections.OrderedDict(sorted(face_dictionnaire.items()))
 
 Date_Added =  np.load(DATABASE_DATE_ADDED, allow_pickle= True ).item()
 
@@ -146,8 +148,13 @@ def Advanced_video_processing(request):
         size = 0
         if new_person_image :
             person = new_person_name.replace("_"," ")
-
-            output = generate_database_person(FILES+new_person_image,new_person_image,modele_OpenFace, augmentations=3)
+            a = ""
+            while a != 'ok':
+                try:
+                    output = generate_database_person(FILES+new_person_image,new_person_image,modele_OpenFace, augmentations=3)
+                    a = 'ok'
+                except:
+                    a = 'notok'
         elif Person:
             person = Person
             output = face_dictionnaire
@@ -267,11 +274,12 @@ def delete_from_db(request):
     try: 
         type_del = request.GET.get('type')       
         name = request.GET.get('person_name')
-
+        
         for key in list(face_dictionnaire.keys()):   
             if name in key:
                 del face_dictionnaire[key]
-                np.save(DATABASE_IMG, face_dictionnaire) 
+                face_dictionnaire_ordred = collections.OrderedDict(sorted(face_dictionnaire.items()))
+                np.save(DATABASE_IMG, face_dictionnaire_ordred) 
  
         if name.replace('_',' ') in Date_Added.keys():
             del Date_Added[name.replace('_',' ')]
@@ -309,15 +317,23 @@ def add_single_image(request):
         image_name = person+'_00'+str(number)+'.'+image.split('.')[1]
         new_path = DATABASE_DIR+person+"\\"+image_name
         shutil.copyfile(FILES+image, new_path)
-
-        output = generate_database_person(DATABASE_DIR+person+"\\"+image_name,image_name,modele_OpenFace, augmentations=3)
-        face_dictionnaire[str(list(output.keys())[0])] = list(face_dictionnaire.values())[0]
-        np.save(DATABASE_IMG, face_dictionnaire)
+        a = ""
+        while a != 'ok':
+            try:
+                output = generate_database_person(DATABASE_DIR+person+"\\"+image_name,image_name,modele_OpenFace, augmentations=3)
+                a = 'ok'
+            except:
+                a = 'notok'
+        for key,value in output.items():   
+            face_dictionnaire[key] = value
+        face_dictionnaire_ordred = collections.OrderedDict(sorted(face_dictionnaire.items()))
+        np.save(DATABASE_IMG, face_dictionnaire_ordred)
         data = {'number':number,'ext':image.split('.')[1],'id':image_name}
         stat = 200
     except:
-        stat = 400  
+        stat = 400
         data = {'error':'error'}
+        
     return JsonResponse(data, status=stat)
       
 
@@ -325,8 +341,9 @@ def add_to_database(request):
     try:
         path = request.GET.get('path').replace(' ','_')
         img_list = request.GET.get('img_list').split(",")
+        print(img_list)
         j =1
-        for i in set(img_list):
+        for i in img_list:
             new_path = DATABASE_DIR+path+"\\"+i
 
             if not os.path.exists(DATABASE_DIR+path):
@@ -335,9 +352,16 @@ def add_to_database(request):
             os.rename(new_path,DATABASE_DIR+path+"\\"+path+"_00"+str(j)+"."+i.split('.')[1])
             j+=1
         
-        new_dict = generate_database_for_dict(DATABASE_DIR+path+"\\", modele_OpenFace, augmentations=3) 
+        a = ""
+        while a != 'ok':
+            try:
+                new_dict = generate_database_for_dict(DATABASE_DIR+path+"\\", modele_OpenFace, augmentations=3) 
+                a = 'ok'
+            except:
+                a = 'notok'
         face_dictionnaire.update({key:value for key, value in new_dict.items()})
-        np.save(DATABASE_IMG, face_dictionnaire)
+        face_dictionnaire_ordred = collections.OrderedDict(sorted(face_dictionnaire.items()))
+        np.save(DATABASE_IMG, face_dictionnaire_ordred)
         path = path.replace('_',' ')
         liste_person.add(path+" ")
         date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -353,7 +377,7 @@ def add_to_database(request):
 
 
 def check_image(request):
-    try:
+    if True:
         image_path = (FILES+request.GET.get('inputValue'))
         img = cv2.imread(image_path)
         import_img = importer_image(image_path)
@@ -368,9 +392,7 @@ def check_image(request):
         else:
             data = {'response':num,"inlist":""}
         stat = 200
-    except:
-        stat = 400
-        data = {'error':'error'}
+
     return JsonResponse(data, status=stat)
 
 def check_imagee(request):
@@ -395,7 +417,13 @@ def check_imagee(request):
                 data =  {'response':'',"inlist":"","duplicated":"duplicated"}
             else:
                 check = request.GET.get('img_list').split(",")[0]
-                face_outt1 = generate_database_person(FILES+check,"New_person_001",modele_OpenFace, augmentations=3)
+                a = ""
+                while a != 'ok':
+                    try:
+                        face_outt1 = generate_database_person(FILES+check,"New_person_001",modele_OpenFace, augmentations=3)
+                        a = 'ok'
+                    except:
+                        a = 'notok'
                 for key,value in face_outt1.items():   
                     database[key] = value
 
@@ -437,7 +465,13 @@ def check_single_image_verif(request):
             data = {'response':'',"exist":"same","num":""}
             #houni y9ollou nafss taswira nik omek hadhi  -_-
         else:
-            dict_1 = generate_database_person(image1,"New_person_001",modele_OpenFace, augmentations=3)
+            a = ""
+            while a != 'ok':
+                try:
+                    dict_1 = generate_database_person(image1,"New_person_001",modele_OpenFace, augmentations=3)
+                    a = 'ok'
+                except:
+                    a = 'notok'
             for key,value in face_dictionnaire.items():   
                 if inlist_person in key:
                     dict_1[key] = value
