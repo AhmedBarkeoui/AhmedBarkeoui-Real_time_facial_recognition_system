@@ -161,6 +161,55 @@
     left: 12%;
     border: 2px solid #1de9b6;
   }
+
+input[type=time] {
+  border: none;
+  color: #f2f4f5;
+  font-size: 16px;
+  font-family: helvetica;
+  width: 280px;
+}
+
+/* Wrapper around the hour, minute, second, and am/pm fields as well as 
+the up and down buttons and the 'X' button */
+input[type=time]::-webkit-datetime-edit-fields-wrapper {
+  display: flex;
+}
+
+/* The space between the fields - between hour and minute, the minute and 
+second, second and am/pm */
+input[type=time]::-webkit-datetime-edit-text {
+  padding: 15px 10px;
+}
+
+/* The naming convention for the hour, minute, second, and am/pm field is
+`-webkit-datetime-edit-{field}-field` */
+
+/* Hour */
+input[type=time]::-webkit-datetime-edit-hour-field {
+  background-color: #3ebfea;
+  border-radius: 15%;
+  padding: 19px 13px;
+}
+
+/* Minute */
+input[type=time]::-webkit-datetime-edit-minute-field {
+  background-color: #3ebfea;
+  border-radius: 15%;
+  padding: 19px 13px;
+}
+
+/* Seconds */
+input[type=time]::-webkit-datetime-edit-second-field {
+  background-color: #3ebfea;
+  border-radius: 15%;
+  padding: 19px 13px;
+
+}
+
+
+
+
 </style>
 
 {% endblock stylesheets %}
@@ -360,6 +409,27 @@
                       <div class="collapse" id="collapseExample">
                         <div class="card-body">
                           <div class="row">
+                            
+                              <div class="col-md-12" id="time_video1">
+                                <h4 class="mt-5">Set the time interval in the video <code>( Optional )</code> </h4>
+                                <hr>
+                              </div>
+                              <div class="col-md-6" id="time_video2">
+                                <div style="text-align: center;">
+                                  Start Time : <input  id="time_start" name="time_start" class="custom-control custom-control-inline" type="time" step='1' min="" max="" value="00:00:00" style="cursor: pointer;">
+                                  <i class="feather icon-x-circle" style="cursor:pointer;font-size: 20px;" id="clear_time_start" ></i>
+                                </div>
+                              </div>
+                              <div class="col-md-6" id="time_video3">
+                                <div style="text-align: center;">
+                                  End Time : <input id="time_end" name="time_end" class="custom-control custom-control-inline" style="cursor: pointer;" type="time" step='1' min="" max="" value="">
+                                  <i class="feather icon-x-circle" style="cursor:pointer;font-size: 20px;" id="clear_time_end" ></i>
+                                </div>
+                              </div>
+                              <div class="col-md-12" id="time_video4">
+                                <hr>
+                              </div>
+                           
                             <div class="col-md-6">
                               <h4 class="mt-5">Results</h4>
                               <hr>
@@ -372,7 +442,7 @@
                                 <label class="custom-control-label" for="customRadioInline1" id="customRadioInline11" style="cursor: pointer">    Display all images founded</label>
                               </div>
 
-                              <h4 class="mt-5">Time in video</h4>
+                              <h4 class="mt-5">Show specific time of results</h4>
                               <hr>
                               <div class="custom-control custom-checkbox">
                                 <input name="time" type="checkbox" class="custom-control-input" id="customCheck1">&nbsp;&nbsp;
@@ -386,8 +456,6 @@
                               <input type="range" class="custom-range" min="10" max="100" step="10" id="myRange" value="50" name=range >
 
                               <label id="slide" for="customRange3" style="color:green;">Value : <span id="demo"></span> %  <span style="color:#cc0000;" id="alert"></span></label>
-
-
                             </div>
                           </div>
                         </div>
@@ -432,7 +500,7 @@
 
 {% block javascripts %}
 <script type="text/javascript">
-
+  
   const list_ext = ["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"]
   var slider = document.getElementById("myRange");
   var output = document.getElementById("demo");
@@ -493,10 +561,35 @@
     
   });
 
+  $( "#clear_time_start" ).click(function() {
+    $( "#time_start" ).val('00:00:00');
+  });
+
+  $( "#clear_time_end" ).click(function() {
+    $( "#time_end" ).val($( "#time_end" ).attr('max'));
+  });
+
+  $( "#time_start" ).change(function() {
+    var max = $(this).attr('max');
+    var min = $(this).attr('min');
+    if ($(this).val() > max){
+      $(this).val(max);
+    }
+  });
+
+  $( "#time_end" ).change(function() {
+    var max = $(this).attr('max');
+    var min = $(this).attr('min');
+    if ($(this).val() > max){
+      $(this).val(max);
+    }
+  });
+  
   $( "#other" ).change(function() {
     var input = $(this),
     numFiles = input.get(0).files ? input.get(0).files.length : 1,
     label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+
     if (list_ext.includes(label.split('.')[1])) {
       $("#exampleFormControlSelect1").val(1).change();
       document.getElementById("exampleFormControlSelect1").disabled = true;
@@ -514,6 +607,10 @@
       document.getElementById("customCheck1").disabled = true;
       document.getElementById("customCheck11").style.cursor= "not-allowed";
       document.getElementById("customCheck11").title= "not-allowed";
+      document.getElementById("time_video1").style.display = "none";
+      document.getElementById("time_video2").style.display = "none";
+      document.getElementById("time_video3").style.display = "none";
+      document.getElementById("time_video4").style.display = "none";
 
     }else{
       document.getElementById("exampleFormControlSelect1").disabled = false;
@@ -531,6 +628,26 @@
       document.getElementById("customCheck1").disabled = false;
       document.getElementById("customCheck11").style.cursor= "pointer";
       document.getElementById("customCheck11").title= "";
+      document.getElementById("time_video1").style.display = "block";
+      document.getElementById("time_video2").style.display = "block";
+      document.getElementById("time_video3").style.display = "block";
+      document.getElementById("time_video4").style.display = "block";
+
+      
+      $.ajax({
+        url: '{% url 'video_length' %}',
+        data:{
+          'label': label,
+        },
+        success: function (data) {
+          start_max = data.split(':')[0]+":"+data.split(':')[1]+":"+(parseInt(data.split(':')[2])-1).toString().padStart(2, '0');
+          $('#time_start').attr('max',start_max);
+          $('#time_end').attr('max',data);
+          $("#time_end").val( data );
+
+        },
+
+    });
     }
     document.getElementById("here").innerHTML = label;
 
@@ -705,5 +822,8 @@
   $( "#settings_btn" ).click(function() {
     $('html, body').animate({scrollTop: $('[id=click]').offset().top }, 'slow');
   });
+
+
+
 </script>
 {% endblock javascripts %}

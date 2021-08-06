@@ -39,6 +39,8 @@ urlpatterns = [
     
     path('check_single_image_verif', views.check_single_image_verif, name='check_single_image_verif'),
     
+    path('video_length', views.video_length, name='video_length'),
+    
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
    

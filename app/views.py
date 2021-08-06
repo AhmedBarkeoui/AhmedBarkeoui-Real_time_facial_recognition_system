@@ -125,6 +125,14 @@ def Advanced_video_processing(request):
         rang = request.POST.get('range')
         num_image = request.POST.get('numImage')
         Time = request.POST.get('time')
+        time_start = request.POST.get('time_start')
+        time_end = request.POST.get('time_end')
+        print(time_start)
+        print(time_end)
+        time_start_miliseconds = int(3600000 * int(time_start.split(":")[0]) + 60000 * int(time_start.split(":")[1]) + 1000 * int(time_start.split(":")[2]))
+        time_end_miliseconds = int(3600000 * int(time_end.split(":")[0]) + 60000 * int(time_end.split(":")[1]) + 1000 * int(time_end.split(":")[2]))
+        print(time_start_miliseconds)
+        print(time_end_miliseconds)
         person = ""
         ll = FILES+media
         image = cv2.imread(ll)
@@ -190,8 +198,8 @@ def Advanced_video_processing(request):
 
 
         else:
-
-            while(cap.isOpened()):  
+            cap.set(cv2.CAP_PROP_POS_MSEC,time_start_miliseconds)
+            while cap.get(cv2.CAP_PROP_POS_MSEC) <= time_end_miliseconds:
                 if counter == target:      
                     flag,frame = cap.read()      
                     if flag == False:    
@@ -306,6 +314,29 @@ def check_length(request):
     name = request.GET.get('check_length') 
     img_list = os.listdir(DATABASE_DIR+name) 
     return HttpResponse(len(img_list))
+
+
+
+def video_length(request):
+    print("hello");
+    print(FILES+request.GET.get('label'));
+    cap = cv2. VideoCapture(FILES+request.GET.get('label')) 
+    fps = cap. get(cv2. CAP_PROP_FPS)
+    frame_count = int(cap. get(cv2. CAP_PROP_FRAME_COUNT))
+    seconds = int(frame_count/fps)+1
+    minutes = 0
+    hours = 0
+    if seconds >= 60:
+        minutes = seconds//60
+        seconds = seconds % 60
+    
+    if minutes >= 60:
+        hours = minutes//60
+        minutes = minutes % 60 
+        str(hours).zfill(2)
+    duration = str(hours).zfill(2)+':'+str(minutes).zfill(2)+':'+str(seconds).zfill(2)
+    print(duration)
+    return HttpResponse(duration)
  
 def add_single_image(request):
     try:
