@@ -575,6 +575,11 @@ input[type=time]::-webkit-datetime-edit-second-field {
     if ($(this).val() > max){
       $(this).val(max);
     }
+
+    if ($(this).val() > $( "#time_end" ).val()){
+      maxx = $( "#time_end" ).val()
+      $(this).val(maxx.split(':')[0]+":"+maxx.split(':')[1]+":"+(parseInt(maxx.split(':')[2])-1).toString().padStart(2, '0'));
+    }
   });
 
   $( "#time_end" ).change(function() {
@@ -582,6 +587,10 @@ input[type=time]::-webkit-datetime-edit-second-field {
     var min = $(this).attr('min');
     if ($(this).val() > max){
       $(this).val(max);
+    }
+    if ($(this).val() < $( "#time_start" ).val()){
+      maxx = $( "#time_start" ).val()
+      $(this).val(maxx.split(':')[0]+":"+maxx.split(':')[1]+":"+(parseInt(maxx.split(':')[2])+1).toString().padStart(2, '0'));
     }
   });
   

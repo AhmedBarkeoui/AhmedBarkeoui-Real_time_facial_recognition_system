@@ -235,7 +235,7 @@ def Advanced_video_processing(request):
                             list_name = [*face_out[1].keys()]
                             dict_name[list_img] = list_name
                             if Time == "on" :
-                                dict_time[list_img] = str(int(hours))+":"+str(int(minutes))+":"+str(int(seconds))
+                                dict_time[list_img] = str(int(hours)).zfill(2)+":"+str(int(minutes)).zfill(2)+":"+str(int(seconds)).zfill(2)
                             else:
                                 pass
                             msg=None
@@ -247,7 +247,7 @@ def Advanced_video_processing(request):
                         list_name = [*face_out[1].keys()]
                         dict_name[list_img] = list_name
                         if Time == "on" :
-                            dict_time[list_img] = str(int(hours))+":"+str(int(minutes))+":"+str(int(seconds))
+                            dict_time[list_img] = str(int(hours)).zfill(2)+":"+str(int(minutes)).zfill(2)+":"+str(int(seconds)).zfill(2)
                         else:
                             pass
                         msg=None        
