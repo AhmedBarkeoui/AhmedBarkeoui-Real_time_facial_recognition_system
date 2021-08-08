@@ -1354,12 +1354,12 @@ $('#verif_name').keyup(function() {
   const users_check = users.map(users => users.toUpperCase().replace(/ /g, ''));
   const val = $(this).val().trim().replace(/\s+/g, ' ');
   const str = val.charAt(0).toUpperCase() + val.toLowerCase().slice(1);
-  var letterNumber = /^[a-zA-Z0-9 _]+$/;
+  var letterNumber = /^[a-zA-Z ]+$/;
 
   label_img = $('#imagetext').val().replace(/\\/g, '/').replace(/.*\//, '').replace(/\s+/g, ' ');
   var elem = document.getElementById("per");
   if(!val.match(letterNumber)) {
-    elem.innerHTML = "Only numbers and letters are required";
+    elem.innerHTML = "Only letters are required";
     elem.style.color = "Red";
     verif_name="";
   }
@@ -1380,7 +1380,7 @@ $('#verif_name').keyup(function() {
           }else
           document.getElementById("click").disabled = true;
         }else{
-          document.getElementById("click").disabled = false;
+          document.getElementById("click").disabled = true;
         }
       }
       else{

@@ -129,16 +129,17 @@ def Advanced_video_processing(request):
         time_end = request.POST.get('time_end')
         print(time_start)
         print(time_end)
-        time_start_miliseconds = int(3600000 * int(time_start.split(":")[0]) + 60000 * int(time_start.split(":")[1]) + 1000 * int(time_start.split(":")[2]))
-        time_end_miliseconds = int(3600000 * int(time_end.split(":")[0]) + 60000 * int(time_end.split(":")[1]) + 1000 * int(time_end.split(":")[2]))
-        print(time_start_miliseconds)
-        print(time_end_miliseconds)
+        if time_end:
+            time_start_miliseconds = int(3600000 * int(time_start.split(":")[0]) + 60000 * int(time_start.split(":")[1]) + 1000 * int(time_start.split(":")[2]))
+            time_end_miliseconds = int(3600000 * int(time_end.split(":")[0]) + 60000 * int(time_end.split(":")[1]) + 1000 * int(time_end.split(":")[2]))
+            print(time_start_miliseconds)
+            print(time_end_miliseconds)
         person = ""
         ll = FILES+media
         image = cv2.imread(ll)
         if request.POST.get('imagetext') :
             new_person_image = request.POST.get('imagetext') 
-            new_person_name  = new_person_image.split('.')[0]
+            new_person_name  = request.POST.get('nametext') 
         else :
             new_person_image = ""
             new_person_name = ""
@@ -153,13 +154,14 @@ def Advanced_video_processing(request):
         dict_name={}
         dict_time={}
         msg=None 
-        size = 0
+        size = 0 
         if new_person_image :
             person = new_person_name.replace("_"," ")
             a = ""
             while a != 'ok':
                 try:
-                    output = generate_database_person(FILES+new_person_image,new_person_image,modele_OpenFace, augmentations=3)
+                    print("here",new_person_name)
+                    output = generate_database_person(FILES+new_person_image,new_person_name.replace(" ","_"),modele_OpenFace, augmentations=3)
                     a = 'ok'
                 except:
                     a = 'notok'
@@ -447,11 +449,16 @@ def check_imagee(request):
             if exist=="ok":
                 data =  {'response':'',"inlist":"","duplicated":"duplicated"}
             else:
-                check = request.GET.get('img_list').split(",")[0]
+                #check = request.GET.get('img_list').split(",")[0]
                 a = ""
                 while a != 'ok':
                     try:
-                        face_outt1 = generate_database_person(FILES+check,"New_person_001",modele_OpenFace, augmentations=3)
+                        i=1
+                        for j in request.GET.get('img_list').split(","):
+                            face_outt1 = generate_database_person(FILES+j,"New_person_00"+str(i),modele_OpenFace, augmentations=3)
+                            i+=1
+                            for key,value in face_outt1.items():   
+                                database[key] = value
                         a = 'ok'
                     except:
                         a = 'notok'

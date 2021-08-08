@@ -229,7 +229,8 @@ input[type=time]::-webkit-datetime-edit-second-field {
             </div>
             <ul class="breadcrumb">
               <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
-              <li class="breadcrumb-item"><a href="javascript:">Video processing</a></li>
+              <li class="breadcrumb-item"><a href="#!">Video processing</a></li>
+              <li class="breadcrumb-item"><a href="javascript:"></a></li>
             </ul>
           </div>
         </div>
@@ -369,18 +370,22 @@ input[type=time]::-webkit-datetime-edit-second-field {
 
                       </div>
 
-                      <div class="form-group col-md-2" id="new_person">
-                        <input type="text" id="bb" class="form-control" name="nametext" placeholder="Enter the person name" disabled>
-                        <small class="form-text justify-content-center"  ></small>
-                      </div>
-                      <div class="breadcrumb-item col-md-1 " id="verif" style="display:none;">
+                      
+                      <div class="col-md-1 " id="verif" style="display:none;">
                         <i class="feather icon-check-circle" style="color:#1de9b6;font-size:40px;" ></i>
                       </div>
                       <div class="col-md-1" id="notverif" style="display:none;">
-                        <i class="feather icon-x-circle" style="color:red;font-size:40px;" ></i>
-
+                        <i class="feather icon-x-circle"  style="color:red;font-size:40px;" ></i>
                       </div>
-                      <div class="loader" id="loaderr" style="display:none;"></div>
+                      <div class="col-md-1" id="loaderr" style="display:none;">
+                        <div class="loader"></div>
+                      </div>
+                      <div class="form-group col-md-2" id="new_person">
+                        <input type="text" id="bb" class="form-control" style="height:37px" name="nametext" placeholder="Enter the person name">
+                        <small class="form-text justify-content-center" id="bbb" ></small>
+                      </div>
+
+                      
 
                       <div class="row justify-content-center" >
 
@@ -504,6 +509,8 @@ input[type=time]::-webkit-datetime-edit-second-field {
   const list_ext = ["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"]
   var slider = document.getElementById("myRange");
   var output = document.getElementById("demo");
+  var verif_name = "" ;
+  var isverif = "" ;
   output.innerHTML = slider.value;
 
   slider.oninput = function() {
@@ -558,7 +565,6 @@ input[type=time]::-webkit-datetime-edit-second-field {
     if ($( "#NoPerson" ).length) {
       document.getElementById("NoPerson").style.display = "none";
     }
-    
   });
 
   $( "#clear_time_start" ).click(function() {
@@ -653,6 +659,7 @@ input[type=time]::-webkit-datetime-edit-second-field {
           $('#time_start').attr('max',start_max);
           $('#time_end').attr('max',data);
           $("#time_end").val( data );
+          $("#time_start").val("00:00:00");
 
         },
 
@@ -690,14 +697,6 @@ input[type=time]::-webkit-datetime-edit-second-field {
     document.getElementById("click").style.display = "none";
   }
 
-
-  $( "#imagetext" ).change(function() {
-    var input = $(this),
-    numFiles = input.get(0).files ? input.get(0).files.length : 1,
-    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    document.getElementById("heree").innerHTML = label;
-    document.getElementById("bb").value = label.split('.')[0];;
-  });
 
   var person_list = "{{ liste_person }}".split(',');
   for (var i = 0, l = person_list.length; i < l; i++) {
@@ -793,7 +792,6 @@ input[type=time]::-webkit-datetime-edit-second-field {
     numFiles = input.get(0).files ? input.get(0).files.length : 1,
     label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
     document.getElementById("heree").innerHTML = label;
-    document.getElementById("bb").value = label.split('.')[0];
     document.getElementById("verif").style.display = "none";
     document.getElementById("notverif").style.display = "none";
     document.getElementById("loaderr").style.display = "block";
@@ -808,24 +806,68 @@ input[type=time]::-webkit-datetime-edit-second-field {
       success: function (data) {
         document.getElementById("loaderr").style.display = "none";
         if (data["response"]=='Verified'){
+          if (verif_name=="ok") {
           document.getElementById("click").disabled = false;
+        }else{
+          document.getElementById("click").disabled = true;
+        }
           document.getElementById("verif").style.display = "block";
           document.getElementById("notverif").style.display = "none";
           elem.innerHTML = "Well verified";
           elem.style.color = "#1de9b6";
+          isverif = "ok";
         }  
         else{
           document.getElementById("heree").innerHTML = "";
           document.getElementById("bb").value = "";
+          document.getElementById("bbb").value = "";
           document.getElementById("notverif").style.display = "block";
           document.getElementById("verif").style.display = "none";
 
           elem.innerHTML = "Please check again,this image contains "+data["response"]+" person";
           elem.style.color = "Red";
-
+          isverif = "notok";
         }
       }
     });
+  });
+
+  $('#bb').keyup(function() {
+    const val = $(this).val().trim().replace(/\s+/g, ' ');
+    const str = val.charAt(0).toUpperCase() + val.toLowerCase().slice(1);
+    var letterNumber = /^[a-zA-Z ]+$/;
+
+    if(!val.match(letterNumber)) {
+      document.getElementById("bbb").innerHTML = "Only letters are required";
+      document.getElementById("bbb").style.color = "Red";
+      document.getElementById("click").disabled = true;
+      verif_name="not verif";
+    }
+    else{
+      if (str.split(' ')[1]) {
+        document.getElementById("bbb").innerHTML = "'"+str.trimStart()+"'";
+        document.getElementById("bbb").style.color = "#00a150";
+        verif_name="ok";
+        if ($( "#imagetext" ).val()) {
+          if(isverif =="ok"){
+            document.getElementById("click").disabled = false;
+          }else
+            document.getElementById("click").disabled = true;
+        }else
+        {
+            document.getElementById("click").disabled = true;
+        }
+      }   
+      else{
+        document.getElementById("bbb").innerHTML = "You must put both the first and last name !";
+        document.getElementById("bbb").style.color = "Red";
+        document.getElementById("click").disabled = true;
+        verif_name="notok";
+      }
+    }
+    if(str=="") {
+      document.getElementById("bbb").innerHTML ="";
+    }
   });
 
   $( "#settings_btn" ).click(function() {
