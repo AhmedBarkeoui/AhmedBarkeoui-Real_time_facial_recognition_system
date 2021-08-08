@@ -1088,6 +1088,8 @@ $(document).on('click','#more',function(){
     document.getElementById("slidedown").style.opacity = 0.5;
     $('#remove_img').css('pointer-events', 'none');
     $('#remove_img').css('opacity', '0.5');
+    $('#remove_imgg').css('pointer-events', 'none');
+    $('#remove_imgg').css('opacity', '0.5');
 
     $( "input[id='imagetextt']").each(function() {
       img_listt.push($(this)[0].files[0].name);
@@ -1107,6 +1109,8 @@ $(document).on('click','#more',function(){
           document.getElementById("blinkk").style.display = "none";
           document.getElementById("loaderr").style.display = "none";
           document.getElementById("imagetext").disabled = false;
+          $('#remove_imgg').css('pointer-events', 'auto');
+          $('#remove_imgg').css('opacity', '1');
 
           check_for_name = data["inlist"];
           if (data["duplicated"]=='duplicated') {
