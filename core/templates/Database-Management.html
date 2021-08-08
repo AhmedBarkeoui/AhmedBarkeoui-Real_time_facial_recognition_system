@@ -1372,6 +1372,7 @@ $('#verif_name').keyup(function() {
     elem.innerHTML = "Only letters are required";
     elem.style.color = "Red";
     verif_name="";
+    document.getElementById("click").disabled = true;
   }
   else if (users_check.includes(str.toUpperCase().replace(/ /g, ''))) {
     elem.innerHTML = "This person already exists in your database";
@@ -1390,7 +1391,7 @@ $('#verif_name').keyup(function() {
           }else
           document.getElementById("click").disabled = true;
         }else{
-          document.getElementById("click").disabled = true;
+          document.getElementById("click").disabled = false;
         }
       }
       else{
