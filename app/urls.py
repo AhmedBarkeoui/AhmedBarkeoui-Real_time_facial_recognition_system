@@ -41,6 +41,8 @@ urlpatterns = [
     
     path('video_length', views.video_length, name='video_length'),
     
+    path('delete_single_image', views.delete_single_image, name='delete_single_image'),
+    
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
    

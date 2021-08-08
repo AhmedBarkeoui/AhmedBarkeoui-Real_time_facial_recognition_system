@@ -288,20 +288,18 @@ def delete_from_db(request):
         for key in list(face_dictionnaire.keys()):   
             if name in key:
                 del face_dictionnaire[key]
-                face_dictionnaire_ordred = collections.OrderedDict(sorted(face_dictionnaire.items()))
-                np.save(DATABASE_IMG, face_dictionnaire_ordred) 
- 
+                 
+        
         if name.replace('_',' ') in Date_Added.keys():
             del Date_Added[name.replace('_',' ')]
-        
-        if type_del== 'all_image':
             np.save(DATABASE_DATE_ADDED, Date_Added)
-            if name.replace('_',' ') in liste_person:
-                liste_person.remove(name.replace('_',' ')) 
-                
-                shutil.rmtree(DATABASE_DIR+name.replace(' ','_')[0:-1])
-        else:
-            os.remove(DATABASE_DIR+name[0:-4]+"\\"+name+"."+request.GET.get('ext'))
+            
+        if name.replace('_',' ') in liste_person:
+            liste_person.remove(name.replace('_',' ')) 
+            shutil.rmtree(DATABASE_DIR+name.replace(' ','_')[0:-1])
+            face_dictionnaire_ordred = collections.OrderedDict(sorted(face_dictionnaire.items()))
+            np.save(DATABASE_IMG, face_dictionnaire_ordred)
+            
         data = {'name':name.replace('_',' ')[0:-1]}
         stat = 200
     except:
@@ -310,6 +308,21 @@ def delete_from_db(request):
     return JsonResponse(data, status=stat)
 
 
+def delete_single_image(request):  
+    if True:   
+        name = request.GET.get('person_name')
+        for key in list(face_dictionnaire.keys()):   
+            if name in key:
+                del face_dictionnaire[key]
+
+        if os.path.exists(DATABASE_DIR+name[0:-4]+"\\"+name+"."+request.GET.get('ext')):
+            os.remove(DATABASE_DIR+name[0:-4]+"\\"+name+"."+request.GET.get('ext'))
+            face_dictionnaire_ordred = collections.OrderedDict(sorted(face_dictionnaire.items()))
+            np.save(DATABASE_IMG, face_dictionnaire_ordred) 
+        
+        data = {'name':name.replace('_',' ')[0:-1]}
+        stat = 200
+    return JsonResponse(data, status=stat)
 
 
 def check_length(request):
@@ -346,8 +359,10 @@ def add_single_image(request):
         image = request.GET.get('image')
         img_list = os.listdir(DATABASE_DIR+person)
         image_transform = importer_image(FILES+image)
-        number = len(img_list)+1
-        image_name = person+'_00'+str(number)+'.'+image.split('.')[1]
+        i=1
+        while os.path.exists(DATABASE_DIR+person+"\\"+person+'_00'+str(i)+'.'+image.split('.')[1]):
+            i+=1
+        image_name = person+'_00'+str(i)+'.'+image.split('.')[1]
         new_path = DATABASE_DIR+person+"\\"+image_name
         shutil.copyfile(FILES+image, new_path)
         a = ""
@@ -361,7 +376,7 @@ def add_single_image(request):
             face_dictionnaire[key] = value
         face_dictionnaire_ordred = collections.OrderedDict(sorted(face_dictionnaire.items()))
         np.save(DATABASE_IMG, face_dictionnaire_ordred)
-        data = {'number':number,'ext':image.split('.')[1],'id':image_name}
+        data = {'number':i,'ext':image.split('.')[1],'id':image_name}
         stat = 200
     except:
         stat = 400

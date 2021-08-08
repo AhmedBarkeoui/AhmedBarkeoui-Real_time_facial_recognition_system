@@ -1577,10 +1577,9 @@ $("#table_id").on('click','.edit', function(){
         $( "#delete_picture" ).click(function() {
 
           $.ajax({
-            url: '{% url 'delete_from_db' %}',
+            url: '{% url 'delete_single_image' %}',
             data:{
               'person_name': pic.split('.')[0],
-              'type':'single_image',
               'ext':pic.split('.')[1],
             },
             dataType: 'json',
@@ -1810,7 +1809,6 @@ $("#table_id").on('click','.blue', function(){
       url: '{% url 'delete_from_db' %}',
       data:{
         'person_name': jj.replaceAll(' ','_'),
-        'type':'all_image'
       },
       dataType: 'json',
       success: function (data) {
