@@ -43,6 +43,8 @@ urlpatterns = [
     
     path('delete_single_image', views.delete_single_image, name='delete_single_image'),
     
+    path('chart_test', views.chart_test, name='chart_test'),
+    
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
    

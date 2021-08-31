@@ -131,6 +131,8 @@ DATABASE_IMG = os.path.join(LIBRARIES_FILES, 'Django.npy')
 DATABASE_SIGLE_IMG = os.path.join(LIBRARIES_FILES, 'Django.npy')
 DATABASE_DATE_ADDED = os.path.join(LIBRARIES_FILES, 'Date_added.npy')
 HISTORY = os.path.join(LIBRARIES_FILES, 'History.csv')
+DATASET = os.path.join(LIBRARIES_FILES, 'Dataset.csv')
+
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (

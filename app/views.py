@@ -34,7 +34,7 @@ from django.http import JsonResponse
 import shutil
 import os
 from django.template.defaulttags import register
-from core.settings import DATABASE_IMG,NN4_SMALL2,APP,DATABASE_DIR,FILES,DATABASE_DATE_ADDED,HISTORY,DATABASE_SIGLE_IMG_DIR
+from core.settings import DATABASE_IMG,NN4_SMALL2,APP,DATABASE_DIR,FILES,DATABASE_DATE_ADDED,HISTORY,DATABASE_SIGLE_IMG_DIR,DATASET
 from datetime import datetime
 from django.core.serializers.json import DjangoJSONEncoder
 import pandas as pd
@@ -49,6 +49,7 @@ face_dictionnaire = collections.OrderedDict(sorted(face_dictionnaire.items()))
 
 Date_Added =  np.load(DATABASE_DATE_ADDED, allow_pickle= True ).item()
 History = pd.read_csv(HISTORY ,index_col=0)
+Dataset = pd.read_csv(DATASET ,index_col=0)
 
 pred = set() 
 liste_person = []
@@ -90,6 +91,8 @@ def pages(request):
             context['users'] = ','.join(liste_person) 
             context['DATABASE_DIR'] = DATABASE_DIR
             context['Date_Added'] = dataJSON
+        elif load_template == 'charts-morris.html':
+            context['Dataset'] = Dataset
         else:
             pass
         html_template = loader.get_template( load_template )
@@ -637,3 +640,7 @@ def get_value(dictionary, key):
 @register.filter
 def split(value):
     return value.split(',')
+
+def chart_test(request): 
+    responses_pie =  Results.objects.filter(date=date.today()).annotate(count=Count('result'))  
+    return render(request,'mbr/chart_test.html',{'responses_pie': responses_pie})

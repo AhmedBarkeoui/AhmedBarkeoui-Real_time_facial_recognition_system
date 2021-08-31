@@ -29,18 +29,14 @@
                     <div class="col-md-6 col-xl-4">
                         <div class="card daily-sales">
                             <div class="card-block">
-                                <h6 class="mb-4" id="Daily">Daily number of entering people</h6>
-                                <div class="row d-flex align-items-center">
+                                <h6 class="mb-4" id="Daily">Number of people entering today</h6>
+                                <div class="row  d-flex align-items-center">
                                     <div class="col-9">
                                         <h3 class="f-w-300 d-flex align-items-center m-b-0"><i class="feather icon-arrow-down text-c-green f-30 m-r-10"></i><span id="num_person">  0000  </span></h3>
                                     </div>
-
-                                    <div class="col-3 text-right">
-                                        <p class="m-b-0">67%</p>
-                                    </div>
                                 </div>
                                 <div class="progress m-t-30" style="height: 7px;">
-                                    <div class="progress-bar progress-c-theme" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar progress-c-theme" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -50,17 +46,15 @@
                     <div class="col-md-6 col-xl-4">
                         <div class="card Monthly-sales">
                             <div class="card-block">
-                                <h6 class="mb-4">Daily number of outgoing people</h6>
+                                <h6 class="mb-4">Number of people entering in the last 7 days</h6>
                                 <div class="row d-flex align-items-center">
                                     <div class="col-9">
-                                        <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-up text-c-red f-30 m-r-10"></i>$ 2.942.32</h3>
+                                        <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-down text-c-red f-30 m-r-10"></i><span id="num_personn">  0000  </span></h3>
                                     </div>
-                                    <div class="col-3 text-right">
-                                        <p class="m-b-0">36%</p>
-                                    </div>
+                        
                                 </div>
                                 <div class="progress m-t-30" style="height: 7px;">
-                                    <div class="progress-bar progress-c-theme2" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar progress-c-theme2" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -70,17 +64,15 @@
                     <div class="col-md-12 col-xl-4">
                         <div class="card yearly-sales">
                             <div class="card-block">
-                                <h6 class="mb-4">Yearly Sales</h6>
+                                <h6 class="mb-4">Total Number of people entering</h6>
                                 <div class="row d-flex align-items-center">
                                     <div class="col-9">
-                                        <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>$ 8.638.32</h3>
+                                        <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i class="feather icon-arrow-down text-c-green f-30 m-r-10"></i><span id="num_personnn">  0000  </span></h3>
                                     </div>
-                                    <div class="col-3 text-right">
-                                        <p class="m-b-0">80%</p>
-                                    </div>
+        
                                 </div>
                                 <div class="progress m-t-30" style="height: 7px;">
-                                    <div class="progress-bar progress-c-theme" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar progress-c-theme" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +117,7 @@
 
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="ddd">
                                <tbody>
                                 {% now "d-m-Y" as todays_date %}
                                 {% for key,value in History.items %}
@@ -144,7 +136,11 @@
                                         </td>
                                         <td>
                                             <h6 class="text-muted">
+                                                {% if key == "Unknown"%}
+                                                <i class="fas fa-circle text-c-red f-10 m-r-15"></i>
+                                                {% else %}
                                                 <i class="fas fa-circle text-c-green f-10 m-r-15"></i>
+                                                {% endif %}
                                                 {{value|first}} {{value|last}}
                                             </h6></td>
                                         <td>
@@ -159,7 +155,7 @@
 
                        </div>
                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="dd">
                             <tbody>
                                  {% for key,value in History.items %}
                                     <tr class="unread">
@@ -176,7 +172,11 @@
                                         </td>
                                         <td>
                                             <h6 class="text-muted">
+                                                {% if key == "Unknown"%}
+                                                <i class="fas fa-circle text-c-red f-10 m-r-15"></i>
+                                                {% else %}
                                                 <i class="fas fa-circle text-c-green f-10 m-r-15"></i>
+                                                {% endif %}
                                                 {{value|first}} {{value|last}}
                                             </h6></td>
                                         <td>
@@ -202,6 +202,10 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script type="text/javascript">
+    var table = document.getElementById("dd");
+    var tablee = document.getElementById("ddd");
+    document.getElementById("num_personn").innerHTML =  (tablee.rows.length).toString().padStart(4, '0');
+    document.getElementById("num_personnn").innerHTML = (table.rows.length).toString().padStart(4, '0');
     var LISTE = []
     setInterval(function() {
         $.ajax({
@@ -215,7 +219,11 @@
                         const timeElapsed = Date.now();
                         const today = new Date(timeElapsed);
                         if (mylist[i]){ 
-                            $( "#person" ).append( '<tr class="unread"><td><img class="rounded-circle" style="width:40px;" src="/static/assets/images/user/avatar-1.jpg" alt="activity-user"></td><td><h6 class="mb-1">'+mylist[i]+'</h6><p class="m-0">Lorem Ipsum is simply…</p></td><td><h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>'+today.toUTCString()+'</h6></td><td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td></tr>');
+                            if(mylist[i]=="Unknown"){
+                                $( "#person" ).append( '<tr class="unread"><td><img class="rounded-circle" style="width:40px;height: 40px;" src="/static/assets/images/user/avatar-2.jpg" alt="activity-user"></td><td><h6 class="mb-1">'+mylist[i]+'</h6><p class="m-0">Lorem Ipsum is simply…</p></td><td><h6 class="text-muted"><i class="fas fa-circle text-c-red f-10 m-r-15"></i>'+today.toUTCString()+'</h6></td><td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td></tr>');
+                            }else{
+                            $( "#person" ).append( '<tr class="unread"><td><img class="rounded-circle" style="width:40px;height: 40px;" src="/static/Database_single_img/'+mylist[i]+'.jpg" alt="activity-user"></td><td><h6 class="mb-1">'+mylist[i]+'</h6><p class="m-0">Lorem Ipsum is simply…</p></td><td><h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>'+today.toUTCString()+'</h6></td><td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td></tr>');
+                            }
                             
                         }
                     }
