@@ -6,161 +6,161 @@
 {% block stylesheets %}
 <style>
 
-  .loader {
-    border: 5px solid #f3f3f3; /* Light grey */
-    border-top: 5px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 2s linear infinite;
-  }
+.loader {
+  border: 5px solid #f3f3f3; /* Light grey */
+  border-top: 5px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
 
 
-  #loader {
+#loader {
 
-    position: absolute;
+  position: absolute;
 
-    left: 50%;
+  left: 50%;
 
-    top: 50%;
+  top: 50%;
 
-    z-index: 1;
+  z-index: 1;
 
-    width: 150px;
+  width: 150px;
 
-    height: 150px;
+  height: 150px;
 
-    margin: -75px 0 0 -75px;
+  margin: -75px 0 0 -75px;
 
-    border: 16px solid #f3f3f3;
+  border: 16px solid #f3f3f3;
 
-    border-radius: 50%;
+  border-radius: 50%;
 
-    border-top: 16px solid #3498db;
+  border-top: 16px solid #3498db;
 
-    width: 120px;
+  width: 120px;
 
-    height: 120px;
+  height: 120px;
 
-    -webkit-animation: spin 2s linear infinite;
+  -webkit-animation: spin 2s linear infinite;
 
-    animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
 
-  }
-
-
-
-  @-webkit-keyframes spin {
-
-    0% { -webkit-transform: rotate(0deg); }
-
-    100% { -webkit-transform: rotate(360deg); }
-
-  }
+}
 
 
 
-  @keyframes spin {
+@-webkit-keyframes spin {
 
-    0% { transform: rotate(0deg); }
+  0% { -webkit-transform: rotate(0deg); }
 
-    100% { transform: rotate(360deg); }
+  100% { -webkit-transform: rotate(360deg); }
 
-  }
-
-
-
-  /* Add animation to "page content" */
-
-  .animate-bottom {
-
-    position: relative;
-
-    -webkit-animation-name: animatebottom;
-
-    -webkit-animation-duration: 1s;
-
-    animation-name: animatebottom;
-
-    animation-duration: 1s
-
-  }
+}
 
 
 
-  @-webkit-keyframes animatebottom {
+@keyframes spin {
 
-    from { bottom:-100px; opacity:0 } 
+  0% { transform: rotate(0deg); }
 
-    to { bottom:0px; opacity:1 }
+  100% { transform: rotate(360deg); }
 
-  }
+}
 
 
 
-  @keyframes animatebottom { 
+/* Add animation to "page content" */
 
-    from{ bottom:-100px; opacity:0 } 
+.animate-bottom {
 
-    to{ bottom:0; opacity:1 }
+  position: relative;
 
-  }
+  -webkit-animation-name: animatebottom;
 
-  @keyframes auto-progress {
-    0% {
-      width: 0%;
-    }
+  -webkit-animation-duration: 1s;
 
-    100% {
-      width: 100%;
-    }
-  }
-  .progress-bar {
-    background: transparent;
-    height: 4px;
-    width: 100%;
-    margin: 5px auto;
-    border-radius: 5px;
+  animation-name: animatebottom;
 
-    box-shadow: 0 1px 5px #dbe9f6 inset, 0 0 1px #29d;
-  }
+  animation-duration: 1s
 
-  .stripes {
-    background-size: 30px 30px;
-  }
+}
 
-  .stripes.animated {
-    animation: animate-stripes 0.2s linear infinite;
-  }
 
-  .stripes.animated.slower {
-    animation-duration: 0.2s;
-  }
 
-  .stripes.reverse {
-    animation-direction: reverse;
-  }
+@-webkit-keyframes animatebottom {
 
-  .progress-bar-inner {
-    display: block;
-    height: 45px;
+  from { bottom:-100px; opacity:0 } 
+
+  to { bottom:0px; opacity:1 }
+
+}
+
+
+
+@keyframes animatebottom { 
+
+  from{ bottom:-100px; opacity:0 } 
+
+  to{ bottom:0; opacity:1 }
+
+}
+
+@keyframes auto-progress {
+  0% {
     width: 0%;
-    background-color: #3ebfea;
-    border-radius: 4px;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
-    position: relative;
-    animation: auto-progress 1.5s infinite linear;
   }
 
-
-  .zoom:hover {
-    transform: scale(1.8); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-    z-index: 2;
-    position: relative; /* or absolute */
-    top: 50%;
-    left: 12%;
-    border: 2px solid #1de9b6;
+  100% {
+    width: 100%;
   }
+}
+.progress-bar {
+  background: transparent;
+  height: 4px;
+  width: 100%;
+  margin: 5px auto;
+  border-radius: 5px;
+
+  box-shadow: 0 1px 5px #dbe9f6 inset, 0 0 1px #29d;
+}
+
+.stripes {
+  background-size: 30px 30px;
+}
+
+.stripes.animated {
+  animation: animate-stripes 0.2s linear infinite;
+}
+
+.stripes.animated.slower {
+  animation-duration: 0.2s;
+}
+
+.stripes.reverse {
+  animation-direction: reverse;
+}
+
+.progress-bar-inner {
+  display: block;
+  height: 45px;
+  width: 0%;
+  background-color: #3ebfea;
+  border-radius: 4px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+  position: relative;
+  animation: auto-progress 1.5s infinite linear;
+}
+
+
+.zoom:hover {
+  transform: scale(1.8); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  z-index: 2;
+  position: relative; /* or absolute */
+  top: 50%;
+  left: 12%;
+  border: 2px solid #1de9b6;
+}
 
 input[type=time] {
   border: none;
@@ -211,7 +211,6 @@ input[type=time]::-webkit-datetime-edit-second-field {
 
 
 </style>
-
 {% endblock stylesheets %}
 
 {% block content %}
@@ -249,10 +248,10 @@ input[type=time]::-webkit-datetime-edit-second-field {
               </div>
               <div class="card-body">
                 <h6>The fonctionnalities of this page consists of:</h6> 
-               
+
                 <p class="text-muted m-b-15 m-t-20">
                   Applying the facial recognition system on recorded videos, in order to identify one (or more) person appearing in these videos : 
-                
+
                   Instead of going through all the videos and analyzing them to find the person you are looking for,
                   the user can identify him by entering his name. And also Finding one (or more) person from a video stream even if it is not registered in the database <code>(Use a temporary database)</code>.
                 </p>
@@ -267,7 +266,11 @@ input[type=time]::-webkit-datetime-edit-second-field {
             <div class="card">
               <div class="card-header">
                 <h5>search results</h5>
+                {% if intervall_start != "none" and intervall_end != "none"%}
+                <p>There are <span style="color:#3ebfe9;text-align: center;">{{ len }} identified person </span>between  (<code> {{ intervall_start }} </code><i class="feather icon-arrow-right" ></i><code> {{ intervall_end }} </code>) in this {{ extension }} </p>
+                {% else %}
                 <p>( There are <span style="color:#3ebfe9;text-align: center;">{{ len }} identified person </span> in this {{ extension }} )</p>
+                {% endif %}
 
               </div>
               <div class="card-body">
@@ -307,7 +310,11 @@ input[type=time]::-webkit-datetime-edit-second-field {
                 <h5>Search Result</h5>
               </div>
               <div class="card-block">
-                <p> <span>Oops!, </span><span style="color:#3ebfe9;">{{Person}}</span>{{ msg }}</p>
+                {% if intervall_start != "none" and intervall_end != "none"%}
+                <p> <span>Oops!, </span><span style="color:#3ebfe9;">{{Person}}</span>{{ msg }} between  (<code style="background-color: white;"> {{ intervall_start }} </code><i class="feather icon-arrow-right" ></i><code style="background-color: white;"> {{ intervall_end }} </code>) .</p>
+                {% else %}
+                <p> <span>Oops!, </span><span style="color:#3ebfe9;">{{Person}}</span>{{ msg }}.</p>
+                {% endif %}
               </div>
             </div>
 
@@ -319,102 +326,99 @@ input[type=time]::-webkit-datetime-edit-second-field {
       </div>
     </div>
     <!  -- [ Main Content ] end -->
-    <!-- [ breadcrumb ] end -->
-    <div class="row" id="main-body">
-      <div class="col-sm-12">
-        <div class="card">    
-          <div class="card-header">
-            <h5>Start search</h5>
-          </div>
-          <div class="card-body">
-            <h5 id="hide2">Choose video or image</h5>
-            <hr>
-            <div class="row">
+      <!-- [ breadcrumb ] end -->
+      <div class="row" id="main-body">
+        <div class="col-sm-12">
+          <div class="card">    
+            <div class="card-header">
+              <h5>Start search</h5>
+            </div>
+            <div class="card-body">
+              <h5 id="hide2">Choose video or image</h5>
+              <hr>
+              <div class="row">
 
-              <div class="col-md-12">
-                <form action = {% url 'Advanced_video_processing' %} method = "POST" autocomplete="off">
-                  {% csrf_token %}
-                  <div id="hide1">
-                    <div class="form-group input-group col-md-12">
-                      <input type="file" accept="image/*,video/*" id="other" class="custom-file-input btn btn-secondary col-md-12" name="pathname" style="width:100%;margin-left:1%;" >
-                      <label class="custom-file-label" for="customFile" id='here'></label>
-                    </div>
-
-                    <div class="justify-content-center" id="person1">
-                      <div class="form-group">
-                        <select class="form-control"  id="exampleFormControlSelect1" style="width:100%;margin-left:0%;cursor: pointer;">
-                          <option id="op" selected="selected" value='1'>Select person from Database</option>
-                          <option id="op1" value='2'>Use a temporary database for the new person</option>
-                        </select>
-
-                      </div>
-                    </div>
-
-                    <div class="justify-content-center" id="person">
-
-                      <div class="form-group ">
-                        <input type="text" id="icon-search" class="form-control mb-4" placeholder="Choose person.. " name="PersonName" style="width:100%">
+                <div class="col-md-12">
+                  <form action = {% url 'Advanced_video_processing' %} method = "POST" autocomplete="off">
+                    {% csrf_token %}
+                    <div id="hide1">
+                      <div class="form-group input-group col-md-12">
+                        <input type="file" accept="image/*,video/*" id="other" class="custom-file-input btn btn-secondary col-md-12" name="pathname" style="width:100%;margin-left:1%;" >
+                        <label class="custom-file-label" for="customFile" id='here'></label>
                       </div>
 
-                    </div>
-                    <div class="row justify-content-center" >
-
-
-                      <div class="form-group " id="warning" style="display:none">
-                        <small class="form-text" style="color:#9b91d4;font-size: 13px">This person will be added temporarily to your database, and will be deleted after the end of this operation.</small>
-                      </div>
-                      <div class="form-group col-md-8" style="cursor: pointer;" id="new_person1">
-                        <input type="file" id="imagetext" style="cursor: pointer;" accept="image/*" class="custom-file-input col-md-6" name="imagetext" >
-                        <label style="cursor: pointer;" class="custom-file-label" for="customFile" id='heree'></label>
-                        <small class="form-text" id="after-check">The image should only contain one person.</small>
-
-                      </div>
-
-                      
-                      <div class="col-md-1 " id="verif" style="display:none;">
-                        <i class="feather icon-check-circle" style="color:#1de9b6;font-size:40px;" ></i>
-                      </div>
-                      <div class="col-md-1" id="notverif" style="display:none;">
-                        <i class="feather icon-x-circle"  style="color:red;font-size:40px;" ></i>
-                      </div>
-                      <div class="col-md-1" id="loaderr" style="display:none;">
-                        <div class="loader"></div>
-                      </div>
-                      <div class="form-group col-md-2" id="new_person">
-                        <input type="text" id="bb" class="form-control" style="height:37px" name="nametext" placeholder="Enter the person name">
-                        <small class="form-text justify-content-center" id="bbb" ></small>
-                      </div>
-
-                      
-
-                      <div class="row justify-content-center" >
-
-
-                        <div class="form-group " id="db" style="display: none">
-                          <small class="form-text" style="font-size:13px">If you want to permanently add this person to the database, please click <a href="Database-Management.html">here</a></small>
+                      <div class="justify-content-center" id="person1">
+                        <div class="form-group">
+                          <select class="form-control"  id="exampleFormControlSelect1" style="width:100%;margin-left:0%;cursor: pointer;">
+                            <option id="op" selected="selected" value='1'>Select person from Database</option>
+                            <option id="op1" value='2'>Use a temporary database for the new person</option>
+                          </select>
 
                         </div>
                       </div>
 
-                    </div>
-                    <div class="card-block table-border-style" id="sh" style="display:none;">
-                      <div class="table-responsive">
-                        <table class="table table-hover">
-                          <tbody id="icon-wrapper" class='ahmed'>
-                          </tbody>
-                        </table>
+                      <div class="justify-content-center" id="person">
+                        <div class="form-group ">
+                          <input type="text" id="icon-search" class="form-control mb-4" placeholder="Choose person.. " name="PersonName" style="width:100%">
+                        </div>
+                      </div>
+
+                      <div class="row justify-content-center" >
+
+                        <div class="form-group " id="warning" style="display:none">
+                          <small class="form-text" style="color:#9b91d4;font-size: 13px">This person will be added temporarily to your database, and will be deleted after the end of this operation.</small>
+                        </div>
+                        <div class="form-group col-md-8" style="cursor: pointer;" id="new_person1">
+                          <input type="file" id="imagetext" style="cursor: pointer;" accept="image/*" class="custom-file-input col-md-6" name="imagetext" >
+                          <label style="cursor: pointer;" class="custom-file-label" for="customFile" id='heree'></label>
+                          <small class="form-text" id="after-check">The image should only contain one person.</small>
+                          <small class="blink someclass blink" style="display: none;color: #00a150" id="blink_new_verif">Image verification, please wait ..</small> 
+
+                        </div>
+
+
+                        <div class="col-md-1 " id="verif" style="display:none;">
+                          <i class="feather icon-check-circle" style="color:#1de9b6;font-size:40px;" ></i>
+                        </div>
+                        <div class="col-md-1" id="notverif" style="display:none;">
+                          <i class="feather icon-x-circle"  style="color:red;font-size:40px;" ></i>
+                        </div>
+                        <div class="col-md-1" id="loaderr" style="display:none;">
+                          <div class="loader"></div>
+                        </div>
+                        <div class="form-group col-md-2" id="new_person">
+                          <input type="text" id="bb" class="form-control" style="height:37px" name="nametext" placeholder="Enter the person name">
+                          <small class="form-text justify-content-center" id="bbb" ></small>
+                        </div>
+
+                        <div class="row justify-content-center" >
+
+
+                          <div class="form-group " id="db" style="display: none">
+                            <small class="form-text" style="font-size:13px">If you want to permanently add this person to the database, please click <a href="Database-Management.html">here</a></small>
+
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="card-block table-border-style" id="sh" style="display:none;">
+                        <div class="table-responsive">
+                          <table class="table table-hover" id="keyy">
+                            <tbody id="icon-wrapper" class='ahmed'>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div id="hide">
-                    <div class="card">
-                      <div class="card-header">
-                        <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" id="settings_btn" style="pointer-events: none;opacity: 0.5"><i class=" feather icon-sliders" id="close_edit"></i> Settings</button>
-                      </div>
-                      <div class="collapse" id="collapseExample">
-                        <div class="card-body">
-                          <div class="row">
-                            
+                    <div id="hide">
+                      <div class="card">
+                        <div class="card-header">
+                          <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" id="settings_btn" style="pointer-events: none;opacity: 0.5"><i class=" feather icon-sliders" id="close_edit"></i> Settings</button>
+                        </div>
+                        <div class="collapse" id=" ">
+                          <div class="card-body">
+                            <div class="row">
+
                               <div class="col-md-12" id="time_video1">
                                 <h4 class="mt-5">Set the time interval in the video <code>( Optional )</code> </h4>
                                 <hr>
@@ -434,445 +438,470 @@ input[type=time]::-webkit-datetime-edit-second-field {
                               <div class="col-md-12" id="time_video4">
                                 <hr>
                               </div>
-                           
-                            <div class="col-md-6">
-                              <h4 class="mt-5">Results</h4>
-                              <hr>
-                              <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio"  value="one" id="customRadioInline2" name="numImage" class="custom-control-input" checked>
-                                <label class="custom-control-label" for="customRadioInline2" id="customRadioInline22"  style="cursor: pointer;">    Display only the first image</label>
-                              </div>
-                              <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio"  value="all" id="customRadioInline1" name="numImage" class="custom-control-input" >
-                                <label class="custom-control-label" for="customRadioInline1" id="customRadioInline11" style="cursor: pointer">    Display all images founded</label>
-                              </div>
 
-                              <h4 class="mt-5">Show specific time of results</h4>
-                              <hr>
-                              <div class="custom-control custom-checkbox">
-                                <input name="time" type="checkbox" class="custom-control-input" id="customCheck1">&nbsp;&nbsp;
-                                <label class="custom-control-label" for="customCheck1" id="customCheck11" style="cursor: pointer">    Display the exact time in video</label>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <h4 class="mt-5">Precision</h4>
-                              <hr>
-                              <label for="customRange3">Choose precision (<span style="color:green;">50% </span> is the most optimized value ,it's a matter of Precision/Time ratio)</label>
-                              <input type="range" class="custom-range" min="10" max="100" step="10" id="myRange" value="50" name=range >
+                              <div class="col-md-6">
+                                <h4 class="mt-5">Results</h4>
+                                <hr>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                  <input type="radio"  value="one" id="customRadioInline2" name="numImage" class="custom-control-input" checked>
+                                  <label class="custom-control-label" for="customRadioInline2" id="customRadioInline22"  style="cursor: pointer;">    Display only the first image</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                  <input type="radio"  value="all" id="customRadioInline1" name="numImage" class="custom-control-input" >
+                                  <label class="custom-control-label" for="customRadioInline1" id="customRadioInline11" style="cursor: pointer">    Display all images founded</label>
+                                </div>
 
-                              <label id="slide" for="customRange3" style="color:green;">Value : <span id="demo"></span> %  <span style="color:#cc0000;" id="alert"></span></label>
+                                <h4 class="mt-5">Show specific time of results</h4>
+                                <hr>
+                                <div class="custom-control custom-checkbox">
+                                  <input name="time" type="checkbox" class="custom-control-input" id="customCheck1">&nbsp;&nbsp;
+                                  <label class="custom-control-label" for="customCheck1" id="customCheck11" style="cursor: pointer">    Display the exact time in video</label>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <h4 class="mt-5">Precision</h4>
+                                <hr>
+                                <label for="customRange3">Choose precision (<span style="color:green;">50% </span> is the most optimized value ,it's a matter of Precision/Time ratio)</label>
+                                <input type="range" class="custom-range" min="10" max="100" step="10" id="myRange" value="50" name=range >
+
+                                <label id="slide" for="customRange3" style="color:green;">Value : <span id="demo"></span> %  <span style="color:#cc0000;" id="alert"></span></label>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
+                      <div class="float-right">
+                        <button type="submit" id="click"  class="btn btn-primary float-right" style="width:100%;margin-left:1%;" disabled>Search</button>
+                      </div>
                     </div>
-                    <div class="float-right">
-                      <button type="submit" id="click"  class="btn btn-primary float-right" style="width:100%;margin-left:1%;" disabled>Search</button>
-                    </div>
-                  </div>
-                  <hr>
-                  <span class="row justify-content-center" >
-                  <button id='loading' type="button" class="btn btn-square btn-info" style="width:100%;margin-left:1%;display:none;margin-top:30px;cursor: default">it will take a while, please wait <span class="someclass blink">( Loading... )</span>
-                  </button>
-                </span>
-                </form>
+                    <hr>
+                    <span class="row justify-content-center" >
+                      <button id='loading' type="button" class="btn btn-square btn-info" style="width:100%;margin-left:1%;display:none;margin-top:30px;cursor: default">it will take a while, please wait <span class="someclass blink">( Loading... )</span>
+                      </button>
+                    </span>
+                  </form>
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            <div class="progress-bar-container" id="loader_add_new" style="width: 100%;display: none;">
-              <div class="progress-bar stripes">
-                <span class="progress-bar-inner"></span>
+            <div>
+              <div class="progress-bar-container" id="loader_add_new" style="width: 100%;display: none;">
+                <div class="progress-bar stripes">
+                  <span class="progress-bar-inner"></span>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+
+
+        <!-- [ breadcrumb ] end -->
       </div>
-
-
-
-      <!-- [ breadcrumb ] end -->
     </div>
   </div>
-</div>
 
-<div id="success_div"></div>
-<div id="loader"></div>
+  <div id="success_div"></div>
+  <div id="loader"></div>
 
-{% endblock content %}
+  {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
+  <!-- Specific Page JS goes HERE  -->
 
-{% block javascripts %}
-<script type="text/javascript">
-  
-  const list_ext = ["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"]
-  var slider = document.getElementById("myRange");
-  var output = document.getElementById("demo");
-  var verif_name = "" ;
-  var isverif = "" ;
-  output.innerHTML = slider.value;
+  {% block javascripts %}
+  <script type="text/javascript">
 
-  slider.oninput = function() {
-    output.innerHTML = this.value;
-    if(this.value <= 50){
-      $("#slide").css('color','green');
-      if(this.value==20){
-        document.getElementById("alert").innerHTML = "( It will be fast with less precision )" ;
-        $("#alert").css('color','green');
-      }else if(this.value == 10){
-        document.getElementById("alert").innerHTML = "( It will be faster but with even less precision )" ;
-        $("#alert").css('color','green');
-      }else{
-        document.getElementById("alert").innerHTML = "";
+    const list_ext = ["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"]
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("demo");
+    var verif_name = "" ;
+    var isverif = "" ;
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+      if(this.value <= 50){
+        $("#slide").css('color','green');
+        if(this.value==20){
+          document.getElementById("alert").innerHTML = "( It will be fast with less precision )" ;
+          $("#alert").css('color','green');
+        }else if(this.value == 10){
+          document.getElementById("alert").innerHTML = "( It will be faster but with even less precision )" ;
+          $("#alert").css('color','green');
+        }else{
+          document.getElementById("alert").innerHTML = "";
+        }
+
       }
-
-    }
-    else if(this.value <= 80){
-      $("#slide").css('color','#ff6600');
-      document.getElementById("alert").innerHTML = ""
-    }
-    else{
-      $("#slide").css('color','#cc0000');
-      if(this.value == 90){
-        document.getElementById("alert").innerHTML = "( It may take a long time )";
-        $("#alert").css('color','#cc0000');
-      }else{
-        document.getElementById("alert").innerHTML = "( It may take a very long time )";
-        $("#alert").css('color','#cc0000');
+      else if(this.value <= 80){
+        $("#slide").css('color','#ff6600');
+        document.getElementById("alert").innerHTML = ""
       }
+      else{
+        $("#slide").css('color','#cc0000');
+        if(this.value == 90){
+          document.getElementById("alert").innerHTML = "( It may take a long time )";
+          $("#alert").css('color','#cc0000');
+        }else{
+          document.getElementById("alert").innerHTML = "( It may take a very long time )";
+          $("#alert").css('color','#cc0000');
+        }
 
+      }
     }
-  }
 
-  document.getElementById("loader").style.display = "none";
-  document.getElementById("person").style.display = "none";
-  document.getElementById("person1").style.display = "none";
-  document.getElementById("new_person").style.display = "none";
-  document.getElementById("new_person1").style.display = "none";
-  document.getElementById("here").innerHTML = "Choose video or image file..";
-  $("#exampleFormControlSelect1").css('color','#04a9f5');
-
-
-  $( "#click" ).click(function() {
-    document.getElementById("loader_add_new").style.display = "block";
-    document.getElementById("hide").style.display = "none";
-    document.getElementById("hide1").style.display = "none";
-    document.getElementById("hide2").style.display = "none";
     document.getElementById("loader").style.display = "none";
-    document.getElementById("loading").style.display = "block";
-    document.getElementById("loader").style.display = "block";
-    if ($( "#NoPerson" ).length) {
-      document.getElementById("NoPerson").style.display = "none";
-    }
-  });
+    document.getElementById("person").style.display = "none";
+    document.getElementById("person1").style.display = "none";
+    document.getElementById("new_person").style.display = "none";
+    document.getElementById("new_person1").style.display = "none";
+    document.getElementById("here").innerHTML = "Choose video or image file..";
+    $("#exampleFormControlSelect1").css('color','#04a9f5');
 
-  $( "#clear_time_start" ).click(function() {
-    $( "#time_start" ).val('00:00:00');
-  });
 
-  $( "#clear_time_end" ).click(function() {
-    $( "#time_end" ).val($( "#time_end" ).attr('max'));
-  });
+    $( "#click" ).click(function() {
+      document.getElementById("loader_add_new").style.display = "block";
+      document.getElementById("hide").style.display = "none";
+      document.getElementById("hide1").style.display = "none";
+      document.getElementById("hide2").style.display = "none";
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("loading").style.display = "block";
+      document.getElementById("loader").style.display = "block";
+      if ($( "#NoPerson" ).length) {
+        document.getElementById("NoPerson").style.display = "none";
+      }
+    });
 
-  $( "#time_start" ).change(function() {
-    var max = $(this).attr('max');
-    var min = $(this).attr('min');
-    if ($(this).val() > max){
-      $(this).val(max);
-    }
+    $( "#clear_time_start" ).click(function() {
+      $( "#time_start" ).val('00:00:00');
+    });
 
-    if ($(this).val() > $( "#time_end" ).val()){
-      maxx = $( "#time_end" ).val()
-      $(this).val(maxx.split(':')[0]+":"+maxx.split(':')[1]+":"+(parseInt(maxx.split(':')[2])-1).toString().padStart(2, '0'));
-    }
-  });
+    $( "#clear_time_end" ).click(function() {
+      $( "#time_end" ).val($( "#time_end" ).attr('max'));
+    });
 
-  $( "#time_end" ).change(function() {
-    var max = $(this).attr('max');
-    var min = $(this).attr('min');
-    if ($(this).val() > max){
-      $(this).val(max);
-    }
-    if ($(this).val() < $( "#time_start" ).val()){
-      maxx = $( "#time_start" ).val()
-      $(this).val(maxx.split(':')[0]+":"+maxx.split(':')[1]+":"+(parseInt(maxx.split(':')[2])+1).toString().padStart(2, '0'));
-    }
-  });
-  
-  $( "#other" ).change(function() {
-    var input = $(this),
-    numFiles = input.get(0).files ? input.get(0).files.length : 1,
-    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    $( "#time_start" ).change(function() {
+      var max = $(this).attr('max');
+      var min = $(this).attr('min');
+      if ($(this).val() > max){
+        $(this).val(max);
+      }
 
-    if (list_ext.includes(label.split('.')[1])) {
-      $("#exampleFormControlSelect1").val(1).change();
-      document.getElementById("exampleFormControlSelect1").disabled = true;
-      document.getElementById("exampleFormControlSelect1").style.cursor= "not-allowed";
-      document.getElementById("exampleFormControlSelect1").title= "not-allowed";
+      if ($(this).val() > $( "#time_end" ).val()){
+        maxx = $( "#time_end" ).val()
+        $(this).val(maxx.split(':')[0]+":"+maxx.split(':')[1]+":"+(parseInt(maxx.split(':')[2])-1).toString().padStart(2, '0'));
+      }
+    });
 
-      document.getElementById("customRadioInline2").disabled = true;
-      document.getElementById("customRadioInline22").style.cursor= "not-allowed";
-      document.getElementById("customRadioInline22").title= "not-allowed";
+    $( "#time_end" ).change(function() {
+      var max = $(this).attr('max');
+      var min = $(this).attr('min');
+      if ($(this).val() > max){
+        $(this).val(max);
+      }
+      if ($(this).val() < $( "#time_start" ).val()){
+        maxx = $( "#time_start" ).val()
+        $(this).val(maxx.split(':')[0]+":"+maxx.split(':')[1]+":"+(parseInt(maxx.split(':')[2])+1).toString().padStart(2, '0'));
+      }
+    });
 
-      document.getElementById("customRadioInline1").disabled = true;
-      document.getElementById("customRadioInline11").style.cursor= "not-allowed";
-      document.getElementById("customRadioInline11").title= "not-allowed";
+    $( "#other" ).change(function() {
+      var input = $(this),
+      numFiles = input.get(0).files ? input.get(0).files.length : 1,
+      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
 
-      document.getElementById("customCheck1").disabled = true;
-      document.getElementById("customCheck11").style.cursor= "not-allowed";
-      document.getElementById("customCheck11").title= "not-allowed";
-      document.getElementById("time_video1").style.display = "none";
-      document.getElementById("time_video2").style.display = "none";
-      document.getElementById("time_video3").style.display = "none";
-      document.getElementById("time_video4").style.display = "none";
+      if (list_ext.includes(label.split('.')[1])) {
+        $("#exampleFormControlSelect1").val(1).change();
+        document.getElementById("exampleFormControlSelect1").disabled = true;
+        document.getElementById("exampleFormControlSelect1").style.cursor= "not-allowed";
+        document.getElementById("exampleFormControlSelect1").title= "not-allowed";
 
-    }else{
-      document.getElementById("exampleFormControlSelect1").disabled = false;
-      document.getElementById("exampleFormControlSelect1").style.cursor= "pointer";
-      document.getElementById("exampleFormControlSelect1").title= "";
+        document.getElementById("customRadioInline2").disabled = true;
+        document.getElementById("customRadioInline22").style.cursor= "not-allowed";
+        document.getElementById("customRadioInline22").title= "not-allowed";
 
-      document.getElementById("customRadioInline2").disabled = false;
-      document.getElementById("customRadioInline22").style.cursor= "pointer";
-      document.getElementById("customRadioInline22").title= "";
+        document.getElementById("customRadioInline1").disabled = true;
+        document.getElementById("customRadioInline11").style.cursor= "not-allowed";
+        document.getElementById("customRadioInline11").title= "not-allowed";
 
-      document.getElementById("customRadioInline1").disabled = false;
-      document.getElementById("customRadioInline11").style.cursor= "pointer";
-      document.getElementById("customRadioInline11").title= "";
+        document.getElementById("customCheck1").disabled = true;
+        document.getElementById("customCheck11").style.cursor= "not-allowed";
+        document.getElementById("customCheck11").title= "not-allowed";
+        document.getElementById("time_video1").style.display = "none";
+        document.getElementById("time_video2").style.display = "none";
+        document.getElementById("time_video3").style.display = "none";
+        document.getElementById("time_video4").style.display = "none";
 
-      document.getElementById("customCheck1").disabled = false;
-      document.getElementById("customCheck11").style.cursor= "pointer";
-      document.getElementById("customCheck11").title= "";
-      document.getElementById("time_video1").style.display = "block";
-      document.getElementById("time_video2").style.display = "block";
-      document.getElementById("time_video3").style.display = "block";
-      document.getElementById("time_video4").style.display = "block";
+      }else{
+        document.getElementById("exampleFormControlSelect1").disabled = false;
+        document.getElementById("exampleFormControlSelect1").style.cursor= "pointer";
+        document.getElementById("exampleFormControlSelect1").title= "";
 
-      
-      $.ajax({
-        url: '{% url 'video_length' %}',
-        data:{
-          'label': label,
-        },
-        success: function (data) {
-          start_max = data.split(':')[0]+":"+data.split(':')[1]+":"+(parseInt(data.split(':')[2])-1).toString().padStart(2, '0');
-          $('#time_start').attr('max',start_max);
-          $('#time_end').attr('max',data);
-          $("#time_end").val( data );
-          $("#time_start").val("00:00:00");
+        document.getElementById("customRadioInline2").disabled = false;
+        document.getElementById("customRadioInline22").style.cursor= "pointer";
+        document.getElementById("customRadioInline22").title= "";
 
-        },
+        document.getElementById("customRadioInline1").disabled = false;
+        document.getElementById("customRadioInline11").style.cursor= "pointer";
+        document.getElementById("customRadioInline11").title= "";
+
+        document.getElementById("customCheck1").disabled = false;
+        document.getElementById("customCheck11").style.cursor= "pointer";
+        document.getElementById("customCheck11").title= "";
+        document.getElementById("time_video1").style.display = "block";
+        document.getElementById("time_video2").style.display = "block";
+        document.getElementById("time_video3").style.display = "block";
+        document.getElementById("time_video4").style.display = "block";
+
+
+        $.ajax({
+          url: '{% url 'video_length' %}',
+          data:{
+            'label': label,
+          },
+          success: function (data) {
+            start_max = data.split(':')[0]+":"+data.split(':')[1]+":"+(parseInt(data.split(':')[2])-1).toString().padStart(2, '0');
+            $('#time_start').attr('max',start_max);
+            $('#time_end').attr('max',data);
+            $("#time_end").val( data );
+            $("#time_start").val("00:00:00");
+
+          },
+
+        });
+      }
+      document.getElementById("here").innerHTML = label;
+
+      if(label != ""){
+        document.getElementById("click").style.display = "block";
+        document.getElementById("exampleFormControlSelect1").style.display = "block";
+        document.getElementById("icon-search").style.display = "block";
+         $( "#icon-search" ).focus();
+        $('#settings_btn').css('pointer-events', 'auto');
+        $('#settings_btn').css('opacity', '1');
+
+      }
+      else{
+        document.getElementById("exampleFormControlSelect1").style.display = "none";
+        document.getElementById("icon-search").style.display = "none";
+        document.getElementById("click").style.display = "none";
+        $('#settings_btn').css('pointer-events', 'none');
+        $('#settings_btn').css('opacity', '0.5');
+      }
+      document.getElementById("person").style.display = "block";
+      document.getElementById("person1").style.display = "block";
+      if ($( "#result" ).length) {
+        document.getElementById("result").style.display = "none";
+      }
 
     });
-    }
-    document.getElementById("here").innerHTML = label;
 
-    if(label != ""){
-      document.getElementById("click").style.display = "block";
-      document.getElementById("exampleFormControlSelect1").style.display = "block";
-      document.getElementById("icon-search").style.display = "block";
-      $('#settings_btn').css('pointer-events', 'auto');
-      $('#settings_btn').css('opacity', '1');
+if(document.getElementById("other").value  != ""){
+  document.getElementById("click").style.display = "block";
+}
+else{
+  document.getElementById("click").style.display = "none";
+}
 
-    }
-    else{
-      document.getElementById("exampleFormControlSelect1").style.display = "none";
-      document.getElementById("icon-search").style.display = "none";
-      document.getElementById("click").style.display = "none";
-      $('#settings_btn').css('pointer-events', 'none');
-      $('#settings_btn').css('opacity', '0.5');
-    }
-    document.getElementById("person").style.display = "block";
-    document.getElementById("person1").style.display = "block";
-    if ($( "#result" ).length) {
-      document.getElementById("result").style.display = "none";
-    }
+$('form input').on('keypress', function(e) {
+    return e.which !== 13;
+});
 
-  });
-
-  if(document.getElementById("other").value  != ""){
-    document.getElementById("click").style.display = "block";
-  }
-  else{
-    document.getElementById("click").style.display = "none";
-  }
+var person_list = "{{ liste_person }}".split(',');
+for (var i = 0, l = person_list.length; i < l; i++) {
+  $('#icon-wrapper').append(
+   '<tr style="cursor:pointer" class="col-md-12 i-block" id="'+person_list[i]+'" data-clipboard-text="feather ' + person_list[i] + '" data-filter="' + person_list[i] + '"  data-toggle="tooltip" title="' + person_list[i] + '"><th scope="row ' + person_list[i] + '">' + person_list[i] + '</th><td>Mark</td><td>Otto</td><td</tr>');
+}
 
 
-  var person_list = "{{ liste_person }}".split(',');
-  for (var i = 0, l = person_list.length; i < l; i++) {
-    $('#icon-wrapper').append(
-     '<tr style="cursor:pointer" class="col-md-12 i-block" data-clipboard-text="feather ' + person_list[i] + '" data-filter="' + person_list[i] + '"  data-toggle="tooltip" title="' + person_list[i] + '"><th scope="row ' + person_list[i] + '">' + person_list[i] + '</th><td>Mark</td><td>Otto</td><td>@md</td></tr>'+
-     '</div>');
-  }
-
-
-  $(window).on('load', function() {
-    $("#icon-search").on("keyup", function() {
-      document.getElementById("sh").style.display = "block";
-      var g = $(this).val().toLowerCase();
-      $(".ahmed .i-block").each(function() {
-        var t = $(this).attr('data-filter');
-        if (t) {
-          var s = t.toLowerCase();
-        }
-        if (s) {
-          var n = s.indexOf(g);
-          if (n !== -1) {
-            $(this).show();
-          } else {
+$(window).on('load', function() {
+  $("#icon-search").on("keyup", function(event) {
+    document.getElementById("sh").style.display = "block";
+    var g = $(this).val().toLowerCase();
+    $(".ahmed .i-block").each(function() {
+      var t = $(this).attr('data-filter');
+      if (t) {
+        var s = t.toLowerCase();
+      }
+      if (s) {
+        var n = s.indexOf(g);
+        if (n !== -1) {
+          index = $(this).index();
+          $(this).show();
+          $('tr:visible:first').css("background-color", "rgba(4, 169, 245, 0.05)");
+          $('tr:visible').not(':first').css("background-color","white");
+          $('tr:visible').not(':first').hover(
+            function() {
+              $(this).css("background-color", "rgba(4, 169, 245, 0.05)")
+            }, function() {
+              $(this).css("background-color", "white")
+            }
+          );
+          if (event.keyCode === 13) {
+            var value=$(this).attr('id');
+            $("#icon-search").val(value);        
             $(this).hide();
           }
+
+        } else {
+          $(this).hide();
         }
-        $(this).click(function() {
-          document.getElementById("icon-search").value = t;
-          document.getElementById("sh").style.display = "none";
-        });
-        if (document.getElementById("icon-search").value == ""){
-          document.getElementById("sh").style.display = "none";
-        }
+      }
+      $(this).click(function() {
+        document.getElementById("icon-search").value = t;
+        document.getElementById("sh").style.display = "none";
       });
+      if (document.getElementById("icon-search").value == ""){
+        document.getElementById("sh").style.display = "none";
+      }
+
     });
   });
+});
 
 
-  $('.blink').each(function() {
-    var elem = $(this);
-    setInterval(function() {
-      if (elem.css('visibility') == 'hidden') {
-        elem.css('visibility', 'visible');
-      } else {
-        elem.css('visibility', 'hidden');
-      }    
-    }, 500);
-  })
+$('.blink').each(function() {
+  var elem = $(this);
+  setInterval(function() {
+    if (elem.css('visibility') == 'hidden') {
+      elem.css('visibility', 'visible');
+    } else {
+      elem.css('visibility', 'hidden');
+    }    
+  }, 500);
+})
 
-  $(".blink").animate({opacity:0},200,"linear",function(){
-    $(this).animate({opacity:1},200);
-  });
+$(".blink").animate({opacity:0},200,"linear",function(){
+  $(this).animate({opacity:1},200);
+});
+
+if( $("#exampleFormControlSelect1").find(":selected").val() == document.getElementById("op").value){
+  document.getElementById("click").disabled = false;
+}
+
+$("#op1").css('color','black');
+
+$('#exampleFormControlSelect1').change(function(){
 
   if( $("#exampleFormControlSelect1").find(":selected").val() == document.getElementById("op").value){
+    $("#op1").css('color','black');
+    $("#op").css('color','#04a9f5');
     document.getElementById("click").disabled = false;
-  }
-
-  $("#op1").css('color','black');
-
-  $('#exampleFormControlSelect1').change(function(){
-
-    if( $("#exampleFormControlSelect1").find(":selected").val() == document.getElementById("op").value){
-      $("#op1").css('color','black');
-      $("#op").css('color','#04a9f5');
-      document.getElementById("click").disabled = false;
-      document.getElementById("warning").style.display = "none";
-      document.getElementById("verif").style.display = "none";
-      document.getElementById("notverif").style.display = "none";
-      document.getElementById("db").style.display = "none";
-
-    }
-    else{
-      $("#op").css('color','black');
-      $("#op1").css('color','#04a9f5');
-      document.getElementById("click").disabled = true;
-      document.getElementById("warning").style.display = "block";
-      document.getElementById("db").style.display = "block";
-    }
-    if($(this).val() == '1'){
-      document.getElementById("person").style.display = "block";
-      document.getElementById("new_person").style.display = "none";
-      document.getElementById("new_person1").style.display = "none";
-    }
-    else{
-      document.getElementById("person").style.display = "none";
-      document.getElementById("new_person").style.display = "block";
-      document.getElementById("new_person1").style.display = "block";
-    }
-  });
-
-  $('#imagetext').change(function() { 
-    var input = $(this),
-    numFiles = input.get(0).files ? input.get(0).files.length : 1,
-    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    document.getElementById("heree").innerHTML = label;
+    document.getElementById("warning").style.display = "none";
     document.getElementById("verif").style.display = "none";
     document.getElementById("notverif").style.display = "none";
-    document.getElementById("loaderr").style.display = "block";
-    var elem = document.getElementById("after-check");
-    $.ajax({
+    document.getElementById("db").style.display = "none";
 
-      url: '{% url 'check_image' %}',
-      data: {
-        'inputValue': label
-      },
-      dataType: 'json',
-      success: function (data) {
-        document.getElementById("loaderr").style.display = "none";
-        if (data["response"]=='Verified'){
-          if (verif_name=="ok") {
+  }
+  else{
+    $("#op").css('color','black');
+    $("#op1").css('color','#04a9f5');
+    document.getElementById("click").disabled = true;
+    document.getElementById("warning").style.display = "block";
+    document.getElementById("db").style.display = "block";
+  }
+  if($(this).val() == '1'){
+    document.getElementById("person").style.display = "block";
+    document.getElementById("new_person").style.display = "none";
+    document.getElementById("new_person1").style.display = "none";
+  }
+  else{
+    document.getElementById("person").style.display = "none";
+    document.getElementById("new_person").style.display = "block";
+    document.getElementById("new_person1").style.display = "block";
+  }
+});
+
+$('#imagetext').change(function() { 
+  var input = $(this);
+  label = document.getElementById("imagetext").files[0].name;
+  document.getElementById("heree").innerHTML = label;
+  document.getElementById("verif").style.display = "none";
+  document.getElementById("notverif").style.display = "none";
+  document.getElementById("after-check").style.display = "none";
+  document.getElementById("loaderr").style.display = "block";
+  document.getElementById("blink_new_verif").style.display = "block";
+  var elem = document.getElementById("after-check");
+  if (label != '') {
+  $.ajax({
+
+    url: '{% url 'check_image' %}',
+    data: {
+      'inputValue': label
+    },
+    dataType: 'json',
+    success: function (data) {
+      document.getElementById("loaderr").style.display = "none";
+      document.getElementById("blink_new_verif").style.display = "none";
+      document.getElementById("after-check").style.display = "block";
+      if (data["response"]=='Verified'){
+        if (verif_name=="ok") {
           document.getElementById("click").disabled = false;
         }else{
           document.getElementById("click").disabled = true;
         }
-          document.getElementById("verif").style.display = "block";
-          document.getElementById("notverif").style.display = "none";
-          elem.innerHTML = "Well verified";
-          elem.style.color = "#1de9b6";
-          isverif = "ok";
-        }  
-        else{
-          document.getElementById("heree").innerHTML = "";
-          document.getElementById("bb").value = "";
-          document.getElementById("bbb").value = "";
-          document.getElementById("notverif").style.display = "block";
-          document.getElementById("verif").style.display = "none";
+        document.getElementById("verif").style.display = "block";
+        document.getElementById("notverif").style.display = "none";
+        elem.innerHTML = "Well verified";
+        elem.style.color = "#1de9b6";
+        isverif = "ok";
+      }  
+      else{
+        document.getElementById("heree").innerHTML = "";
+        document.getElementById("bb").value = "";
+        document.getElementById("bbb").value = "";
+        document.getElementById("notverif").style.display = "block";
+        document.getElementById("verif").style.display = "none";
 
-          elem.innerHTML = "Please check again,this image contains "+data["response"]+" person";
-          elem.style.color = "Red";
-          isverif = "notok";
-        }
+        elem.innerHTML = "Please check again,this image contains "+data["response"]+" person";
+        elem.style.color = "Red";
+        isverif = "notok";
       }
-    });
+    }
   });
+}
+});
 
-  $('#bb').keyup(function() {
-    const val = $(this).val().trim().replace(/\s+/g, ' ');
-    const str = val.charAt(0).toUpperCase() + val.toLowerCase().slice(1);
-    var letterNumber = /^[a-zA-Z ]+$/;
+$('#bb').keyup(function() {
+  const val = $(this).val().trim().replace(/\s+/g, ' ');
+  const str = val.charAt(0).toUpperCase() + val.toLowerCase().slice(1);
+  var letterNumber = /^[a-zA-Z ]+$/;
 
-    if(!val.match(letterNumber)) {
-      document.getElementById("bbb").innerHTML = "Only letters are required";
+  if(!val.match(letterNumber)) {
+    document.getElementById("bbb").innerHTML = "Only letters are required";
+    document.getElementById("bbb").style.color = "Red";
+    document.getElementById("click").disabled = true;
+    verif_name="not verif";
+  }
+  else{
+    if (str.split(' ')[1]) {
+      document.getElementById("bbb").innerHTML = "'"+str.trimStart()+"'";
+      document.getElementById("bbb").style.color = "#00a150";
+      verif_name="ok";
+      if ($( "#imagetext" ).val()) {
+        if(isverif =="ok"){
+          document.getElementById("click").disabled = false;
+        }else
+        document.getElementById("click").disabled = true;
+      }else
+      {
+        document.getElementById("click").disabled = true;
+      }
+    }   
+    else{
+      document.getElementById("bbb").innerHTML = "You must put both the first and last name !";
       document.getElementById("bbb").style.color = "Red";
       document.getElementById("click").disabled = true;
-      verif_name="not verif";
+      verif_name="notok";
     }
-    else{
-      if (str.split(' ')[1]) {
-        document.getElementById("bbb").innerHTML = "'"+str.trimStart()+"'";
-        document.getElementById("bbb").style.color = "#00a150";
-        verif_name="ok";
-        if ($( "#imagetext" ).val()) {
-          if(isverif =="ok"){
-            document.getElementById("click").disabled = false;
-          }else
-            document.getElementById("click").disabled = true;
-        }else
-        {
-            document.getElementById("click").disabled = true;
-        }
-      }   
-      else{
-        document.getElementById("bbb").innerHTML = "You must put both the first and last name !";
-        document.getElementById("bbb").style.color = "Red";
-        document.getElementById("click").disabled = true;
-        verif_name="notok";
-      }
-    }
-    if(str=="") {
-      document.getElementById("bbb").innerHTML ="";
-    }
-  });
+  }
+  if(str=="") {
+    document.getElementById("bbb").innerHTML ="";
+  }
+});
 
-  $( "#settings_btn" ).click(function() {
-    $('html, body').animate({scrollTop: $('[id=click]').offset().top }, 'slow');
-  });
+$( "#settings_btn" ).click(function() {
+  $('html, body').animate({scrollTop: $('[id=click]').offset().top }, 'slow');
+});
 
 
 

@@ -1,6 +1,6 @@
-# -*- encoding: utf-8 -*-
-""" 
-Copyright (c) 2019 - present AppSeed.us   
+ # -*- encoding: utf-8 -*-
+"""  
+Copyright (c) 2019 - present AppSeed.us    
 """ 
  
 from django.contrib.auth.decorators import login_required
@@ -34,9 +34,11 @@ from django.http import JsonResponse
 import shutil
 import os
 from django.template.defaulttags import register
-from core.settings import DATABASE_IMG,NN4_SMALL2,APP,DATABASE_DIR,FILES,DATABASE_DATE_ADDED
+from core.settings import DATABASE_IMG,NN4_SMALL2,APP,DATABASE_DIR,FILES,DATABASE_DATE_ADDED,HISTORY,DATABASE_SIGLE_IMG_DIR
 from datetime import datetime
 from django.core.serializers.json import DjangoJSONEncoder
+import pandas as pd
+import numpy as np
 
 
 
@@ -46,11 +48,11 @@ face_dictionnaire = np.load(DATABASE_IMG, allow_pickle= True ).item()
 face_dictionnaire = collections.OrderedDict(sorted(face_dictionnaire.items()))
 
 Date_Added =  np.load(DATABASE_DATE_ADDED, allow_pickle= True ).item()
+History = pd.read_csv(HISTORY ,index_col=0)
 
-
-
-pred = set()
+pred = set() 
 liste_person = []
+mylist = {}
 
 for (name, encodes) in face_dictionnaire.items():
     label = name
@@ -58,7 +60,7 @@ for (name, encodes) in face_dictionnaire.items():
     label = label.replace('_',' ')
     label = label.replace('-','')
     liste_person.append(label)
-liste_person = set(liste_person) 
+liste_person = set(liste_person)   
 
  
 dict_range = {10:50 ,20:40 ,30:20 ,40:15 ,50:10,60:9,70:8 ,80:5 ,90:1 ,100:0}
@@ -68,12 +70,12 @@ def index(request):
  
     context = {}
     context['segment'] = 'index' 
-
+    context['History'] = History.set_index('Person').T.to_dict('list')
     html_template = loader.get_template( 'index.html' )
     return HttpResponse(html_template.render(context, request))
 
 @login_required(login_url="/login/")
-def pages(request): 
+def pages(request):  
     context = {}
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
@@ -81,7 +83,7 @@ def pages(request):
     try:
         load_template      = request.path.split('/')[-1]
         context['segment'] = load_template
-        if load_template=='Advanced-video-processing.html':
+        if load_template == 'Advanced-video-processing.html':
             context['liste_person'] = ','.join(liste_person)
         elif load_template == 'Database-Management.html':
             dataJSON = json.dumps(Date_Added, indent=4, sort_keys=True, default=str) 
@@ -127,13 +129,8 @@ def Advanced_video_processing(request):
         Time = request.POST.get('time')
         time_start = request.POST.get('time_start')
         time_end = request.POST.get('time_end')
-        print(time_start)
-        print(time_end)
-        if time_end:
-            time_start_miliseconds = int(3600000 * int(time_start.split(":")[0]) + 60000 * int(time_start.split(":")[1]) + 1000 * int(time_start.split(":")[2]))
-            time_end_miliseconds = int(3600000 * int(time_end.split(":")[0]) + 60000 * int(time_end.split(":")[1]) + 1000 * int(time_end.split(":")[2]))
-            print(time_start_miliseconds)
-            print(time_end_miliseconds)
+        intervall_start = 'none'
+        intervall_end = 'none'
         person = ""
         ll = FILES+media
         image = cv2.imread(ll)
@@ -146,7 +143,20 @@ def Advanced_video_processing(request):
 
         liste =[]
         cap = cv2.VideoCapture(FILES+media)
-        time_start = time.time()
+        fps_cap = cap.get(cv2. CAP_PROP_FPS)
+        frame_count_cap = int(cap.get(cv2. CAP_PROP_FRAME_COUNT))
+        check_cap = 1000 * int(frame_count_cap/fps_cap)+1000
+        
+        if time_end:
+            time_start_miliseconds = int(3600000 * int(time_start.split(":")[0]) + 60000 * int(time_start.split(":")[1]) + 1000 * int(time_start.split(":")[2]))
+            time_end_miliseconds = int(3600000 * int(time_end.split(":")[0]) + 60000 * int(time_end.split(":")[1]) + 1000 * int(time_end.split(":")[2]))
+            if (time_end_miliseconds-time_start_miliseconds)!=check_cap:
+                intervall_start = time_start
+                intervall_end = time_end
+            else:
+                intervall_start = 'none'
+                intervall_end = 'none'
+
         target = dict_range[int(rang)]
         counter = 0  
         list_img=[]
@@ -160,7 +170,6 @@ def Advanced_video_processing(request):
             a = ""
             while a != 'ok':
                 try:
-                    print("here",new_person_name)
                     output = generate_database_person(FILES+new_person_image,new_person_name.replace(" ","_"),modele_OpenFace, augmentations=3)
                     a = 'ok'
                 except:
@@ -254,7 +263,7 @@ def Advanced_video_processing(request):
                             pass
                         msg=None        
                     else:
-                        msg="This video does not contain any identified person." 
+                        msg="This video does not contain any identified person" 
                 else:      
                         ret = cap.grab()      
                         counter += 1 
@@ -269,18 +278,31 @@ def Advanced_video_processing(request):
             myset.remove("Unknown") 
         else:
             pass 
-        time_end = time.time() 
         extension = "image" if ext in ["jpeg","jpg","png","gif","tif","psd","pdf","eps","ai","indd","svg"] else "video"
-        size = len(myset)
-        return render(request, 'Advanced-video-processing.html',{"dict_name":dict_name,"dict_time":dict_time,"msg":msg,"extension":extension,"Person":person,"len":size,"liste_person":','.join(liste_person)})
+        size = len(myset)    
+         
+        return render(request, 'Advanced-video-processing.html', {"intervall_start":intervall_start,"intervall_end":intervall_end,"dict_name":dict_name,"dict_time":dict_time,"msg":msg,"extension":extension,"Person":person,"len":size,"liste_person":','.join(liste_person)})
     except : 
         return render(request, 'Advanced-video-processing.html',{"liste_person":','.join(liste_person)})
 
-def video_names(request): 
-    mylist = ','.join([str(i) for i in pred])       
-    return HttpResponse(mylist)    
+def video_names(request):
+    historyy = History
+    mylist = ','.join([str(i) for i in pred])
+    date_string = str(datetime.now().strftime("%d/%m/%Y"))
+    time_string = str(datetime.now().strftime("%H:%M:%S"))
+    if len(mylist) > 0 :
+        for i in mylist.split(","): 
+            if i not in list(historyy["Person"].unique()):
+                historyy = historyy.append(dict(zip(historyy.columns,[i,date_string,time_string])), ignore_index=True)
+                historyy.to_csv(HISTORY)
+            else:
+                result_date = list(History[History["Person"]== i]['Date'])
+                if str(datetime.now().strftime("%d/%m/%Y")) not in [i[0:10] for i in result_date] :
+                    historyy = historyy.append(dict(zip(historyy.columns,[i,date_string,time_string])), ignore_index=True)
+                    historyy.to_csv(HISTORY)
+    return HttpResponse(mylist)
      
-def delete_from_db(request):  
+def delete_from_db(request):    
     try: 
         type_del = request.GET.get('type')       
         name = request.GET.get('person_name')
@@ -333,8 +355,6 @@ def check_length(request):
 
 
 def video_length(request):
-    print("hello");
-    print(FILES+request.GET.get('label'));
     cap = cv2. VideoCapture(FILES+request.GET.get('label')) 
     fps = cap. get(cv2. CAP_PROP_FPS)
     frame_count = int(cap. get(cv2. CAP_PROP_FRAME_COUNT))
@@ -350,7 +370,6 @@ def video_length(request):
         minutes = minutes % 60 
         str(hours).zfill(2)
     duration = str(hours).zfill(2)+':'+str(minutes).zfill(2)+':'+str(seconds).zfill(2)
-    print(duration)
     return HttpResponse(duration)
  
 def add_single_image(request):
@@ -386,20 +405,21 @@ def add_single_image(request):
       
 
 def add_to_database(request):   
-    try:
+    if True:
         path = request.GET.get('path').replace(' ','_')
         img_list = request.GET.get('img_list').split(",")
-        print(img_list)
         j =1
         for i in img_list:
             new_path = DATABASE_DIR+path+"\\"+i
-
             if not os.path.exists(DATABASE_DIR+path):
                 os.makedirs(DATABASE_DIR+path) 
             shutil.copyfile(FILES+i, new_path)
-            os.rename(new_path,DATABASE_DIR+path+"\\"+path+"_00"+str(j)+"."+i.split('.')[1])
+            os.rename(new_path,DATABASE_DIR+path+"\\"+path+"_00"+str(j)+"."+i.split('.')[1])    
             j+=1
-        
+        db_single_img = DATABASE_SIGLE_IMG_DIR+img_list[0]
+        if not os.path.exists(DATABASE_SIGLE_IMG_DIR+path.replace('_',' ')+" ."+img_list[0].split('.')[1]):
+            shutil.copyfile(FILES+img_list[0], db_single_img)
+            os.rename(db_single_img,DATABASE_SIGLE_IMG_DIR+path.replace('_',' ')+" ."+img_list[0].split('.')[1])
         a = ""
         while a != 'ok':
             try:
@@ -417,9 +437,6 @@ def add_to_database(request):
         np.save(DATABASE_DATE_ADDED, Date_Added)
         data = {'path':path,'date':date}
         stat = 200
-    except:
-        stat = 400
-        data = {'error':'error'}
     return JsonResponse(data, status=stat)
 
 
@@ -484,7 +501,6 @@ def check_imagee(request):
                 if 'Unknown' in list(face_outt2[1].keys()):
                     data = {'response':'',"inlist":"","duplicated":"notVerified"}
                 else:
-                    print(list(face_outt2[1].keys())[0])
                     if "New person " == list(face_outt2[1].keys())[0]:
                         data = {'response':'Verified',"inlist":"","duplicated":""}
                     else:

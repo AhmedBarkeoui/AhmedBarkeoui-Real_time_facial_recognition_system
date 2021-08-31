@@ -119,6 +119,7 @@ STATIC_URL = '/static/'
 LIBRARIES_FILES = os.path.join(CORE_DIR, 'Libraries')
 APP = os.path.join(CORE_DIR, 'app/')
 DATABASE_DIR = os.path.join(CORE_DIR, 'core/static/Database/')
+DATABASE_SIGLE_IMG_DIR = os.path.join(CORE_DIR, 'core/static/Database_single_img/')
 FILES = os.path.join(CORE_DIR, 'files/')
 
 NN4_SMALL2 = os.path.join(LIBRARIES_FILES, 'nn4.small2.v1.h5')
@@ -127,7 +128,9 @@ FACENET_ARCH = os.path.join(LIBRARIES_FILES, 'Facenet_architecture.json')
 FACENET_WEIGHTS = os.path.join(LIBRARIES_FILES, 'Facenet_weights.h5')
 LANDMARKS = os.path.join(LIBRARIES_FILES, 'landmarks.dat')
 DATABASE_IMG = os.path.join(LIBRARIES_FILES, 'Django.npy')
+DATABASE_SIGLE_IMG = os.path.join(LIBRARIES_FILES, 'Django.npy')
 DATABASE_DATE_ADDED = os.path.join(LIBRARIES_FILES, 'Date_added.npy')
+HISTORY = os.path.join(LIBRARIES_FILES, 'History.csv')
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (

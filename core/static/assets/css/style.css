@@ -7276,7 +7276,7 @@ select.form-control-lg:not([size]):not([multiple]) {
 ==========================  **/
 .table td,
 .table th {
-  border-top: 1px solid #eaeaea;
+  border-bottom: 1px solid #eaeaea;
   white-space: nowrap;
   padding: 1.05rem 0.75rem;
 }

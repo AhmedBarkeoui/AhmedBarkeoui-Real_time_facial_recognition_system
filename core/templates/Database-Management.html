@@ -1363,7 +1363,7 @@ $('#verif_name').keyup(function() {
 
   const users_check = users.map(users => users.toUpperCase().replace(/ /g, ''));
   const val = $(this).val().trim().replace(/\s+/g, ' ');
-  const str = val.charAt(0).toUpperCase() + val.toLowerCase().slice(1);
+  const str = val.charAt(0).toUpperCase() + val.toLowerCase().slice(1).trimStart();
   var letterNumber = /^[a-zA-Z ]+$/;
 
   label_img = $('#imagetext').val().replace(/\\/g, '/').replace(/.*\//, '').replace(/\s+/g, ' ');
@@ -1381,7 +1381,7 @@ $('#verif_name').keyup(function() {
     verif_name="";
   }else{
     if (str.split(' ')[1]) {
-      document.getElementById("per").innerHTML = "'"+str.trimStart()+"'";
+      document.getElementById("per").innerHTML = "'"+str+"'";
       elem.style.color = "#00a150";
       verif_name="ok";
       if ($( "#imagetextt" ).length) {
@@ -1391,7 +1391,11 @@ $('#verif_name').keyup(function() {
           }else
           document.getElementById("click").disabled = true;
         }else{
+          if(isverif =="ok"){
           document.getElementById("click").disabled = false;
+          }else{
+            document.getElementById("click").disabled = true;
+          }
         }
       }
       else{
@@ -1415,7 +1419,7 @@ $('#verif_name').keyup(function() {
 $( "#click" ).click(function() {
   var img_list = [];
   const lab = $('#verif_name').val().replace(/\\/g, '/').replace(/.*\//, '').trim().replace(/\s+/g, ' ');
-  const str = lab.charAt(0).toUpperCase() + lab.slice(1);
+  const str = lab.charAt(0).toUpperCase() + lab.toLowerCase().slice(1).trimStart();
 
   $( "input[name='imagetext']").each(function() {
     if ($(this).val()) {
@@ -1556,7 +1560,7 @@ $("#table_id").on('click','.edit', function(){
 
       for (var i = 0; i < mm.length; i++) {
         var iii = "{% static DATABASE_DIR %}";
-        $('#addhere').append('<span id="replace" class="col-xl-4"><div class="card"><div class="card-header" id="'+i+'"><h5>Picture '+(i+1)+'</h5><i style="font-size:20px;color: #04a9f5;cursor: pointer;" class="float-right feather kk icon-trash-2 del_pic" data-toggle="modal" data-target="#exampleModalll" id="'+mm[i]+'"></i></div><div class="card-block"><div id="sdf"><img          src='+iii+jj.replaceAll(' ','_')+'/'+mm[i]+' style="height:300px;width:300px" id="mlm"></div></div></div></span>')
+        $('#addhere').append('<span id="replace" class="col-xl-4"><div class="card"><div class="card-header" id="'+i+'"><h5>Picture '+(i+1)+'</h5><i style="font-size:20px;color: #04a9f5;cursor: pointer;" class="float-right feather kk icon-trash-2 del_pic" data-toggle="modal" data-target="#exampleModalll" id="'+mm[i]+'"></i></div><div class="card-block"><div id="sdf"><img src='+iii+jj.replaceAll(' ','_')+'/'+mm[i]+' style="height:300px;width:300px" id="mlm"></div></div></div></span>')
 
 
 
