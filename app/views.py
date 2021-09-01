@@ -334,7 +334,7 @@ def delete_from_db(request):
 
 
 def delete_single_image(request):  
-    if True:   
+    try:   
         name = request.GET.get('person_name')
         for key in list(face_dictionnaire.keys()):   
             if name in key:
@@ -347,6 +347,9 @@ def delete_single_image(request):
         
         data = {'name':name.replace('_',' ')[0:-1]}
         stat = 200
+    except:
+        stat = 400
+        data = {'error':'error'}
     return JsonResponse(data, status=stat)
 
 
@@ -408,7 +411,7 @@ def add_single_image(request):
       
 
 def add_to_database(request):   
-    if True:
+    try:
         path = request.GET.get('path').replace(' ','_')
         img_list = request.GET.get('img_list').split(",")
         j =1
@@ -440,12 +443,15 @@ def add_to_database(request):
         np.save(DATABASE_DATE_ADDED, Date_Added)
         data = {'path':path,'date':date}
         stat = 200
+    except:
+        stat = 400
+        data = {'error':'error'}
     return JsonResponse(data, status=stat)
 
 
 
 def check_image(request):
-    if True:
+    try:
         image_path = (FILES+request.GET.get('inputValue'))
         img = cv2.imread(image_path)
         import_img = importer_image(image_path)
@@ -461,10 +467,13 @@ def check_image(request):
             data = {'response':num,"inlist":""}
         stat = 200
 
+    except:
+        stat = 400
+        data = {'error':'error'}
     return JsonResponse(data, status=stat)
 
 def check_imagee(request):
-    if True:
+    try:
         stat = 200
         image_path = FILES+request.GET.get('inputValue')
         img = cv2.imread(image_path)
@@ -516,6 +525,9 @@ def check_imagee(request):
             else:
                 data = {'response':'Verified','inlist':str(list(face_out[1].keys())[0]),"duplicated":""}
 
+    except:
+        stat = 400
+        data = {'error':'error'}
     return JsonResponse(data, status=stat)
 
 def check_single_image_verif(request):
