@@ -132,7 +132,14 @@
                                         </td>
                                         <td>
                                             <h6 class="mb-1">{{key}}</h6>
-                                            <p class="m-0">Lorem Ipsum is simply…</p>
+                                            {% if key|slice:":-1" in res %}
+                                            {% with key|slice:":-1" as keyy %}
+                                            <p class="m-0">{{ res|get_value:keyy }}</p>
+                                            {% endwith %}
+                                            {% else %}
+                                            <p class="m-0">Unknown</p>
+                                            {% endif %}
+                                           
                                         </td>
                                         <td>
                                             <h6 class="text-muted">
@@ -167,8 +174,15 @@
                                             {% endif %}
                                         </td>
                                         <td>
+                                         
                                             <h6 class="mb-1">{{key}}</h6>
-                                            <p class="m-0">Lorem Ipsum is simply…</p>
+                                            {% if key|slice:":-1" in res %}
+                                            {% with key|slice:":-1" as keyy %}
+                                            <p class="m-0">{{ res|get_value:keyy }}</p>
+                                            {% endwith %}
+                                            {% else %}
+                                            <p class="m-0">Unknown</p>
+                                            {% endif %}
                                         </td>
                                         <td>
                                             <h6 class="text-muted">
@@ -206,6 +220,9 @@
     var tablee = document.getElementById("ddd");
     document.getElementById("num_personn").innerHTML =  (tablee.rows.length).toString().padStart(4, '0');
     document.getElementById("num_personnn").innerHTML = (table.rows.length).toString().padStart(4, '0');
+    var Res_JSON = JSON.parse("{{resJSON|escapejs}}");
+    var person_list = [{%for i in Dataset.Full_name%} "{{ i }}", {%endfor%}];
+
     var LISTE = []
     setInterval(function() {
         $.ajax({
@@ -219,11 +236,17 @@
                         const timeElapsed = Date.now();
                         const today = new Date(timeElapsed);
                         if (mylist[i]){ 
+
                             if(mylist[i]=="Unknown"){
-                                $( "#person" ).append( '<tr class="unread"><td><img class="rounded-circle" style="width:40px;height: 40px;" src="/static/assets/images/user/avatar-2.jpg" alt="activity-user"></td><td><h6 class="mb-1">'+mylist[i]+'</h6><p class="m-0">Lorem Ipsum is simply…</p></td><td><h6 class="text-muted"><i class="fas fa-circle text-c-red f-10 m-r-15"></i>'+today.toUTCString()+'</h6></td><td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td></tr>');
+                                $( "#person" ).append( '<tr class="unread"><td><img class="rounded-circle" style="width:40px;height: 40px;" src="/static/assets/images/user/avatar-2.jpg" alt="activity-user"></td><td><h6 class="mb-1">'+mylist[i]+'</h6><p class="m-0">Unknown</p></td><td><h6 class="text-muted"><i class="fas fa-circle text-c-red f-10 m-r-15"></i>'+today.toUTCString()+'</h6></td><td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td></tr>');
                             }else{
-                            $( "#person" ).append( '<tr class="unread"><td><img class="rounded-circle" style="width:40px;height: 40px;" src="/static/Database_single_img/'+mylist[i]+'.jpg" alt="activity-user"></td><td><h6 class="mb-1">'+mylist[i]+'</h6><p class="m-0">Lorem Ipsum is simply…</p></td><td><h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>'+today.toUTCString()+'</h6></td><td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td></tr>');
-                            }
+                                if (person_list.includes(mylist[i].substr(0, mylist[i].length - 1))) {
+                                    $( "#person" ).append( '<tr class="unread"><td><img class="rounded-circle" style="width:40px;height: 40px;" src="/static/Database_single_img/'+mylist[i]+'.jpg" alt="activity-user"></td><td><h6 class="mb-1">'+mylist[i]+'</h6><p class="m-0">'+Res_JSON[mylist[i].substr(0, mylist[i].length - 1)].split('|')[0]+" | "+Res_JSON[mylist[i].substr(0, mylist[i].length - 1)].split('|')[1]+'</p></td><td><h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>'+today.toUTCString()+'</h6></td><td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td></tr>');
+                                }else{
+                                     $( "#person" ).append( '<tr class="unread"><td><img class="rounded-circle" style="width:40px;height: 40px;" src="/static/Database_single_img/'+mylist[i]+'.jpg" alt="activity-user"></td><td><h6 class="mb-1">'+mylist[i]+'</h6><p class="m-0">Unknown</p></td><td><h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>'+today.toUTCString()+'</h6></td><td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td></tr>');
+                                }
+
+                                }
                             
                         }
                     }

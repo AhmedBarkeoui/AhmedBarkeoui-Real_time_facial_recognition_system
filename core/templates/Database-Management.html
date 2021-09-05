@@ -510,14 +510,12 @@ keyframes animate-stripes {
                   <thead>
                     <tr>
                       <th>Name</th>
+                      <th>Id</th>
+                      <th>Position</th>
+                      <th>E-mail</th>
+                      <th>Gender</th>
                       <th>Date Added</th>
                       <th>Time Added </th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Extn.</th>
-                      <th>E-mail</th>
-                      <th>E-mail</th>
                       <th>Delete</th>
                       <th>Edit</th>
                     </tr>
@@ -573,15 +571,16 @@ keyframes animate-stripes {
 <script src="https://www.cssscript.com/demo/material-design-inspired-progress-bar-with-css3-and-pure-js-mprogress-js/mprogress.min.js"></script>
 <script type="text/javascript">
   var Date_Added = JSON.parse("{{Date_Added|escapejs}}");
+  var Res_JSON = JSON.parse("{{resJSON|escapejs}}");
   target = "eee";
   var  table = $("#table_id").DataTable ({
    "pageLength" : 10,
    "lengthMenu": [[5, 10, 20, 100,-1], [5, 10, 20, 100,'All']],
    "columnDefs": [
-   {"className": "dt-center", "targets": [1,2,9,10]}
+   {"className": "dt-center", "targets": [1,2,3,4,5,6,7,8]}
    ]
  });
-
+  var person_list = [{%for i in Dataset.Full_name%} "{{ i }}", {%endfor%}];
   var users = "{{ users }}".split(',');
   var isverif ="";
   var verif_name = "";
@@ -591,24 +590,56 @@ keyframes animate-stripes {
     return len > 0? new Array(len).join(chr || '0')+this : this;
   }
 
+
+
+
+function fromviews(str){
+ var value ;
+ $.ajax({
+    url: '{% url 'find_in_db' %}',
+    data:{'name': str},
+    success: function(data){
+      value = data;          
+    }
+  });
+  return value;
+}
+
+
+
+
 $(document).ready( function () {
 
     var rows = users;
     for (var i = 0; i < rows.length ; i++) {
-      table.row.add( [
-        rows[i],
-        Date_Added[rows[i]].split(' ')[0],
-        Date_Added[rows[i]].split(' ')[1],
-        'Customer Support',
-        'New York',
-        '27',
-        '$112,000',
-        '4226',
-        'd.snider@datatables.net',
-        '<i class="feather icon-trash-2 blue" id="'+rows[i]+'" data-toggle="modal" data-target="#exampleModal" style="color:#04a9f5"></i>',
-        '<i class="feather icon-edit edit" id="'+rows[i].trimEnd()+'" style="color:#04a9f5;cursor:pointer"></i>',
 
-        ] ).draw( true );
+      if (person_list.includes(rows[i].substr(0, rows[i].length - 1))) {
+        table.row.add( [
+          rows[i],
+          Res_JSON[rows[i].substr(0, rows[i].length - 1)].split('|')[0],
+          Res_JSON[rows[i].substr(0, rows[i].length - 1)].split('|')[1],
+          Res_JSON[rows[i].substr(0, rows[i].length - 1)].split('|')[2],
+          Res_JSON[rows[i].substr(0, rows[i].length - 1)].split('|')[3],
+          Date_Added[rows[i]].split(' ')[0],
+          Date_Added[rows[i]].split(' ')[1],
+          '<i class="feather icon-trash-2 blue" id="'+rows[i]+'" data-toggle="modal" data-target="#exampleModal" style="color:#04a9f5"></i>',
+          '<i class="feather icon-edit edit" id="'+rows[i].trimEnd()+'" style="color:#04a9f5;cursor:pointer"></i>',
+
+          ] ).draw( true );
+      }else{
+        table.row.add( [
+          rows[i],
+          '-',
+          '-',
+          '-',
+          '-',
+          Date_Added[rows[i]].split(' ')[0],
+          Date_Added[rows[i]].split(' ')[1],
+          '<i class="feather icon-trash-2 blue" id="'+rows[i]+'" data-toggle="modal" data-target="#exampleModal" style="color:#04a9f5"></i>',
+          '<i class="feather icon-edit edit" id="'+rows[i].trimEnd()+'" style="color:#04a9f5;cursor:pointer"></i>',
+
+          ] ).draw( true );
+      }
     }
 });
   $('#imagetext').change(function() { 
@@ -1491,20 +1522,33 @@ $( "#click" ).click(function() {
       d.getSeconds().padLeft()].join(':');
       name = str.replaceAll('_',' ')+" ";
       Date_Added[name] = data['date'].split(' ')[0]+" "+data['date'].split(' ')[1];
+      if (person_list.includes(name.substr(0, name.length - 1))) {
       table.row.add( [
         name,
+        Res_JSON[name.substr(0, name.length - 1)].split('|')[0],
+        Res_JSON[name.substr(0, name.length - 1)].split('|')[1],
+        Res_JSON[name.substr(0, name.length - 1)].split('|')[2],
+        Res_JSON[name.substr(0, name.length - 1)].split('|')[3],
         data['date'].split(' ')[0],
         data['date'].split(' ')[1],
-        'Customer Support',
-        'New York',
-        '27',
-        '$112,000',
-        '4226',
-        'd.snider@datatables.net',
         '<i class="feather icon-trash-2 blue" id="'+name+'" data-toggle="modal" data-target="#exampleModal" style="color:#04a9f5"></i>',
         ' <i class="feather icon-edit edit" id="'+str.replaceAll('_',' ').trimEnd()+'" style="color:#04a9f5;cursor:pointer"></i>',
 
         ] ).draw( true );
+      }else{
+        table.row.add( [
+          name,
+          '-',
+          '-',
+          '-',
+          '-',
+          data['date'].split(' ')[0],
+          data['date'].split(' ')[1],
+          '<i class="feather icon-trash-2 blue" id="'+name+'" data-toggle="modal" data-target="#exampleModal" style="color:#04a9f5"></i>',
+        ' <i class="feather icon-edit edit" id="'+str.replaceAll('_',' ').trimEnd()+'" style="color:#04a9f5;cursor:pointer"></i>',
+
+          ] ).draw( true );
+      }
       users.push(name);
       $( "#show" ).slideUp();
     },

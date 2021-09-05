@@ -45,6 +45,8 @@ urlpatterns = [
     
     path('chart_test', views.chart_test, name='chart_test'),
     
+    path('find_in_db', views.find_in_db, name='find_in_db'),
+    
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
    

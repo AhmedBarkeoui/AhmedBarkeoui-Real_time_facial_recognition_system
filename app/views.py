@@ -29,7 +29,7 @@ import urllib, base64
 import matplotlib 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import json
+import json 
 from django.http import JsonResponse
 import shutil
 import os
@@ -39,6 +39,7 @@ from datetime import datetime
 from django.core.serializers.json import DjangoJSONEncoder
 import pandas as pd
 import numpy as np
+from collections import Counter
 
 
 
@@ -50,6 +51,10 @@ face_dictionnaire = collections.OrderedDict(sorted(face_dictionnaire.items()))
 Date_Added =  np.load(DATABASE_DATE_ADDED, allow_pickle= True ).item()
 History = pd.read_csv(HISTORY ,index_col=0)
 Dataset = pd.read_csv(DATASET ,index_col=0)
+res = {}
+res = {list(Dataset["Full_name"])[i]: list(Dataset["Id"])[i]+"|"+list(Dataset["Status"])[i]+"|"+list(Dataset["E-mail"])[i]+"|"+list(Dataset["Gender"])[i] for i in range(len(list(Dataset["Full_name"])))}
+dataJSON = json.dumps(Date_Added, indent=4, sort_keys=True, default=str) 
+resJSON  = json.dumps(res, indent=4, sort_keys=True, default=str) 
 
 pred = set() 
 liste_person = []
@@ -68,10 +73,13 @@ dict_range = {10:50 ,20:40 ,30:20 ,40:15 ,50:10,60:9,70:8 ,80:5 ,90:1 ,100:0}
 
 @login_required(login_url="/login/")
 def index(request):
- 
+    
     context = {}
     context['segment'] = 'index' 
     context['History'] = History.set_index('Person').T.to_dict('list')
+    context['resJSON'] = resJSON
+    context['res'] = res 
+    context['Dataset'] = Dataset
     html_template = loader.get_template( 'index.html' )
     return HttpResponse(html_template.render(context, request))
 
@@ -87,12 +95,23 @@ def pages(request):
         if load_template == 'Advanced-video-processing.html':
             context['liste_person'] = ','.join(liste_person)
         elif load_template == 'Database-Management.html':
-            dataJSON = json.dumps(Date_Added, indent=4, sort_keys=True, default=str) 
             context['users'] = ','.join(liste_person) 
             context['DATABASE_DIR'] = DATABASE_DIR
             context['Date_Added'] = dataJSON
-        elif load_template == 'charts-morris.html':
+            context['resJSON'] = resJSON 
             context['Dataset'] = Dataset
+       
+            
+        elif load_template == 'charts-morris.html':
+            History_ = pd.read_csv(HISTORY ,index_col=0)
+            today_list = list(History_[(History_["Date"] == datetime.now().strftime("%d/%m/%Y")) & (History_["Person"] != "Unknown")]["Person"])
+            #filter_list = Dataset[Dataset["Full_name"].isin([w[:-1] for w in today_list])]
+            data_chart = pd.DataFrame(Counter(Dataset[Dataset["Full_name"].isin([w[:-1] for w in today_list])]["Status"]).most_common(),columns=['Status','Nbr'])
+            resl = {list(data_chart["Status"])[i]: list(data_chart["Nbr"])[i] for i in range(len(list(data_chart["Status"])))}
+            final_list = list(resl.values())
+            context['final_list'] = final_list
+            context['Dataset'] = Dataset
+            
         else:
             pass
         html_template = loader.get_template( load_template )
@@ -110,8 +129,8 @@ def pages(request):
 
 def gen(camera):
     while True:
-        frame = camera.get_frame()[0]
-        pred.update(camera.get_frame()[1])
+        frame = camera.get_frame(face_dictionnaire)[0]
+        pred.update(camera.get_frame(face_dictionnaire)[1])
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
@@ -165,7 +184,7 @@ def Advanced_video_processing(request):
         list_img=[]
         list_name=[]
         dict_name={}
-        dict_time={}
+        dict_time={}  
         msg=None 
         size = 0 
         if new_person_image :
@@ -633,7 +652,7 @@ def check_single_image(request):
         data = {'error':'error'}
     return JsonResponse(data, status=stat)
  
-def edit_person(request):
+def edit_person(request):  
     try:
         name = request.GET.get('name_edit')
         listtt = []
@@ -649,10 +668,24 @@ def edit_person(request):
 def get_value(dictionary, key):
     return dictionary.get(key)
 
-@register.filter
-def split(value):
-    return value.split(',')
+
 
 def chart_test(request): 
-    responses_pie =  Results.objects.filter(date=date.today()).annotate(count=Count('result'))  
-    return render(request,'mbr/chart_test.html',{'responses_pie': responses_pie})
+    History_new = pd.read_csv(HISTORY ,index_col=0)
+    today_list = list(History_new[(History_new["Date"] == datetime.now().strftime("%d/%m/%Y")) & (History_new["Person"] != "Unknown")]["Person"])
+    data_chart = pd.DataFrame(Counter(Dataset[Dataset["Full_name"].isin([w[:-1] for w in today_list])]["Status"]).most_common(),columns=['Status','Nbr'])
+    resl = {list(data_chart["Status"])[i]: list(data_chart["Nbr"])[i] for i in range(len(list(data_chart["Status"])))}
+    final_list = list(resl.values())
+    mylist = ','.join([str(i) for i in final_list])
+    print(mylist)
+    return HttpResponse(mylist)
+
+
+def find_in_db(request):
+    name = request.GET.get('name')[0:-1]
+    if name in list(Dataset["Full_name"]):
+        status = Dataset[Dataset["Full_name"] == name]["Status"][0]
+    else:
+        status = "-"
+    print(status)
+    return HttpResponse(status) 

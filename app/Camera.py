@@ -22,11 +22,6 @@ from core.settings import DATABASE_IMG,NN4_SMALL2,APP,DATABASE_DIR,FILES
 
 modele_OpenFace = faceRecoModel(input_shape=(3,96,96))
 modele_OpenFace.load_weights(NN4_SMALL2)
-face_dictionnaire = np.load(DATABASE_IMG, allow_pickle= True ).item()
-face_dictionnaire = collections.OrderedDict(sorted(face_dictionnaire.items()))
-
-
-
 
 class VideoCamera(object):
     
@@ -39,7 +34,7 @@ class VideoCamera(object):
         cv2.destroyAllWindows()
 
     
-    def get_frame(self):
+    def get_frame(self,face_dictionnaire):
         liste = set()
         flag,image = self.video.read()
         frame = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -53,7 +48,7 @@ class VideoCamera(object):
 class IPWebCam(object):
     face_dictionnaire = np.load(DATABASE_IMG, allow_pickle= True ).item()
     def __init__(self):
-        self.url = 'http://192.168.137.176:8080/shot.jpg'
+        self.url = 'http://192.168.85.227:8080//shot.jpg'
         #self.vs = VideoStream(src=0).start()
         
     def __del__(self):
