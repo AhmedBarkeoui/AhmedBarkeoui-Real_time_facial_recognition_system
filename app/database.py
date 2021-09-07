@@ -11,13 +11,15 @@ from app.face_recognition import *
 from app.inception_blocks import *
 
 ################# IMAGE TRANSFORMATION FUNCTIONs ####################
+
+
 def rotation_randomly(image):
     random_degree = random.uniform(-10,10)
     new_img = 255*transform.rotate(image,random_degree)
     new_img = new_img.astype(np.uint8)
     return new_img
 
-def retourner_horizontal(image, prob=1.):
+def flip_horizontal(image, prob=1.):
     random_prob = random.uniform(0.,1.)
     if random_prob < prob:
         new_img = np.fliplr(image)
@@ -48,7 +50,7 @@ def blur_image(image):
     new_img = new_img.astype(np.uint8)
     return new_img
 
-def ajouter_noise(image):
+def add_noise(image):
     new_img = 255*random_noise(image)
     new_img = new_img.astype(np.uint8)
     return new_img

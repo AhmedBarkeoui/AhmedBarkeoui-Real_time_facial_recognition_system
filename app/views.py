@@ -1,8 +1,8 @@
  # -*- encoding: utf-8 -*-
 """  
-Copyright (c) 2019 - present AppSeed.us    
+Copyright (c) 2019 - present AppSeed.us      
 """ 
- 
+  
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
@@ -16,7 +16,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 import time
 import cv2
-import numpy as np
+import numpy as np 
 import collections
 from PIL import Image
 from app.face_recognition import *
@@ -30,7 +30,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import json 
-from django.http import JsonResponse
+from django.http import JsonResponse 
 import shutil
 import os
 from django.template.defaulttags import register
@@ -53,8 +53,7 @@ History = pd.read_csv(HISTORY ,index_col=0)
 Dataset = pd.read_csv(DATASET ,index_col=0)
 res = {}
 res = {list(Dataset["Full_name"])[i]: list(Dataset["Id"])[i]+"|"+list(Dataset["Status"])[i]+"|"+list(Dataset["E-mail"])[i]+"|"+list(Dataset["Gender"])[i] for i in range(len(list(Dataset["Full_name"])))}
-dataJSON = json.dumps(Date_Added, indent=4, sort_keys=True, default=str) 
-resJSON  = json.dumps(res, indent=4, sort_keys=True, default=str) 
+
 
 pred = set() 
 liste_person = []
@@ -73,10 +72,11 @@ dict_range = {10:50 ,20:40 ,30:20 ,40:15 ,50:10,60:9,70:8 ,80:5 ,90:1 ,100:0}
 
 @login_required(login_url="/login/")
 def index(request):
-    
+    resJSON  = json.dumps(res, indent=4, sort_keys=True, default=str) 
     context = {}
     context['segment'] = 'index' 
-    context['History'] = History.set_index('Person').T.to_dict('list')
+    #context['History'] = History.set_index('Person').T.to_dict('list')
+    context['History'] = {list(History["Person"])[i]+","+str(i): [list(History["Date"])[i],list(History["Time"])[i]] for i in range(len(list(History["Person"])))}
     context['resJSON'] = resJSON
     context['res'] = res 
     context['Dataset'] = Dataset
@@ -95,6 +95,8 @@ def pages(request):
         if load_template == 'Advanced-video-processing.html':
             context['liste_person'] = ','.join(liste_person)
         elif load_template == 'Database-Management.html':
+            dataJSON = json.dumps(Date_Added, indent=4, sort_keys=True, default=str) 
+            resJSON  = json.dumps(res, indent=4, sort_keys=True, default=str) 
             context['users'] = ','.join(liste_person) 
             context['DATABASE_DIR'] = DATABASE_DIR
             context['Date_Added'] = dataJSON
@@ -423,7 +425,7 @@ def add_single_image(request):
         data = {'number':i,'ext':image.split('.')[1],'id':image_name}
         stat = 200
     except:
-        stat = 400
+        stat = 400 
         data = {'error':'error'}
         
     return JsonResponse(data, status=stat)
@@ -434,7 +436,7 @@ def add_to_database(request):
         path = request.GET.get('path').replace(' ','_')
         img_list = request.GET.get('img_list').split(",")
         j =1
-        for i in img_list:
+        for i in set(img_list):
             new_path = DATABASE_DIR+path+"\\"+i
             if not os.path.exists(DATABASE_DIR+path):
                 os.makedirs(DATABASE_DIR+path) 
@@ -502,7 +504,7 @@ def check_imagee(request):
             data = {'response':num,"inlist":"","duplicated":""}
         elif request.GET.get('img_list'):
             database = face_dictionnaire.copy() 
-            for i in request.GET.get('img_list').split(","):
+            for i in set(request.GET.get('img_list').split(",")):
                 if np.array_equal(np.array(Image.open(image_path)),np.array(Image.open(FILES+i))):
                     exist = "ok"
                     break
@@ -512,12 +514,11 @@ def check_imagee(request):
             if exist=="ok":
                 data =  {'response':'',"inlist":"","duplicated":"duplicated"}
             else:
-                #check = request.GET.get('img_list').split(",")[0]
                 a = ""
                 while a != 'ok':
                     try:
                         i=1
-                        for j in request.GET.get('img_list').split(","):
+                        for j in set(request.GET.get('img_list').split(",")):
                             face_outt1 = generate_database_person(FILES+j,"New_person_00"+str(i),modele_OpenFace, augmentations=3)
                             i+=1
                             for key,value in face_outt1.items():   
@@ -668,17 +669,21 @@ def edit_person(request):
 def get_value(dictionary, key):
     return dictionary.get(key)
 
+@register.filter
+def split(splitable, split_at):
+    return splitable.split(split_at)
 
 
 def chart_test(request): 
-    History_new = pd.read_csv(HISTORY ,index_col=0)
-    today_list = list(History_new[(History_new["Date"] == datetime.now().strftime("%d/%m/%Y")) & (History_new["Person"] != "Unknown")]["Person"])
+    History_ = pd.read_csv(HISTORY ,index_col=0)
+    today_list = list(History_[(History_["Date"] == datetime.now().strftime("%d/%m/%Y")) & (History_["Person"] != "Unknown")]["Person"])
     data_chart = pd.DataFrame(Counter(Dataset[Dataset["Full_name"].isin([w[:-1] for w in today_list])]["Status"]).most_common(),columns=['Status','Nbr'])
     resl = {list(data_chart["Status"])[i]: list(data_chart["Nbr"])[i] for i in range(len(list(data_chart["Status"])))}
     final_list = list(resl.values())
-    mylist = ','.join([str(i) for i in final_list])
-    print(mylist)
-    return HttpResponse(mylist)
+    data = ','.join([str(i) for i in final_list])
+    labels = ','.join([str(i) for i in list(data_chart["Status"])])
+    mylist = {'data':data,'labels':labels}
+    return JsonResponse(mylist)
 
 
 def find_in_db(request):

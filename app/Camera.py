@@ -46,16 +46,14 @@ class VideoCamera(object):
     
     
 class IPWebCam(object):
-    face_dictionnaire = np.load(DATABASE_IMG, allow_pickle= True ).item()
     def __init__(self):
-        self.url = 'http://192.168.85.227:8080//shot.jpg'
+        self.url = 'http://192.168.1.183:8080/shot.jpg'
         #self.vs = VideoStream(src=0).start()
         
     def __del__(self):
         cv2.destroyAllWindows()
-
     
-    def get_frame(self):
+    def get_frame(self,face_dictionnaire):
         imgResp = urllib.request.urlopen(self.url)
         imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
         img=cv2.imdecode(imgNp,-1)

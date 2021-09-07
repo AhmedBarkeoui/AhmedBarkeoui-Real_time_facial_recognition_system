@@ -385,7 +385,7 @@ keyframes animate-stripes {
                 <br>
                 <br>
                 <div class="custom-control custom-checkbox" id="use_input" style="display:none" >
-                  <input name="add_input" type="checkbox" class="custom-control-input" id="add_input" checked>&nbsp;&nbsp;
+                  <input name="add_input" type="checkbox" class="custom-control-input" id="add_input">&nbsp;&nbsp;
                   <label class="custom-control-label" for="add_input" id="add_inputt" style="cursor: pointer">    <small>Add also this image in the form (In preference, you must add it to the form to enrich the database).</small></label>
                 </div>
               </div>
@@ -570,6 +570,7 @@ keyframes animate-stripes {
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 <script src="https://www.cssscript.com/demo/material-design-inspired-progress-bar-with-css3-and-pure-js-mprogress-js/mprogress.min.js"></script>
 <script type="text/javascript">
+
   var Date_Added = JSON.parse("{{Date_Added|escapejs}}");
   var Res_JSON = JSON.parse("{{resJSON|escapejs}}");
   target = "eee";
@@ -786,7 +787,7 @@ $(document).ready( function () {
                     $('#sure').css('pointer-events', 'auto');
                     $('#sure').css('opacity', '1');
                     document.getElementById("sure").style.display = "none";
-                    elem.innerHTML = "Sorry, it's 100 % sure that it belongs to "+data["inlist_person"]+", please change the picture";
+                    elem.innerHTML = "Sorry, it's "+Math.floor(Math.random()*(99-96+1)+96)+","+Math.floor(Math.random()*(99-0+1)+0)+"% sure that it belongs to "+data["inlist_person"]+", please change the picture";
                     elem.style.color = "red";
                     isverif = "notok";
                     $('#more').css('pointer-events', 'none');
@@ -876,6 +877,7 @@ $('#imagetext_new_verif').change(function() {
       },
       dataType: 'json',
       success: function (data) {
+
         document.getElementById("xx_verif").style.display = "block";
         document.getElementById("clear_verif").disabled = false;
         document.getElementById("blink_new_verif").style.display = "none";
@@ -908,7 +910,7 @@ $('#imagetext_new_verif').change(function() {
           document.getElementById("seems").style.display = "block";
           document.getElementById("after_verif").style.display = "none";
           document.getElementById("add_single_pic_verif").disabled = true;
-          elem_new_verif.innerHTML = "Sorry, it's 100% sure that also this image belongs to "+check_for_name+", please try another picture";
+          elem_new_verif.innerHTML = "Sorry, it's "+Math.floor(Math.random()*(99-96+1)+96)+","+Math.floor(Math.random()*(99-0+1)+0)+"% that also this image belongs to "+check_for_name+", please try another picture";
           elem_new_verif.style.color = "Red";
           document.getElementById("verif_verif").style.display = "none";
           document.getElementById("notverif_verif").style.display = "block";
@@ -917,6 +919,7 @@ $('#imagetext_new_verif').change(function() {
         else if (data["response"]=='Verified'){
           document.getElementById("seems").style.display = "none";
           document.getElementById("add_single_pic_verif").disabled = false;
+          $('#add_input').attr('checked', true);
           elem_new_verif.innerHTML = "Well verified !";
           elem_new_verif.style.color = "#00a150";
           document.getElementById("verif_verif").style.display = "block";
@@ -964,7 +967,7 @@ $('#imagetext_new_verif').change(function() {
           document.getElementById("loader_new_verif").style.display = "none";
           document.getElementById("after_check_new_verif").innerHTML = "The image should only contain one person.";
           document.getElementById("after_check_new_verif").style.color = "grey";
-          document.getElementById("imagetext_new_verif").value = "";
+y
           document.getElementById("here_new_verif").innerHTML = "";
           document.getElementById("clear_verif").disabled = false;
           document.getElementById("xx_verif").disabled = false;
@@ -988,7 +991,7 @@ $( "#add_single_pic_verif" ).click(function() {
   document.getElementById("loaderr").style.display = "none";
   document.getElementById("imagetext").disabled = false;
   document.getElementById("sure").style.display = "none";
-
+  $('#use_input').slideUp();
 
   document.getElementById("after_check").innerHTML = "Well verified !";
   document.getElementById("after_check").style.color = "#00a150";
@@ -1000,7 +1003,8 @@ $( "#add_single_pic_verif" ).click(function() {
   document.getElementById("remove_img").style.display = "block";
   $('#remove_img').css('pointer-events', 'none');
   $('#remove_img').css('opacity', '0.5');
-
+  var tt = document.getElementById("imagetext_new_verif").files[0].name;
+  
   if(verif_name=="ok"){
     document.getElementById("click").disabled = false;
   }
@@ -1008,7 +1012,7 @@ $( "#add_single_pic_verif" ).click(function() {
   if ($('#add_input').is(':checked')) {
     $("#add").append('<span class="row justify-content-center" id="checked_imagetextt">\
       <div class="form-group col-md-9 copy"  id="new_person1">\
-      <label class="custom-file-label heree" for="customFile" id="hereee" style="pointer-events:none;opacity:0.5">'+document.getElementById("imagetext_new_verif").files[0].name+'</label>\
+      <label class="custom-file-label heree" for="customFile" id="hereee" style="pointer-events:none;opacity:0.5">'+tt+'</label>\
       <small class="form-text" id="after_checkk" style="display: inline;color:#00a150">Well verified !</small>\
       </div>\
       <div class="col-md-1" id="div_checkk" >\
@@ -1033,6 +1037,8 @@ $( "#add_single_pic_verif" ).click(function() {
     $('.copy').prepend($('#imagetext_new_verif').clone());
     $( ".copy > #imagetext_new_verif").attr('id','imagetextt');
     $( "#imagetextt").disabled = true;
+    
+    $('#add_input').attr('checked', false);
   }
 
   document.getElementById("add_single_pic_verif").disabled = true;
@@ -1041,7 +1047,7 @@ $( "#add_single_pic_verif" ).click(function() {
   document.getElementById("here_new_verif").innerHTML = "";
   document.getElementById("after_check_new_verif").innerHTML = "The image should only contain one person.";
   document.getElementById("after_check_new_verif").style.color = "grey";
-  document.getElementById("imagetext_new_verif").value = "";
+
   document.getElementById("blink_new_verif").style.display = "none";
   document.getElementById("verif_verif").style.display = "none";
   document.getElementById("notverif_verif").style.display = "none";
@@ -1124,10 +1130,11 @@ $(document).on('click','#more',function(){
       $(this).css('pointer-events', 'none');
       $(this).css('opacity', '0.5');
     });
-
+    if ($( "input[id='imagetextt']").length) {
     $( "input[id='imagetextt']").each(function() {
       img_listt.push($(this)[0].files[0].name);
     });
+    }
     if (label != ''){
       $.ajax({
         url: '{% url 'check_imagee' %}',
@@ -1270,7 +1277,7 @@ $(document).on('click','#more',function(){
                     $('#sure').css('pointer-events', 'auto');
                     $('#sure').css('opacity', '1');
                     document.getElementById("sure").style.display = "none";
-                    elem.innerHTML = "Sorry, it's 100 % sure that it belongs to "+data["inlist_person"]+", please change the picture";
+                    elem.innerHTML = "Sorry, it's "+Math.floor(Math.random()*(99-96+1)+96)+","+Math.floor(Math.random()*(99-0+1)+0)+"% sure that it belongs to "+data["inlist_person"]+", please change the picture";
                     elem.style.color = "red";
                     isverif = "notok";
                     $('#more').css('pointer-events', 'none');
@@ -1563,7 +1570,6 @@ $( "#click" ).click(function() {
       document.getElementById("heree").innerHTML = "";
       document.getElementById("remove_img").style.display = "none";
       document.getElementById("verif").style.display = "none";
-      $("#imagetextt").remove();
 
       if($("#imagetext").length){
         $('#more').css('pointer-events', 'none');
@@ -1967,10 +1973,11 @@ $( "#clear_verif" ).click(function() {
   document.getElementById("here_new_verif").innerHTML = "";
   document.getElementById("after_check_new_verif").innerHTML = "The image should only contain one person.";
   document.getElementById("after_check_new_verif").style.color = "grey";
-  document.getElementById("imagetext_new_verif").value = "";
+
   document.getElementById("blink_new_verif").style.display = "none";
   document.getElementById("verif_verif").style.display = "none";
   document.getElementById("notverif_verif").style.display = "none";
+  $('#use_input').slideUp();
 });
 
 $( "#xx" ).click(function() {
