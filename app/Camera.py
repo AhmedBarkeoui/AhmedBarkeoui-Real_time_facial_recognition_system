@@ -47,7 +47,7 @@ class VideoCamera(object):
     
 class IPWebCam(object):
     def __init__(self):
-        self.url = 'http://192.168.1.183:8080/shot.jpg'
+        self.url = 'http://192.168.1.183:8080//shot.jpg'
         #self.vs = VideoStream(src=0).start()
         
     def __del__(self):

@@ -254,7 +254,7 @@ def Advanced_video_processing(request):
                         hours = minutes//60
                         minutes = minutes % 60
 
-
+                    
                     face_out = face_recognition_image(gray, modele_OpenFace, output, plot=True, faces_out=True)
 
                     im = Image.fromarray(face_out[0])

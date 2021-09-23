@@ -78,15 +78,7 @@
 }
 
 
-keyframes animate-stripes {
-  0% {
-    background-position: 0 0;
-  }
 
-  100% {
-    background-position: 60px 0;
-  }
-}
 
 @keyframes auto-progress {
   0% {
@@ -135,16 +127,6 @@ keyframes animate-stripes {
   animation: auto-progress 1s infinite linear;
 }
 
-keyframes animate-stripes {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 60px 0;
-  }
-}
-
 @keyframes auto-progress {
   0% {
     width: 0%;
@@ -191,6 +173,8 @@ keyframes animate-stripes {
   position: relative;
   animation: auto-progress 1.5s infinite linear;
 }
+
+
 </style>
 
 {% endblock stylesheets %}
@@ -570,7 +554,7 @@ keyframes animate-stripes {
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 <script src="https://www.cssscript.com/demo/material-design-inspired-progress-bar-with-css3-and-pure-js-mprogress-js/mprogress.min.js"></script>
 <script type="text/javascript">
-
+  window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, {passive: false});
   var Date_Added = JSON.parse("{{Date_Added|escapejs}}");
   var Res_JSON = JSON.parse("{{resJSON|escapejs}}");
   target = "eee";
@@ -865,7 +849,10 @@ $('#imagetext_new_verif').change(function() {
   document.getElementById("notverif_verif").style.display = "none";
   document.getElementById("div_check_verif").style.display = "none";
   document.getElementById("after_verif").style.display = "none";
-  $('#after_verif_text').remove()
+  
+  if($("#after_verif_text").length){
+    $('#after_verif_text').remove();
+  }
 
   if (input_val_verif.val() != '') {
     $.ajax({  
@@ -1336,6 +1323,7 @@ $(document).on('click','#more',function(){
 
   
   $('#blinkk').each(function() {
+    
     var elem = $(this);
     setInterval(function() {
       if (elem.css('visibility') == 'hidden') {
@@ -1968,15 +1956,17 @@ $( "#clear" ).click(function() {
 });
 
 $( "#clear_verif" ).click(function() {
+  document.getElementById("imagetext_new_verif").value = "";
   document.getElementById("add_single_pic_verif").disabled = true;
   document.getElementById("loader_new_verif").style.display = "none";
   document.getElementById("here_new_verif").innerHTML = "";
   document.getElementById("after_check_new_verif").innerHTML = "The image should only contain one person.";
   document.getElementById("after_check_new_verif").style.color = "grey";
-
+  $('#after_verif').slideUp();
   document.getElementById("blink_new_verif").style.display = "none";
   document.getElementById("verif_verif").style.display = "none";
   document.getElementById("notverif_verif").style.display = "none";
+
   $('#use_input').slideUp();
 });
 

@@ -352,7 +352,7 @@ def person_name_stream(image, modele_OpenFace, database, threshold=None, bb=None
             Label of the person in the image
     '''
     if threshold==None:
-        threshold = 0.65
+        threshold = 0.7
     embedding = image_encoding(image, modele_OpenFace, bb=bb)
     min_dist = 100.
     identity = None

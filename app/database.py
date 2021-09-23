@@ -6,6 +6,9 @@ from skimage import exposure
 from skimage.util import random_noise
 from scipy import ndimage
 import os
+import numpy as np
+import cv2
+from matplotlib import pyplot as plt
 
 from app.face_recognition import *
 from app.inception_blocks import *
@@ -54,6 +57,20 @@ def add_noise(image):
     new_img = 255*random_noise(image)
     new_img = new_img.astype(np.uint8)
     return new_img
+
+def remove_noise(image):
+    b,g,r = cv2.split(image)          
+    rgb_img = cv2.merge([r,g,b]) 
+    dst = cv2.fastNlMeansDenoisingColored(rgb_img,None,10,10,7,21)
+    b,g,r = cv2.split(dst) 
+    rgb_dst = cv2.merge([r,g,b])
+    new_img = rgb_dst
+    return new_img
+
+
+
+
+
 
 ################### APPLY AUGMENTATION ######################
 avail_transforms = {'rotate': rotation_randomly,
